@@ -1,0 +1,74 @@
+body   {  margin: 0;  padding: 0;  }
+body * {  font-family: Arial, Helvetica, sans-serif;  }
+
+@media (min-width: 768px) {
+  #wd-kanbas .wd-main-content-offset {
+    padding-left: 140px !important;
+  }
+}
+
+.list-group.wd > .list-group-item.active {
+  color: black;
+  background-color: white;
+  border-left: 3px solid black !important;
+}
+
+.btn-secondary {
+  --bs-btn-color: #000 !important;
+  --bs-btn-bg: #c7cdd1 !important;
+  --bs-btn-border-color: #c7cdd1 !important;
+  --bs-btn-hover-color: #fff !important;
+}
+.bg-secondary {
+  --bs-secondary-rgb: 199, 205, 209;
+}
+.list-group-item {
+  --bs-list-group-border-color: gray;
+}
+.wd-lesson, .wd-assignment-list-item {
+  border-left: 3px solid green !important;
+}
+
+#wd-add-assignment, #wd-add-assignment-group {
+  border-radius: 0;
+}
+
+#wd-search-assignment {
+  border-radius: 0;
+  padding-left: 0;
+  border-left: none;
+}
+
+.wd-assignment-link {
+  text-decoration: none;
+  color: black;
+  font-size: 25px;
+}
+
+.input-group .input-group-text {
+  border-radius: 0;
+  background-color: transparent;
+  border-right: none;
+  padding-left: 200;
+}
+
+
+.wd-assignment-description {
+  font-size: 15px;
+}
+
+.wd-assignment-description > .red-font {
+  color: red;
+}
+
+.wd-assignment-description > .grey-font {
+  color: #3A3B3C;
+}
+
+.forms {
+  border-width:1px;
+  border-style:solid;
+  border-color:#ced4da;
+  border-radius: 10px;
+  padding: 15px;
+}
