@@ -11,6 +11,7 @@ import ProtectedCoursesRoute from "./Courses/ProtectedCoursesRoute";
 import Session from "./Account/Session";
 import * as courseClient from "./Courses/client";
 import * as userClient from "./Account/client";
+import * as enrollmentClient from "./Enrollments/client";
 export default function Kanbas() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const [courses, setCourses] = useState<any[]>([]);
@@ -58,13 +59,20 @@ export default function Kanbas() {
       })
     );
   };
+  const [enrollments, setEnrollments] = useState<any[]>([]);
   const [enrolling, setEnrolling] = useState<boolean>(false);
+  const fetchEnrollments = async () => {
+    try {
+      const enrollments = await enrollmentClient.fetchEnrollments();
+      setEnrollments(enrollments);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const findCoursesForUser = async () => {
     try {
       const courses = await userClient.findCoursesForUser(currentUser._id);
       setCourses(courses);
-      console.log("CURRENT USER", currentUser._id);
-      console.log("COURSES", courses);
     } catch (error) {
       console.error(error);
     }
@@ -93,6 +101,7 @@ export default function Kanbas() {
     } else {
       findCoursesForUser();
     }
+    fetchEnrollments();
   }, [currentUser, enrolling]);
   return (
     <Session>
@@ -125,9 +134,9 @@ export default function Kanbas() {
               path="Courses/:cid/*"
               element={
                 <ProtectedRoute>
-                  {/* <ProtectedCoursesRoute> */}
-                  <Courses courses={courses} />
-                  {/* </ProtectedCoursesRoute> */}
+                  <ProtectedCoursesRoute enrollments={enrollments}>
+                    <Courses courses={courses} />
+                  </ProtectedCoursesRoute>
                 </ProtectedRoute>
               }
             />

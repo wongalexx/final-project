@@ -15,7 +15,7 @@ const questionSchema = new mongoose.Schema({
       correct: Boolean,
     },
   ],
-  correctAnswer: String, // Not sure
+  correctAnswer: String,
 });
 
 const quizSchema = new mongoose.Schema(

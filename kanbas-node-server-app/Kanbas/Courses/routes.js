@@ -75,6 +75,4 @@ export default function CourseRoutes(app) {
     const newQuiz = await quizzesDao.createQuiz(quiz);
     res.send(newQuiz);
   });
-
-  // need to add stuff for questions
 }

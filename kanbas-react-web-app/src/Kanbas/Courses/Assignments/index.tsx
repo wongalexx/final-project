@@ -23,7 +23,6 @@ export default function Assignments({ course }: { course: any }) {
     const assignments = await coursesClient.findAssignmentsForCourse(
       course.number as string
     );
-    console.log("ASSIGNMENTS", assignments);
     dispatch(setAssignments(assignments));
   };
   const removeAssignment = async (assignmentId: string) => {

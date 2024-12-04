@@ -19,18 +19,7 @@ export default function Enrollments({
 }) {
   return (
     <div>
-      <h2 id="wd-dashboard-published">
-        Published Courses ({courses.length})
-        {/* {currentUser.role === "STUDENT" && (
-          <button
-            className="btn btn-primary float-end"
-            id="wd-enrollments-btn"
-            onClick={() => setShowAllCourses(!showAllCourses)}
-          >
-            {showAllCourses ? "Enrollments" : "All Courses"}
-          </button>
-        )} */}
-      </h2>
+      <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2>
       <hr />
       <div id="wd-dashboard-courses" className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
@@ -53,6 +42,19 @@ export default function Enrollments({
                   />
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
+                      {currentUser.role === "FACULTY" && enrolling && (
+                        <button
+                          onClick={(event) => {
+                            event.preventDefault();
+                            updateEnrollment(course._id, !course.enrolled);
+                          }}
+                          className={`btn ${
+                            course.enrolled ? "btn-danger" : "btn-success"
+                          } float-end`}
+                        >
+                          {course.enrolled ? "Unenroll" : "Enroll"}
+                        </button>
+                      )}
                       {course.name}
                     </h5>
                     <p
