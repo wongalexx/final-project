@@ -1,8 +1,6 @@
-import "../../styles.css";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BsGripVertical } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
-import LessonControlButtons from "../Modules/LessonControlButtons";
 import { RxTriangleDown } from "react-icons/rx";
 import { FaPlus } from "react-icons/fa";
 import { IoEllipsisVertical } from "react-icons/io5";
@@ -10,7 +8,6 @@ import { MdOutlineAssignment } from "react-icons/md";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { setAssignments, deleteAssignment } from "./reducer";
-import { FaTrashCan } from "react-icons/fa6";
 import AssignmentsButtons from "./AssignmentsButtons";
 import { useEffect, useState } from "react";
 import * as coursesClient from "../client";
@@ -98,7 +95,7 @@ export default function Assignments({ course }: { course: any }) {
                 <button
                   id="wd-assignments-title-grade-percent"
                   type="button"
-                  className="btn btn-outline-secondary"
+                  className="btn btn-outline-secondary me-2"
                   disabled
                 >
                   40% of Total
@@ -111,7 +108,7 @@ export default function Assignments({ course }: { course: any }) {
           {assignments.map((assignment: any) => (
             <li className="wd-assignment-list-item list-group-item p-3 ps-1">
               <div className="row">
-                <div className="col text-left">
+                <div className="col d-flex justify-content-center align-items-center">
                   <BsGripVertical className="me-2 fs-3" />
                   <MdOutlineAssignment color="green" />
                 </div>
@@ -146,7 +143,7 @@ export default function Assignments({ course }: { course: any }) {
                   </div>
                 </div>
                 {currentUser.role === "FACULTY" ? (
-                  <div className="col text-right">
+                  <div className="col d-flex justify-content-center align-items-center">
                     <AssignmentsButtons
                       assignmentID={assignment._id}
                       deleteAssignment={() =>
