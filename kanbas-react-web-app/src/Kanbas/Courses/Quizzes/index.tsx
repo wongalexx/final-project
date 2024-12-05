@@ -6,118 +6,39 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { FcCancel } from "react-icons/fc";
 import GreenCheckmark from "../Modules/GreenCheckmark";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import QuizContextMenu from "./QuizContextMenu";
+import * as coursesClient from "../client";
+import { queries } from "@testing-library/react";
 
 export default function Quizzes({ course }: { course: any }) {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { cid, qid } = useParams();
+  const [quizzes, setQuizzes] = useState<any[]>([]);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen((prevState) => !prevState);
-  //const quizzes: any[] = [];
-  const quizzes = [
-    {
-      _id: 1,
-      title: "Q1 - HTML",
-      course: "",
-      quizType: "",
-      points: 100,
-      assignmentGroup: "",
-      shuffleAnswers: true,
-      timeLimit: 30,
-      multipleAttempts: false,
-      attemptsAllowed: 1,
-      showCorrectAnswers: "",
-      accessCode: "",
-      oneQuestionAtATime: true,
-      webcamRequired: false,
-      lockQuestionsAfterAnswering: true,
-      availableFromDate: "2024-11-01T00:00:00",
-      availableUntilDate: "2024-11-10T23:59:59",
-      due: "2024-11-10T23:59:59",
-      questions: [],
-      published: true,
-    },
-    {
-      _id: 2,
-      title: "Q2 - CSS",
-      course: "",
-      quizType: "",
-      points: 50,
-      assignmentGroup: "",
-      shuffleAnswers: false,
-      timeLimit: 15,
-      multipleAttempts: true,
-      attemptsAllowed: 3,
-      showCorrectAnswers: "",
-      accessCode: "",
-      oneQuestionAtATime: false,
-      webcamRequired: false,
-      lockQuestionsAfterAnswering: false,
-      availableFromDate: "2024-12-01T00:00:00",
-      availableUntilDate: "2024-12-10T23:59:59",
-      due: "2024-12-10T23:59:59",
-      questions: [],
-      published: true,
-    },
-    {
-      _id: 3,
-      title: "EXAM 1 FA 23",
-      course: "",
-      quizType: "",
-      points: 75,
-      assignmentGroup: "",
-      shuffleAnswers: false,
-      timeLimit: 15,
-      multipleAttempts: true,
-      attemptsAllowed: 3,
-      showCorrectAnswers: "",
-      accessCode: "",
-      oneQuestionAtATime: false,
-      webcamRequired: false,
-      lockQuestionsAfterAnswering: false,
-      availableFromDate: "2024-12-25T00:00:00",
-      availableUntilDate: "2024-12-26T23:59:59",
-      due: "2024-12-26T23:59:59",
-      questions: [],
-      published: true,
-    },
-    {
-      _id: 4,
-      title: "Q3 - JS, ES6",
-      course: "",
-      quizType: "",
-      points: 100,
-      assignmentGroup: "",
-      shuffleAnswers: true,
-      timeLimit: 30,
-      multipleAttempts: false,
-      attemptsAllowed: 1,
-      showCorrectAnswers: "",
-      accessCode: "",
-      oneQuestionAtATime: true,
-      webcamRequired: false,
-      lockQuestionsAfterAnswering: true,
-      availableFromDate: "2024-12-25T00:00:00",
-      availableUntilDate: "2024-12-26T23:59:59",
-      due: "2024-12-26T23:59:59",
-      questions: [],
-      published: false,
-    },
-  ];
 
-  const formatDate = (date: Date) => {
-    const options: Intl.DateTimeFormatOptions = {
-      month: "short",
+  const fetchQuizzes = async () => {
+    const quiz = await coursesClient.findQuizzesForCourse(cid as string);
+    setQuizzes(quiz);
+  };
+  useEffect(() => {
+    fetchQuizzes();
+  }, [cid, quizzes]);
+
+  const formatDate = (newDate: string | number | Date) => {
+    const date = new Date(newDate);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
       day: "numeric",
       hour: "numeric",
       minute: "numeric",
       hour12: true,
-    };
-    return new Intl.DateTimeFormat("en-US", options).format(date);
+    });
   };
-
   const fetchAvailability = (quiz: any) => {
     const currentDate = new Date();
 
@@ -182,6 +103,7 @@ export default function Quizzes({ course }: { course: any }) {
               <RxTriangleDown className="me-1" />
               <b>Assignment Quizzes</b>
             </div>
+
             {quizzes
               .filter((quiz: any) => {
                 return currentUser.role === "FACULTY" || quiz.published;
@@ -216,7 +138,7 @@ export default function Quizzes({ course }: { course: any }) {
                           <span className="grey-font">
                             {" "}
                             <b>Due</b> {formatDate(new Date(quiz.due))} |{" "}
-                            {quiz.points}pts | {quiz.questions.length} questions
+                            {quiz.points}pts | {quiz.length} questions
                           </span>
                         </span>
                       </div>
