@@ -18,6 +18,7 @@ export default function Quizzes({ course }: { course: any }) {
   //const quizzes: any[] = [];
   const quizzes = [
     {
+      _id: 1,
       title: "Q1 - HTML",
       course: "",
       quizType: "",
@@ -39,6 +40,7 @@ export default function Quizzes({ course }: { course: any }) {
       published: true,
     },
     {
+      _id: 2,
       title: "Q2 - CSS",
       course: "",
       quizType: "",
@@ -60,6 +62,7 @@ export default function Quizzes({ course }: { course: any }) {
       published: true,
     },
     {
+      _id: 3,
       title: "EXAM 1 FA 23",
       course: "",
       quizType: "",
@@ -81,6 +84,7 @@ export default function Quizzes({ course }: { course: any }) {
       published: true,
     },
     {
+      _id: 4,
       title: "Q3 - JS, ES6",
       course: "",
       quizType: "",
@@ -212,7 +216,7 @@ export default function Quizzes({ course }: { course: any }) {
                           <span className="grey-font">
                             {" "}
                             <b>Due</b> {formatDate(new Date(quiz.due))} |{" "}
-                            {quiz.points}pts | {quiz.questions.length}
+                            {quiz.points}pts | {quiz.questions.length} questions
                           </span>
                         </span>
                       </div>
