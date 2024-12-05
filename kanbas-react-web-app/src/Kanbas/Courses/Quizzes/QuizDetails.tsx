@@ -13,15 +13,39 @@ import { FaPencil } from "react-icons/fa6";
 export default function QuizDetails({ course }: { course: any }) {
   const { cid, qid } = useParams();
   // get quiz using quiz id
+  const quiz = {
+    _id: 1,
+    title: "Q1 - HTML",
+    course: "",
+    quizType: "",
+    points: 100,
+    assignmentGroup: "",
+    shuffleAnswers: true,
+    timeLimit: 30,
+    multipleAttempts: false,
+    attemptsAllowed: 1,
+    showCorrectAnswers: "",
+    accessCode: "",
+    oneQuestionAtATime: true,
+    webcamRequired: false,
+    lockQuestionsAfterAnswering: true,
+    availableFromDate: "2024-11-01T00:00:00",
+    availableUntilDate: "2024-11-10T23:59:59",
+    due: "2024-11-10T23:59:59",
+    questions: [],
+    published: true,
+  };
   return (
     <div>
       <span className="d-flex justify-content-center align-items-center">
         <button className="btn btn-secondary btn-md me-2">Preview</button>
-        <button className="btn btn-secondary btn-md">
-          <span className="d-flex justify-content-center align-items-center">
-            <FaPencil className="me-1" /> Edit
-          </span>
-        </button>
+        <a href={`#/Kanbas/Courses/${cid}/Quizzes/${qid}/${quiz.title}`}>
+          <button className="btn btn-secondary btn-md">
+            <span className="d-flex justify-content-center align-items-center">
+              <FaPencil className="me-1" /> Edit
+            </span>
+          </button>
+        </a>
       </span>
       <hr />
       <h1 className="mb-4">

@@ -272,18 +272,11 @@ export default function AssignmentEditor({ course }: { course: any }) {
           <div className="row float-end">
             <div className="col">
               <a href={`#/Kanbas/Courses/${cid}/Assignments`}>
-                <button
-                  id="wd-add-assignment-group"
-                  className="btn btn-secondary btn-lg me-1"
-                >
+                <button className="btn btn-secondary btn-lg me-2">
                   Cancel
                 </button>
               </a>
-              <button
-                onClick={handleSave}
-                id="wd-add-assignment"
-                className="btn btn-danger btn-lg"
-              >
+              <button onClick={handleSave} className="btn btn-danger btn-lg">
                 Save
               </button>
             </div>

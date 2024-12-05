@@ -82,3 +82,16 @@ body * {
 #wd-assignments-title-grade-percent button:disabled {
   color: black !important;
 }
+
+.nav-link.inactive-tab {
+  color: red !important;
+}
+
+.nav-link.inactive-tab:hover {
+  color: darkred !important;
+}
+
+.nav-link.active {
+  color: black !important;
+  font-weight: bold;
+}
