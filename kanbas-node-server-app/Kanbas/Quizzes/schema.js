@@ -22,6 +22,8 @@ const quizSchema = new mongoose.Schema(
   {
     title: String,
     course: String,
+    //course: { type: mongoose.Schema.Types.ObjectId, ref: "CourseModel" },
+
     quizType: {
       type: String,
       enum: [

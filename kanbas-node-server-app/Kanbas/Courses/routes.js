@@ -61,6 +61,7 @@ export default function CourseRoutes(app) {
     res.json(users);
   };
   app.get("/api/courses/:cid/users", findUsersForCourse);
+
   app.get("/api/courses/:courseId/quizzes", async (req, res) => {
     const { courseId } = req.params;
     const quizzes = await quizzesDao.findQuizzesForCourse(courseId);
