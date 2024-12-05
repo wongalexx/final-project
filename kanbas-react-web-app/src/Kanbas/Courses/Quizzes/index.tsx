@@ -187,7 +187,7 @@ export default function Quizzes({ course }: { course: any }) {
                   key={quiz._id}
                 >
                   <div className="row">
-                    <div className="col d-flex justify-content-center align-items-center">
+                    <div className="col-1 d-flex justify-content-center align-items-center">
                       <IoRocketOutline color="green" />
                     </div>
                     <div className="col-9 text-left p-0">
@@ -216,11 +216,13 @@ export default function Quizzes({ course }: { course: any }) {
                         </span>
                       </div>
                     </div>
-                    <div className="col d-flex justify-content-between align-items-center">
-                      {/* ON CLICK NEEDS TO MAKE IT SO IT IS PUBLISHED */}
-                      {quiz.published ? <GreenCheckmark /> : <FcCancel />}
-                      <QuizContextMenu quiz={quiz} />
-                    </div>
+                    {currentUser.role === "FACULTY" && (
+                      <div className="col d-flex justify-content-between align-items-center">
+                        {/* ON CLICK NEEDS TO MAKE IT SO IT IS PUBLISHED */}
+                        {quiz.published ? <GreenCheckmark /> : <FcCancel />}
+                        <QuizContextMenu quiz={quiz} />
+                      </div>
+                    )}
                   </div>
                 </li>
               ))}

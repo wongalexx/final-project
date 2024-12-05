@@ -108,7 +108,7 @@ export default function Assignments({ course }: { course: any }) {
           {assignments.map((assignment: any) => (
             <li className="wd-assignment-list-item list-group-item p-3 ps-1">
               <div className="row">
-                <div className="col d-flex justify-content-center align-items-center">
+                <div className="col-1 d-flex justify-content-center align-items-center">
                   <BsGripVertical className="me-2 fs-3" />
                   <MdOutlineAssignment color="green" />
                 </div>
