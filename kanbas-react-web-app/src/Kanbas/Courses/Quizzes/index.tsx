@@ -165,6 +165,7 @@ export default function Quizzes({ course }: { course: any }) {
           </div>
         )}
       </div>
+      <hr />
       {quizzes.length === 0 ? (
         <b>Please click the 'Add Quiz' button (+ Quiz) to add a new quiz.</b>
       ) : (
@@ -172,9 +173,9 @@ export default function Quizzes({ course }: { course: any }) {
           <li className="wd-assignments list-group-item p-0 mb-5 fs-5 border-gray">
             <div
               id="wd-assignments-title"
-              className="wd-title p-3 ps-2 bg-secondary"
+              className="wd-title p-3 ps-2 bg-secondary d-flex justify-content-start align-items-center"
             >
-              <RxTriangleDown />
+              <RxTriangleDown className="me-1" />
               <b>Assignment Quizzes</b>
             </div>
             {quizzes
@@ -188,7 +189,7 @@ export default function Quizzes({ course }: { course: any }) {
                 >
                   <div className="row">
                     <div className="col-1 d-flex justify-content-center align-items-center">
-                      <IoRocketOutline color="green" />
+                      <IoRocketOutline className="fs-3" color="green" />
                     </div>
                     <div className="col-9 text-left p-0">
                       <div className="row">
@@ -217,9 +218,13 @@ export default function Quizzes({ course }: { course: any }) {
                       </div>
                     </div>
                     {currentUser.role === "FACULTY" && (
-                      <div className="col d-flex justify-content-between align-items-center">
+                      <div className="col d-flex justify-content-end align-items-center">
                         {/* ON CLICK NEEDS TO MAKE IT SO IT IS PUBLISHED */}
-                        {quiz.published ? <GreenCheckmark /> : <FcCancel />}
+                        {quiz.published ? (
+                          <GreenCheckmark />
+                        ) : (
+                          <FcCancel className="fs-3" />
+                        )}
                         <QuizContextMenu quiz={quiz} />
                       </div>
                     )}

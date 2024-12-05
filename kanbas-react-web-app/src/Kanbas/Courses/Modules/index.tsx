@@ -60,7 +60,7 @@ export default function Modules({ course }: { course: any }) {
             key={module._id}
             className="wd-module list-group-item p-0 mb-5 fs-5 border-gray"
           >
-            <div className="wd-title p-3 ps-2 bg-secondary">
+            <div className="wd-title p-3 ps-2 bg-secondary align-items-center">
               <BsGripVertical className="me-2 fs-3" />
               {!module.editing && module.name}
               {module.editing && (
@@ -90,14 +90,13 @@ export default function Modules({ course }: { course: any }) {
                 {module.lessons.map((lesson: any) => (
                   <li
                     key={lesson._id}
-                    className="wd-lesson list-group-item p-3 ps-1"
+                    className="wd-lesson list-group-item d-flex align-items-center justify-content-between p-3 ps-1"
                   >
-                    <BsGripVertical className="me-2 fs-3" /> {lesson.name}
-                    {currentUser.role === "FACULTY" && (
-                      <div>
-                        <LessonControlButtons />
-                      </div>
-                    )}
+                    <div className="d-flex align-items-center">
+                      <BsGripVertical className="me-2 fs-3" />
+                      <span>{lesson.name}</span>
+                    </div>
+                    {currentUser.role === "FACULTY" && <LessonControlButtons />}
                   </li>
                 ))}
               </ul>

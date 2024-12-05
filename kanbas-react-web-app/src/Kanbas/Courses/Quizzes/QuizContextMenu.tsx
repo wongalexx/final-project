@@ -12,7 +12,7 @@ const QuizContextMenu = ({ quiz }: { quiz: any }) => {
         data-bs-toggle="dropdown"
         style={{ marginTop: "-4px" }}
       >
-        <IoEllipsisVertical color="grey" />
+        <IoEllipsisVertical color="grey" className="fs-3" />
       </button>
       <ul className="dropdown-menu">
         <li>
