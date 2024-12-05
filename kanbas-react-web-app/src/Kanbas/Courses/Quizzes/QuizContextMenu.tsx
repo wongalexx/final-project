@@ -3,7 +3,9 @@ import { IoEllipsisVertical } from "react-icons/io5";
 import { FaPencil, FaTrash } from "react-icons/fa6";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { FcCancel } from "react-icons/fc";
+import { useParams } from "react-router";
 const QuizContextMenu = ({ quiz }: { quiz: any }) => {
+  const { cid } = useParams();
   return (
     <div className="dropdown">
       <button
@@ -18,7 +20,7 @@ const QuizContextMenu = ({ quiz }: { quiz: any }) => {
         <li>
           <a
             className="dropdown-item"
-            href={`#/Kanbas/Courses/${quiz.courseId}/Quizzes/${quiz._id}`}
+            href={`#/Kanbas/Courses/${cid}/Quizzes/${quiz._id}/${quiz.title}`}
           >
             <FaPencil /> Edit
           </a>
