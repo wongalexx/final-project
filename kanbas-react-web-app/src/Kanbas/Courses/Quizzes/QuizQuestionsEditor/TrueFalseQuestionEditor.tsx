@@ -1,27 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
+import { TbArrowBigRightFilled } from "react-icons/tb";
 
 const TrueFalseQuestionEditor = () => {
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleClick = (value: any) => {
+    setSelectedOption(value);
+  };
+
   return (
-    <div className="question-editor">
-      <h2>True/False Question</h2>
-      <div className="question-header">
-        <label>
-          Title: <input type="text" placeholder="Enter question title" />
-        </label>
+    <div className="question-editor m-2">
+      <div className="mb-2">
+        Enter your question text, then select if True or False is the correct
+        answer.
       </div>
       <div className="question-body">
-        <label>
-          Question:
-          <textarea placeholder="Enter your question here"></textarea>
+        <label htmlFor="wd-true-or-false-question">
+          <b>Question:</b>
         </label>
-        <div className="true-false-section">
-          <h3>Answers:</h3>
-          <label>
-            <input type="radio" name="true-false" value="true" /> True
-          </label>
-          <label>
-            <input type="radio" name="true-false" value="false" /> False
-          </label>
+        <textarea
+          className="form-control mb-2"
+          id="wd-true-or-false-question"
+        />
+        <div className="true-false-section d-flex flex-column">
+          <b>Answers:</b>
+          <div className="d-flex align-items-center mt-2 ms-4">
+            {selectedOption === "true" && (
+              <TbArrowBigRightFilled className="text-success me-2" />
+            )}
+            <span
+              className={`fw-bold ${
+                selectedOption === "true" ? "text-success" : "text-dark"
+              }`}
+              onClick={() => handleClick("true")}
+              style={{ cursor: "pointer" }}
+            >
+              True
+            </span>
+          </div>
+          <div className="d-flex align-items-center mt-2 ms-4">
+            {selectedOption === "false" && (
+              <TbArrowBigRightFilled className="text-danger me-2" />
+            )}
+            <span
+              className={`fw-bold ${
+                selectedOption === "false" ? "text-danger" : "text-dark"
+              }`}
+              onClick={() => handleClick("false")}
+              style={{ cursor: "pointer" }}
+            >
+              False
+            </span>
+          </div>
         </div>
       </div>
     </div>
