@@ -5,40 +5,8 @@ import GreenCheckmark from "../Modules/GreenCheckmark";
 import { FcCancel } from "react-icons/fc";
 import { IoEllipsisVertical } from "react-icons/io5";
 export default function QuizDetailsEditor() {
-  const { cid, qid, qtitle } = useParams();
   return (
-    <div id="wd-quizzes-editor">
-      {qtitle && qtitle !== "new" && (
-        <>
-          <span className="d-flex justify-content-end align-items-center">
-            <b className="pe-2">Points (GET QUIZ POINTS)</b>
-            <span className="pe-2">
-              <GreenCheckmark /> or <FcCancel className="fs-3" />
-              (GET IF IT IS PUBLISHED)
-            </span>
-            <button className="btn btn-secondary btn-sm ms-1">
-              <IoEllipsisVertical className="fs-4" />
-            </button>
-          </span>
-          <hr />
-        </>
-      )}
-      <ul className="nav nav-tabs mb-4">
-        <li className="nav-item">
-          <a
-            className="nav-link active"
-            aria-current="page"
-            href={`#/Kanbas/Courses/${cid}/Quizzes/${qid}/${qtitle}`}
-          >
-            Details
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link inactive-tab" href="#">
-            Questions
-          </a>
-        </li>
-      </ul>
+    <div id="wd-quizzes-details-editor">
       <div className="col-8">
         <input id="wd-name" className="form-control mb-3" value={"QUIZ NAME"} />
       </div>
@@ -174,21 +142,6 @@ export default function QuizDetailsEditor() {
                   />
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="col">
-        <hr />
-        <div className="mt-3">
-          <div className="row float-end">
-            <div className="col">
-              <a href={`#/Kanbas/Courses/${cid}/Assignments`}>
-                <button className="btn btn-secondary btn-lg me-2">
-                  Cancel
-                </button>
-              </a>
-              <button className="btn btn-danger btn-lg">Save</button>
             </div>
           </div>
         </div>
