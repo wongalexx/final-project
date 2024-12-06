@@ -5,6 +5,9 @@ import { FaTrash } from "react-icons/fa6";
 const FillInTheBlankQuestionEditor = () => {
   const [questionText, setQuestionText] = useState("");
   const [answers, setAnswers] = useState([{ text: "" }]);
+  const [correctAnswerIndex, setCorrectAnswerIndex] = useState<null | number>(
+    0
+  );
 
   const handleAnswerChange = (
     index: number,
@@ -45,22 +48,46 @@ const FillInTheBlankQuestionEditor = () => {
         <div className="answers-section">
           <b>Answers:</b>
           {answers.map((answer, index) => (
-            <div key={index} className="input-group mb-2">
-              <input
-                type="text"
-                className="form-control"
-                value={answer.text}
-                onChange={(e) => handleAnswerChange(index, e)}
-                placeholder="Enter answer..."
-              />
-              <button
-                type="button"
-                className="btn btn-outline-secondary"
-                onClick={() => removeAnswer(index)}
-                disabled={index === 0}
-              >
-                <FaTrash />
-              </button>
+            <div key={index} className="input-group mb-2 align-items-center">
+              <div className="choice d-flex align-items-center w-100">
+                <span
+                  className={`answer-choice-text me-2 text-nowrap d-flex align-items-center justify-content-start ${
+                    correctAnswerIndex === index ? "text-success" : "text-muted"
+                  }`}
+                  style={{
+                    cursor: "pointer",
+                    whiteSpace: "nowrap",
+                    width: "155px",
+                  }}
+                  onClick={() =>
+                    setCorrectAnswerIndex(
+                      index === correctAnswerIndex ? null : index
+                    )
+                  }
+                >
+                  {correctAnswerIndex === index
+                    ? "Correct Answer"
+                    : "Possible Answer"}
+                </span>
+                <div className="input-group flex-grow-1">
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={answer.text}
+                    onChange={(e) => handleAnswerChange(index, e)}
+                    placeholder="Enter answer..."
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={() => removeAnswer(index)}
+                    disabled={index === 0}
+                    style={{ flexShrink: 0 }}
+                  >
+                    <FaTrash />
+                  </button>
+                </div>
+              </div>
             </div>
           ))}
           <div className="d-flex justify-content-end">
