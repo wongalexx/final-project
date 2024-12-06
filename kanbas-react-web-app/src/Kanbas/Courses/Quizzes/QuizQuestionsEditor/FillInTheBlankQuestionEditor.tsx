@@ -23,24 +23,27 @@ const FillInTheBlankQuestionEditor = () => {
   };
 
   return (
-    <div className="question-editor">
+    <div className="question-editor m-4">
       <p>
         Enter your question text, then define all possible correct answers for
-        the blank. Students will see the questions followed by a small text box
-        to type their answer.
+        the blank.
+        <br />
+        Students will see the questions followed by a small text box to type
+        their answer.
       </p>
       <div className="question-body">
         <label>
-          Question:
+          <b>Question:</b>
           <textarea
             placeholder="Enter your question here"
             value={questionText}
             onChange={(e) => setQuestionText(e.target.value)}
             className="form-control mb-3"
+            style={{ height: "150px", width: "100%" }}
           />
         </label>
         <div className="answers-section">
-          <h3>Answers:</h3>
+          <b>Answers:</b>
           {answers.map((answer, index) => (
             <div key={index} className="input-group mb-2">
               <input

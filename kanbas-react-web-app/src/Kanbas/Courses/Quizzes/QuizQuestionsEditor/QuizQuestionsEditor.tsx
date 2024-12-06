@@ -31,7 +31,7 @@ const QuizQuestionsEditor = () => {
   };
 
   return (
-    <div className="quiz-questions-editor mb-4">
+    <div className="quiz-questions-editor mb-4 m-4">
       <div className="d-flex justify-content-center mb-4">
         <button
           className="btn btn-secondary btn-lg"
@@ -47,7 +47,7 @@ const QuizQuestionsEditor = () => {
           <div key={question.id}>
             {question.editMode ? (
               <li className="list-group-item p-3 ps-1">
-                <div className="row mb-3 align-items-center">
+                <div className="row mb-3 align-items-center m-2">
                   <div className="col d-flex align-items-center">
                     <input
                       className="form-control me-2"
@@ -90,7 +90,7 @@ const QuizQuestionsEditor = () => {
                 {question.type === "Fill in the Blank" && (
                   <FillInTheBlankQuestionEditor />
                 )}
-                <div className="mt-3 ms-2">
+                <div className="mt-3 ms-4">
                   <button
                     className="btn btn-secondary me-2"
                     onClick={() => toggleEditMode(question.id)}
