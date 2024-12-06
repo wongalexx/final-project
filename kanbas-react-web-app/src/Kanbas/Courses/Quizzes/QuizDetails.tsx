@@ -65,7 +65,18 @@ export default function QuizDetails({ course }: { course: any }) {
               <b>Quiz Type</b>
             </div>
             <div className="col-6 text-start">Get Quiz's Info</div>
+        <div className="col-6">
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Quiz Type</b>
+            </div>
+            <div className="col-6 text-start">Get Quiz's Info</div>
           </div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Points</b>
+            </div>
+            <div className="col-6 text-start">Get Quiz's Info</div>
           <div className="row">
             <div className="col-6 text-end">
               <b>Points</b>
@@ -77,7 +88,16 @@ export default function QuizDetails({ course }: { course: any }) {
               <b>Assignment Group</b>
             </div>
             <div className="col-6 text-start">Get Quiz's Info</div>
+            <div className="col-6 text-end">
+              <b>Assignment Group</b>
+            </div>
+            <div className="col-6 text-start">Get Quiz's Info</div>
           </div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Shuffle Answers</b>
+            </div>
+            <div className="col-6 text-start">Get Quiz's Info</div>
           <div className="row">
             <div className="col-6 text-end">
               <b>Shuffle Answers</b>
@@ -89,8 +109,16 @@ export default function QuizDetails({ course }: { course: any }) {
               <b>Time Limit</b>
             </div>
             <div className="col-6 text-start">Get Quiz's Info</div>
+            <div className="col-6 text-end">
+              <b>Time Limit</b>
+            </div>
+            <div className="col-6 text-start">Get Quiz's Info</div>
           </div>
           <div className="row">
+            <div className="col-6 text-end">
+              <b>Multiple Attempts</b>
+            </div>
+            <div className="col-6 text-start">Get Quiz's Info</div>
             <div className="col-6 text-end">
               <b>Multiple Attempts</b>
             </div>
@@ -101,8 +129,16 @@ export default function QuizDetails({ course }: { course: any }) {
               <b>View Responses</b>
             </div>
             <div className="col-6 text-start">Get Quiz's Info</div>
+            <div className="col-6 text-end">
+              <b>View Responses</b>
+            </div>
+            <div className="col-6 text-start">Get Quiz's Info</div>
           </div>
           <div className="row">
+            <div className="col-6 text-end">
+              <b>Show Correct Answers</b>
+            </div>
+            <div className="col-6 text-start">Get Quiz's Info</div>
             <div className="col-6 text-end">
               <b>Show Correct Answers</b>
             </div>
@@ -113,8 +149,16 @@ export default function QuizDetails({ course }: { course: any }) {
               <b>One Question at a Time</b>
             </div>
             <div className="col-6 text-start">Get Quiz's Info</div>
+            <div className="col-6 text-end">
+              <b>One Question at a Time</b>
+            </div>
+            <div className="col-6 text-start">Get Quiz's Info</div>
           </div>
           <div className="row">
+            <div className="col-6 text-end">
+              <b>Require Respondus LockDown Browser</b>
+            </div>
+            <div className="col-6 text-start">Get Quiz's Info</div>
             <div className="col-6 text-end">
               <b>Require Respondus LockDown Browser</b>
             </div>
@@ -125,8 +169,16 @@ export default function QuizDetails({ course }: { course: any }) {
               <b>Required to View Quiz Results</b>
             </div>
             <div className="col-6 text-start">Get Quiz's Info</div>
+            <div className="col-6 text-end">
+              <b>Required to View Quiz Results</b>
+            </div>
+            <div className="col-6 text-start">Get Quiz's Info</div>
           </div>
           <div className="row">
+            <div className="col-6 text-end">
+              <b>Webcam Required</b>
+            </div>
+            <div className="col-6 text-start">Get Quiz's Info</div>
             <div className="col-6 text-end">
               <b>Webcam Required</b>
             </div>

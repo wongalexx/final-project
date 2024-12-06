@@ -94,7 +94,7 @@ export default function Quizzes({ course }: { course: any }) {
       </div>
       <hr />
       {quizzes.length === 0 ? (
-        <b>Please click the 'Add Quiz' button (+ Quiz) to add a new quiz.</b>
+        <b>Click the 'Add Quiz' button (+ Quiz) to add a new quiz.</b>
       ) : (
         <ul id="wd-assignments" className="list-group rounded-0">
           <li className="wd-assignments list-group-item p-0 mb-5 fs-5 border-gray">

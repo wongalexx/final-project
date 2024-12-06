@@ -31,7 +31,7 @@ const QuizQuestionsEditor = () => {
   };
 
   return (
-    <div className="quiz-questions-editor mb-4 m-4">
+    <div className="quiz-questions-editor mb-4">
       <div className="d-flex justify-content-center mb-4">
         <button
           className="btn btn-secondary btn-lg"
