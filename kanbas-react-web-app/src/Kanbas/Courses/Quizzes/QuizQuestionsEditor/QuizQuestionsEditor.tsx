@@ -87,7 +87,7 @@ const QuizQuestionsEditor = () => {
                   <MultipleChoiceQuestionEditor />
                 )}
                 {question.type === "True/False" && <TrueFalseQuestionEditor />}
-                {question.type === "Fill in The Blank" && (
+                {question.type === "Fill in the Blank" && (
                   <FillInTheBlankQuestionEditor />
                 )}
                 <div className="mt-3 ms-2">
