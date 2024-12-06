@@ -69,7 +69,7 @@ export default function QuizEditor() {
       {activeTab === "questions" && <QuizQuestionsEditor />}
       <div className="col">
         <hr />
-        <div className="mt-3">
+        <div className="mt-2">
           <div className="row float-end">
             <div className="col">
               <a href={`#/Kanbas/Courses/${cid}/Quizzes`}>
