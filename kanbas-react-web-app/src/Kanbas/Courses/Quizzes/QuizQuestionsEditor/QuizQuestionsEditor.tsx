@@ -47,25 +47,40 @@ const QuizQuestionsEditor = () => {
           <div key={question.id}>
             {question.editMode ? (
               <li className="list-group-item p-3 ps-1">
-                <div className="mb-3">
-                  <input></input>
-                  <label>
-                    <select
-                      value={question.type}
-                      onChange={(e) =>
-                        changeQuestionType(question.id, e.target.value)
-                      }
-                    >
-                      <option value="Multiple Choice">Multiple Choice</option>
-                      <option value="True/False">True/False</option>
-                      <option value="Fill in the Blank">
-                        Fill in the Blank
-                      </option>
-                    </select>
-                    <label>
-                      <b>pts:</b> <input type="number" placeholder="0" />
+                <div className="row mb-3 align-items-center">
+                  <div className="col d-flex align-items-center">
+                    <input
+                      className="form-control me-2"
+                      placeholder="Question Title"
+                      style={{ width: "125px" }}
+                    />
+                    <label className="mb-0">
+                      <select
+                        className="form-select"
+                        value={question.type}
+                        onChange={(e) =>
+                          changeQuestionType(question.id, e.target.value)
+                        }
+                      >
+                        <option value="Multiple Choice">Multiple Choice</option>
+                        <option value="True/False">True/False</option>
+                        <option value="Fill in the Blank">
+                          Fill in the Blank
+                        </option>
+                      </select>
                     </label>
-                  </label>
+                  </div>
+                  <div className="col-auto text-end">
+                    <label className="d-flex align-items-center mb-0">
+                      <b className="me-2">pts:</b>
+                      <input
+                        type="number"
+                        className="form-control"
+                        placeholder="0"
+                        style={{ width: "75px" }}
+                      />
+                    </label>
+                  </div>
                 </div>
                 <hr />
                 {question.type === "Multiple Choice" && (
@@ -75,7 +90,6 @@ const QuizQuestionsEditor = () => {
                 {question.type === "Fill in The Blank" && (
                   <FillInTheBlankQuestionEditor />
                 )}
-                <hr />
                 <div className="mt-3">
                   <button
                     className="btn btn-secondary me-2"
