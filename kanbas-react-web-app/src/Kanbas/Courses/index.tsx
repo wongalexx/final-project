@@ -10,7 +10,7 @@ import * as courseClient from "./client";
 import { useEffect, useState } from "react";
 import Quizzes from "./Quizzes";
 import QuizDetails from "./Quizzes/QuizDetails";
-import QuizEditor from "./Quizzes/QuizEditor";
+import QuizDetailsEditor from "./Quizzes/QuizDetailsEditor";
 export default function Courses({ courses }: { courses: any[] }) {
   const { cid } = useParams();
   const [users, setUsers] = useState<any[]>([]);
@@ -55,7 +55,10 @@ export default function Courses({ courses }: { courses: any[] }) {
               path="Quizzes/:qid"
               element={<QuizDetails course={course} />}
             />
-            <Route path="Quizzes/:qid/:qtitle" element={<QuizEditor />} />
+            <Route
+              path="Quizzes/:qid/:qtitle"
+              element={<QuizDetailsEditor />}
+            />
             <Route path="People" element={<PeopleTable users={users} />} />
           </Routes>
         </div>

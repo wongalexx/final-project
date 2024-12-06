@@ -76,7 +76,7 @@ export default function Quizzes({ course }: { course: any }) {
         </div>
         {currentUser.role === "FACULTY" && (
           <div className="col-md-6 text-end">
-            <a href={`#/Kanbas/Courses/${cid}/Quizzes/${qid}`}>
+            <a href={`#/Kanbas/Courses/${cid}/Quizzes/${qid}/new`}>
               <button id="wd-add-assignment" className="btn btn-danger btn-lg">
                 <AiOutlinePlus /> Quiz
               </button>
