@@ -10,20 +10,22 @@ import { useEffect, useState } from "react";
 import QuizContextMenu from "./QuizContextMenu";
 import * as coursesClient from "../client";
 import { queries } from "@testing-library/react";
+import { setQuizzes } from "./reducer";
 
 export default function Quizzes({ course }: { course: any }) {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const { quizzes } = useSelector((state: any) => state.quizReducer);
   const { cid } = useParams();
-  const [quizzes, setQuizzes] = useState<any[]>([]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen((prevState) => !prevState);
 
   const fetchQuizzes = async () => {
     const quiz = await coursesClient.findQuizzesForCourse(cid as string);
-    setQuizzes(quiz);
+    dispatch(setQuizzes(quiz));
   };
+
   useEffect(() => {
     fetchQuizzes();
   }, [cid, quizzes]);
