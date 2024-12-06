@@ -58,25 +58,18 @@ export default function QuizDetails({ course }: { course: any }) {
       <h1 className="mb-4">
         <b>{quiz.title}</b>
       </h1>
-      <div className="row mb-4">
-        <div className="col-6">
-          <div className="row">
-            <div className="col-6 text-end">
-              <b>Quiz Type</b>
-            </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
-        <div className="col-6">
-          <div className="row">
-            <div className="col-6 text-end">
-              <b>Quiz Type</b>
-            </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
+      <div className="col-6">
+        <div className="row">
+          <div className="col-6 text-end">
+            <b>Quiz Type</b>
           </div>
-          <div className="row">
-            <div className="col-6 text-end">
-              <b>Points</b>
-            </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
+          <div className="col-6 text-start">Get Quiz's Info</div>
+        </div>
+        <div className="row">
+          <div className="col-6 text-end">
+            <b>Points</b>
+          </div>
+          <div className="col-6 text-start">Get Quiz's Info</div>
           <div className="row">
             <div className="col-6 text-end">
               <b>Points</b>
@@ -98,135 +91,136 @@ export default function QuizDetails({ course }: { course: any }) {
               <b>Shuffle Answers</b>
             </div>
             <div className="col-6 text-start">Get Quiz's Info</div>
-          <div className="row">
-            <div className="col-6 text-end">
-              <b>Shuffle Answers</b>
+            <div className="row">
+              <div className="col-6 text-end">
+                <b>Shuffle Answers</b>
+              </div>
+              <div className="col-6 text-start">Get Quiz's Info</div>
             </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
-          </div>
-          <div className="row">
-            <div className="col-6 text-end">
-              <b>Time Limit</b>
+            <div className="row">
+              <div className="col-6 text-end">
+                <b>Time Limit</b>
+              </div>
+              <div className="col-6 text-start">Get Quiz's Info</div>
+              <div className="col-6 text-end">
+                <b>Time Limit</b>
+              </div>
+              <div className="col-6 text-start">Get Quiz's Info</div>
             </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
-            <div className="col-6 text-end">
-              <b>Time Limit</b>
+            <div className="row">
+              <div className="col-6 text-end">
+                <b>Multiple Attempts</b>
+              </div>
+              <div className="col-6 text-start">Get Quiz's Info</div>
+              <div className="col-6 text-end">
+                <b>Multiple Attempts</b>
+              </div>
+              <div className="col-6 text-start">Get Quiz's Info</div>
             </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
-          </div>
-          <div className="row">
-            <div className="col-6 text-end">
-              <b>Multiple Attempts</b>
+            <div className="row">
+              <div className="col-6 text-end">
+                <b>View Responses</b>
+              </div>
+              <div className="col-6 text-start">Get Quiz's Info</div>
+              <div className="col-6 text-end">
+                <b>View Responses</b>
+              </div>
+              <div className="col-6 text-start">Get Quiz's Info</div>
             </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
-            <div className="col-6 text-end">
-              <b>Multiple Attempts</b>
+            <div className="row">
+              <div className="col-6 text-end">
+                <b>Show Correct Answers</b>
+              </div>
+              <div className="col-6 text-start">Get Quiz's Info</div>
+              <div className="col-6 text-end">
+                <b>Show Correct Answers</b>
+              </div>
+              <div className="col-6 text-start">Get Quiz's Info</div>
             </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
-          </div>
-          <div className="row">
-            <div className="col-6 text-end">
-              <b>View Responses</b>
+            <div className="row">
+              <div className="col-6 text-end">
+                <b>One Question at a Time</b>
+              </div>
+              <div className="col-6 text-start">Get Quiz's Info</div>
+              <div className="col-6 text-end">
+                <b>One Question at a Time</b>
+              </div>
+              <div className="col-6 text-start">Get Quiz's Info</div>
             </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
-            <div className="col-6 text-end">
-              <b>View Responses</b>
+            <div className="row">
+              <div className="col-6 text-end">
+                <b>Require Respondus LockDown Browser</b>
+              </div>
+              <div className="col-6 text-start">Get Quiz's Info</div>
+              <div className="col-6 text-end">
+                <b>Require Respondus LockDown Browser</b>
+              </div>
+              <div className="col-6 text-start">Get Quiz's Info</div>
             </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
-          </div>
-          <div className="row">
-            <div className="col-6 text-end">
-              <b>Show Correct Answers</b>
+            <div className="row">
+              <div className="col-6 text-end">
+                <b>Required to View Quiz Results</b>
+              </div>
+              <div className="col-6 text-start">Get Quiz's Info</div>
+              <div className="col-6 text-end">
+                <b>Required to View Quiz Results</b>
+              </div>
+              <div className="col-6 text-start">Get Quiz's Info</div>
             </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
-            <div className="col-6 text-end">
-              <b>Show Correct Answers</b>
+            <div className="row">
+              <div className="col-6 text-end">
+                <b>Webcam Required</b>
+              </div>
+              <div className="col-6 text-start">Get Quiz's Info</div>
+              <div className="col-6 text-end">
+                <b>Webcam Required</b>
+              </div>
+              <div className="col-6 text-start">Get Quiz's Info</div>
             </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
-          </div>
-          <div className="row">
-            <div className="col-6 text-end">
-              <b>One Question at a Time</b>
+            <div className="row">
+              <div className="col-6 text-end">
+                <b>Lock Questions After Answering</b>
+              </div>
+              <div className="col-6 text-start">Get Quiz's Info</div>
             </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
-            <div className="col-6 text-end">
-              <b>One Question at a Time</b>
-            </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
-          </div>
-          <div className="row">
-            <div className="col-6 text-end">
-              <b>Require Respondus LockDown Browser</b>
-            </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
-            <div className="col-6 text-end">
-              <b>Require Respondus LockDown Browser</b>
-            </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
-          </div>
-          <div className="row">
-            <div className="col-6 text-end">
-              <b>Required to View Quiz Results</b>
-            </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
-            <div className="col-6 text-end">
-              <b>Required to View Quiz Results</b>
-            </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
-          </div>
-          <div className="row">
-            <div className="col-6 text-end">
-              <b>Webcam Required</b>
-            </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
-            <div className="col-6 text-end">
-              <b>Webcam Required</b>
-            </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
-          </div>
-          <div className="row">
-            <div className="col-6 text-end">
-              <b>Lock Questions After Answering</b>
-            </div>
-            <div className="col-6 text-start">Get Quiz's Info</div>
           </div>
         </div>
+        <div className="col text-start">
+          <div className="row">{quiz.quizType}</div>
+          <div className="row">{quiz.points}</div>
+          <div className="row">{quiz.assignmentGroup}</div>
+          <div className="row">{quiz.shuffleAnswers ? "Yes" : "No"}</div>
+          <div className="row">{quiz.timeLimit}</div>
+          <div className="row">{quiz.multipleAttempts ? "Yes" : "No"}</div>
+          <div className="row">{quiz.quizType}</div>
+          <div className="row">{quiz.quizType}</div>
+          {/* {multipleAttempt, viewResponses, showCorrectAnswers} */}
+          <div className="row">{quiz.oneQuestionAtATime ? "Yes" : "No"}</div>
+          <div className="row">{quiz.quizType}</div>
+          <div className="row">{quiz.showCorrectAnswers}</div>
+          {/* {} */}
+          <div className="row">{quiz.webcamRequired}</div>
+          <div className="row">{quiz.lockQuestionsAfterAnswering}</div>
+        </div>
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">Due</th>
+              <th scope="col">For</th>
+              <th scope="col">Available from</th>
+              <th scope="col">Until</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{quiz.due}</td>
+              <td>Get Quiz's Info</td>
+              <td>{quiz.availableFromDate}</td>
+              <td>{quiz.availableUntilDate}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div className="col text-start">
-        <div className="row">{quiz.quizType}</div>
-        <div className="row">{quiz.points}</div>
-        <div className="row">{quiz.assignmentGroup}</div>
-        <div className="row">{quiz.shuffleAnswers ? "Yes" : "No"}</div>
-        <div className="row">{quiz.timeLimit}</div>
-        <div className="row">{quiz.multipleAttempts ? "Yes" : "No"}</div>
-        <div className="row">{quiz.quizType}</div>
-        <div className="row">{quiz.quizType}</div>
-        {/* {multipleAttempt, viewResponses, showCorrectAnswers} */}
-        <div className="row">{quiz.oneQuestionAtATime ? "Yes" : "No"}</div>
-        <div className="row">{quiz.quizType}</div>
-        <div className="row">{quiz.showCorrectAnswers}</div>
-        {/* {} */}
-        <div className="row">{quiz.webcamRequired}</div>
-        <div className="row">{quiz.lockQuestionsAfterAnswering}</div>
-      </div>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Due</th>
-            <th scope="col">For</th>
-            <th scope="col">Available from</th>
-            <th scope="col">Until</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{quiz.due}</td>
-            <td>Get Quiz's Info</td>
-            <td>{quiz.availableFromDate}</td>
-            <td>{quiz.availableUntilDate}</td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   );
 }
