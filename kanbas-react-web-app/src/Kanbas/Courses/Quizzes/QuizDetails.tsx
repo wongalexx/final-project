@@ -1,13 +1,4 @@
-import { AiOutlinePlus } from "react-icons/ai";
-import { CiSearch } from "react-icons/ci";
-import { IoRocketOutline, IoEllipsisVertical } from "react-icons/io5";
-import { RxTriangleDown } from "react-icons/rx";
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { FcCancel } from "react-icons/fc";
-import GreenCheckmark from "../Modules/GreenCheckmark";
-import { useState } from "react";
-import QuizContextMenu from "./QuizContextMenu";
 import { FaPencil } from "react-icons/fa6";
 
 export default function QuizDetails({ course }: { course: any }) {

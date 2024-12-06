@@ -14,7 +14,7 @@ import { queries } from "@testing-library/react";
 export default function Quizzes({ course }: { course: any }) {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const { cid, qid } = useParams();
+  const { cid } = useParams();
   const [quizzes, setQuizzes] = useState<any[]>([]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -76,7 +76,7 @@ export default function Quizzes({ course }: { course: any }) {
         </div>
         {currentUser.role === "FACULTY" && (
           <div className="col-md-6 text-end">
-            <a href={`#/Kanbas/Courses/${cid}/Quizzes/${qid}/new`}>
+            <a href={`#/Kanbas/Courses/${cid}/Quizzes/new/new`}>
               <button id="wd-add-assignment" className="btn btn-danger btn-lg">
                 <AiOutlinePlus /> Quiz
               </button>
