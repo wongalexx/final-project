@@ -90,7 +90,7 @@ const QuizQuestionsEditor = () => {
                 {question.type === "Fill in The Blank" && (
                   <FillInTheBlankQuestionEditor />
                 )}
-                <div className="mt-3">
+                <div className="mt-3 ms-2">
                   <button
                     className="btn btn-secondary me-2"
                     onClick={() => toggleEditMode(question.id)}
