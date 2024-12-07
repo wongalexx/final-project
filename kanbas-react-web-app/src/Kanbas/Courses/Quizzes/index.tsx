@@ -34,7 +34,7 @@ export default function Quizzes({ course }: { course: any }) {
   };
   useEffect(() => {
     fetchQuizzes();
-  }, [cid]);
+  }, [cid, quizzes]);
 
   const formatDate = (newDate: string | number | Date) => {
     const date = new Date(newDate);

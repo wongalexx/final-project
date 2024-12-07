@@ -92,9 +92,7 @@ export default function QuizDetails({ course }: { course: any }) {
           <div className="col-6 text-end">
             <b>Show Correct Answers</b>
           </div>
-          <div className="col-6 text-start">
-            {quiz.showCorrectAnswers ? "Yes" : "No"}
-          </div>
+          <div className="col-6 text-start">{quiz.showCorrectAnswers}</div>
         </div>
         <div className="row">
           <div className="col-6 text-end">

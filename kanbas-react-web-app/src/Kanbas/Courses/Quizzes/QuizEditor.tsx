@@ -11,7 +11,7 @@ import * as coursesClient from "../client";
 import { setQuizzes, updateQuizzes, addQuizzes } from "./reducer";
 import { Link } from "react-router-dom";
 
-export default function QuizEditor() {
+export default function QuizEditor({ course }: { course: any }) {
   const { cid, qid, qtitle } = useParams();
   const [activeTab, setActiveTab] = useState("details");
   const { quizzes } = useSelector((state: any) => state.quizReducer);
@@ -93,7 +93,7 @@ export default function QuizEditor() {
           </button>
         </li>
       </ul>
-      {activeTab === "details" && <QuizDetailsEditor />}
+      {activeTab === "details" && <QuizDetailsEditor course={course} />}
       {activeTab === "questions" && <QuizQuestionsEditor quiz={quiz} />}
     </div>
   );

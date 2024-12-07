@@ -6,50 +6,54 @@ import * as quizClient from "./client";
 import * as coursesClient from "../client";
 import { setQuizzes, updateQuizzes, addQuizzes } from "./reducer";
 
-export default function QuizDetailsEditor() {
+export default function QuizDetailsEditor({ course }: { course: any }) {
   function formatToDatetimeLocal(date: string | Date | undefined): string {
     if (!date) return "";
     const formattedDate = typeof date === "string" ? new Date(date) : date;
     if (isNaN(formattedDate.getTime())) return "";
     return formattedDate.toISOString().slice(0, 16);
   }
+
   const { quizzes } = useSelector((state: any) => state.quizReducer);
   const { cid, qid } = useParams();
-  const quiz = quizzes.find((quiz: any) => quiz._id === qid);
+  const quiz = quizzes.find((quiz: any) => quiz._id === qid) || {};
 
   const [newQuiz, setNewQuiz] = useState({
     _id: 1,
     title: "New Quiz",
-    course: "",
-    quizType: "",
+    course: course.number,
+    quizType: "Graded Quiz",
     points: 100,
-    assignmentGroup: "",
+    assignmentGroup: "Quizzes",
     shuffleAnswers: true,
     timeLimit: 30,
     multipleAttempts: false,
     attemptsAllowed: 1,
-    showCorrectAnswers: "",
+    showCorrectAnswers: "After Due Date",
     accessCode: "",
     oneQuestionAtATime: true,
     webcamRequired: false,
     lockQuestionsAfterAnswering: true,
-    availableFromDate: "2024-11-01T00:00:00",
-    availableUntilDate: "2024-11-10T23:59:59",
-    due: "2024-11-10T23:59:59",
-    questions: [],
-    published: true,
+    availableFromDate: new Date(),
+    availableUntilDate: new Date(),
+    due: new Date(),
+    published: false,
     ...quiz,
   });
+
   const dispatch = useDispatch();
 
   const createQuizForCourse = async () => {
     const quizData = {
       _id: new Date().getTime().toString(),
       ...newQuiz,
-      course: cid,
+      course: course.number,
     };
-    const quiz = await coursesClient.createQuizzesForCourse(cid, quizData);
-    dispatch(addQuizzes(quiz));
+    const createdQuiz = await coursesClient.createQuizzesForCourse(
+      cid,
+      quizData
+    );
+    dispatch(addQuizzes(createdQuiz));
   };
 
   const updateQuiz = async (quiz: any) => {
@@ -65,7 +69,6 @@ export default function QuizDetailsEditor() {
     }
   };
 
-  // useEffect(() => {}, [quizzes]);
   return (
     <div id="wd-quizzes-details-editor">
       <div className="col-8">
@@ -73,7 +76,7 @@ export default function QuizDetailsEditor() {
           id="wd-name"
           className="form-control mb-3"
           value={newQuiz.title}
-          onChange={(e) => setNewQuiz({ ...quiz, title: e.target.value })}
+          onChange={(e) => setNewQuiz({ ...newQuiz, title: e.target.value })}
           placeholder="Enter quiz title..."
         />
       </div>
@@ -81,8 +84,10 @@ export default function QuizDetailsEditor() {
       <textarea
         className="form-control mb-3"
         id="wd-instructions"
-        value={newQuiz.instructions}
-        onChange={(e) => setNewQuiz({ ...quiz, instructions: e.target.value })}
+        value={newQuiz.instructions || ""}
+        onChange={(e) =>
+          setNewQuiz({ ...newQuiz, instructions: e.target.value })
+        }
       />
       <div className="row mb-4">
         <div className="row mb-2">
@@ -93,7 +98,7 @@ export default function QuizDetailsEditor() {
               id="wd-type"
               value={newQuiz.quizType}
               onChange={(e) =>
-                setNewQuiz({ ...quiz, quizType: e.target.value })
+                setNewQuiz({ ...newQuiz, quizType: e.target.value })
               }
             >
               <option value={"Graded Quiz"}>Graded Quiz</option>
@@ -113,13 +118,32 @@ export default function QuizDetailsEditor() {
               id="wd-type"
               value={newQuiz.assignmentGroup}
               onChange={(e) =>
-                setNewQuiz({ ...quiz, assignmentGroup: e.target.value })
+                setNewQuiz({ ...newQuiz, assignmentGroup: e.target.value })
               }
             >
               <option value={"Quizzes"}>Quizzes</option>
               <option value={"Exams"}>Exams</option>
               <option value={"Assignments"}>Assignments</option>
               <option value={"Project"}>Project</option>
+            </select>
+          </div>
+        </div>
+        <div className="row mb-2">
+          <div className="col-4 d-flex flex-column text-end">
+            Show Correct Answers
+          </div>
+          <div className="col-4 flex-column">
+            <select
+              className="form-select w-100"
+              id="wd-type"
+              value={newQuiz.showCorrectAnswers}
+              onChange={(e) =>
+                setNewQuiz({ ...newQuiz, showCorrectAnswers: e.target.value })
+              }
+            >
+              <option value={"Never"}>Never</option>
+              <option value={"Immediately"}>Immediately</option>
+              <option value={"After Due Date"}>After Due Date</option>
             </select>
           </div>
         </div>
@@ -131,11 +155,10 @@ export default function QuizDetailsEditor() {
               <input
                 className="form-check-input"
                 type="checkbox"
-                value=""
                 id="shuffleAnswers"
                 checked={newQuiz.shuffleAnswers}
                 onChange={(e) =>
-                  setNewQuiz({ ...quiz, shuffleAnswers: e.target.value })
+                  setNewQuiz({ ...newQuiz, shuffleAnswers: e.target.checked })
                 }
               />
               <label className="form-check-label" htmlFor="shuffleAnswers">
@@ -147,14 +170,16 @@ export default function QuizDetailsEditor() {
                 <input
                   className="form-check-input"
                   type="checkbox"
-                  value=""
-                  id="timeLimit"
-                  checked={newQuiz.timeLimit}
-                  onChange={(e) =>
-                    setNewQuiz({ ...quiz, timeLimit: undefined })
+                  id="timeLimitCheckbox"
+                  checked={Boolean(newQuiz.timeLimit)}
+                  onChange={() =>
+                    setNewQuiz({
+                      ...newQuiz,
+                      timeLimit: newQuiz.timeLimit ? undefined : 30,
+                    })
                   }
                 />
-                <label className="form-check-label" htmlFor="timeLimit">
+                <label className="form-check-label" htmlFor="timeLimitCheckbox">
                   Time Limit
                 </label>
               </div>
@@ -162,12 +187,15 @@ export default function QuizDetailsEditor() {
                 id="wd-quiz-minutes"
                 className="form-control me-2"
                 style={{ width: "60px" }}
-                value={newQuiz.timeLimit}
+                value={newQuiz.timeLimit || ""}
                 onChange={(e) =>
-                  setNewQuiz({ ...quiz, timeLimit: e.target.value })
+                  setNewQuiz({
+                    ...newQuiz,
+                    timeLimit: parseInt(e.target.value) || 0,
+                  })
                 }
               />
-              <span>Minutes </span>
+              <span>Minutes</span>
             </div>
             <div className="card mt-2">
               <div className="card-body">
@@ -175,11 +203,13 @@ export default function QuizDetailsEditor() {
                   <input
                     className="form-check-input"
                     type="checkbox"
-                    value=""
                     id="allowMultipleAttempts"
                     checked={newQuiz.multipleAttempts}
                     onChange={(e) =>
-                      setNewQuiz({ ...quiz, multipleAttempts: e.target.value })
+                      setNewQuiz({
+                        ...newQuiz,
+                        multipleAttempts: e.target.checked,
+                      })
                     }
                   />
                   <label
@@ -221,7 +251,7 @@ export default function QuizDetailsEditor() {
                     className="form-control"
                     value={formatToDatetimeLocal(newQuiz.due)}
                     onChange={(e) =>
-                      setNewQuiz({ ...quiz, due: e.target.value })
+                      setNewQuiz({ ...newQuiz, due: e.target.value })
                     }
                   />
                 </div>
@@ -237,7 +267,10 @@ export default function QuizDetailsEditor() {
                     className="form-control"
                     value={formatToDatetimeLocal(newQuiz.availableFromDate)}
                     onChange={(e) =>
-                      setNewQuiz({ ...quiz, availableFromDate: e.target.value })
+                      setNewQuiz({
+                        ...newQuiz,
+                        availableFromDate: e.target.value,
+                      })
                     }
                   />
                 </div>
@@ -252,7 +285,7 @@ export default function QuizDetailsEditor() {
                     value={formatToDatetimeLocal(newQuiz.availableUntilDate)}
                     onChange={(e) =>
                       setNewQuiz({
-                        ...quiz,
+                        ...newQuiz,
                         availableUntilDate: e.target.value,
                       })
                     }
