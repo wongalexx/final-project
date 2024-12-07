@@ -10,20 +10,22 @@ import { useEffect, useState } from "react";
 import QuizContextMenu from "./QuizContextMenu";
 import * as coursesClient from "../client";
 import { queries } from "@testing-library/react";
+import { setQuizzes } from "./reducer";
 
 export default function Quizzes({ course }: { course: any }) {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const { quizzes } = useSelector((state: any) => state.quizReducer);
   const { cid } = useParams();
-  const [quizzes, setQuizzes] = useState<any[]>([]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen((prevState) => !prevState);
 
   const fetchQuizzes = async () => {
-    const quiz = await coursesClient.findQuizzesForCourse(cid as string);
-    setQuizzes(quiz);
+    const quiz = await coursesClient.findQuizzesForCourse(course.number);
+    dispatch(setQuizzes(quiz));
   };
+
   useEffect(() => {
     fetchQuizzes();
   }, [cid, quizzes]);
@@ -92,7 +94,7 @@ export default function Quizzes({ course }: { course: any }) {
       </div>
       <hr />
       {quizzes.length === 0 ? (
-        <b>Please click the 'Add Quiz' button (+ Quiz) to add a new quiz.</b>
+        <b>Click the 'Add Quiz' button (+ Quiz) to add a new quiz.</b>
       ) : (
         <ul id="wd-assignments" className="list-group rounded-0">
           <li className="wd-assignments list-group-item p-0 mb-5 fs-5 border-gray">
@@ -138,7 +140,7 @@ export default function Quizzes({ course }: { course: any }) {
                           <span className="grey-font">
                             {" "}
                             <b>Due</b> {formatDate(new Date(quiz.due))} |{" "}
-                            {quiz.points}pts | {quiz.length} questions
+                            {quiz.points}pts | {quiz.questions.length} questions
                           </span>
                         </span>
                       </div>

@@ -9,7 +9,7 @@ const TrueFalseQuestionEditor = () => {
   };
 
   return (
-    <div className="question-editor m-2">
+    <div className="question-editor m-4">
       <div className="mb-2">
         Enter your question text, then select if True or False is the correct
         answer.
@@ -21,6 +21,7 @@ const TrueFalseQuestionEditor = () => {
         <textarea
           className="form-control mb-2"
           id="wd-true-or-false-question"
+          placeholder="Enter question..."
         />
         <div className="true-false-section d-flex flex-column">
           <b>Answers:</b>
