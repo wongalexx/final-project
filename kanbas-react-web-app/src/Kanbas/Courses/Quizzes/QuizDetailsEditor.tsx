@@ -21,7 +21,8 @@ export default function QuizDetailsEditor({ course }: { course: any }) {
   const [newQuiz, setNewQuiz] = useState({
     _id: 1,
     title: "New Quiz",
-    course: course.number,
+    course: cid,
+    instructions: "",
     quizType: "Graded Quiz",
     points: 100,
     assignmentGroup: "Quizzes",
@@ -47,7 +48,7 @@ export default function QuizDetailsEditor({ course }: { course: any }) {
     const quizData = {
       _id: new Date().getTime().toString(),
       ...newQuiz,
-      course: course.number,
+      course: cid,
     };
     const createdQuiz = await coursesClient.createQuizzesForCourse(
       cid,

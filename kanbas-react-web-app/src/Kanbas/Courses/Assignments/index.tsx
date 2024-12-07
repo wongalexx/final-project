@@ -13,12 +13,13 @@ import { useEffect, useState } from "react";
 import * as coursesClient from "../client";
 import * as assignmentsClient from "./client";
 export default function Assignments({ course }: { course: any }) {
+  const { cid, aid } = useParams();
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { assignments } = useSelector((state: any) => state.assignmentReducer);
   const fetchAssignments = async () => {
     const assignments = await coursesClient.findAssignmentsForCourse(
-      course.number as string
+      cid as string
     );
     dispatch(setAssignments(assignments));
   };
@@ -26,7 +27,7 @@ export default function Assignments({ course }: { course: any }) {
     await assignmentsClient.deleteAssignment(assignmentId);
     dispatch(deleteAssignment(assignmentId));
   };
-  const { cid, aid } = useParams();
+
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [assignmentToDelete, setAssignmentToDelete] = useState<string | null>(
     null

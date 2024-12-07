@@ -30,7 +30,7 @@ export default function AssignmentEditor({ course }: { course: any }) {
     if (!cid) return;
     const newAssignment = {
       _id: aid,
-      course: course.number,
+      course: cid,
       title: assignmentTitle,
       description: assignmentDescription,
       points: parseInt(assignmentPoints),
@@ -39,7 +39,7 @@ export default function AssignmentEditor({ course }: { course: any }) {
       availableUntilDate: assignmentAvailableUntilDate,
     };
     const assignment = await coursesClient.createAssignmentForCourse(
-      course.number,
+      cid,
       newAssignment
     );
     dispatch(addAssignment(assignment));
@@ -52,7 +52,7 @@ export default function AssignmentEditor({ course }: { course: any }) {
     if (assignment) {
       saveAssignment({
         _id: aid,
-        course: course.number,
+        course: cid,
         title: assignmentTitle,
         description: assignmentDescription,
         points: parseInt(assignmentPoints),
