@@ -58,11 +58,11 @@ export default function QuizDetailsEditor() {
   };
 
   const handleSave = () => {
-    // if (!qid) {
-    //   createQuizForCourse();
-    // } else {
-    updateQuiz(newQuiz);
-    //}
+    if (qid === "new") {
+      createQuizForCourse();
+    } else {
+      updateQuiz(newQuiz);
+    }
   };
 
   useEffect(() => {}, [quizzes]);
@@ -245,7 +245,7 @@ export default function QuizDetailsEditor() {
               <Link
                 className="btn btn-danger btn-lg"
                 to={`/Kanbas/Courses/${cid}/Quizzes`}
-                onChange={handleSave}
+                onClick={handleSave}
               >
                 Save
               </Link>
