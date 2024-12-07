@@ -6,6 +6,10 @@ import { FcCancel } from "react-icons/fc";
 import { IoEllipsisVertical } from "react-icons/io5";
 import QuizDetailsEditor from "./QuizDetailsEditor";
 import QuizQuestionsEditor from "./QuizQuestionsEditor/QuizQuestionsEditor";
+import * as quizClient from "./client";
+import * as coursesClient from "../client";
+import { setQuizzes, updateQuizzes, addQuizzes } from "./reducer";
+import { Link } from "react-router-dom";
 
 export default function QuizEditor() {
   const { cid, qid, qtitle } = useParams();
@@ -36,8 +40,33 @@ export default function QuizEditor() {
     ...quiz,
   });
 
+  const dispatch = useDispatch();
+
   const handleTabChange = (tab: any) => {
     setActiveTab(tab);
+  };
+
+  const createQuizForCourse = async () => {
+    const quizData = {
+      _id: new Date().getTime().toString(),
+      ...newQuiz,
+      course: cid,
+    };
+    const quiz = await coursesClient.createQuizzesForCourse(cid, quizData);
+    dispatch(addQuizzes(quiz));
+  };
+
+  const updateQuiz = async (quiz: any) => {
+    await quizClient.updateQuiz(quiz);
+    dispatch(updateQuizzes(quiz)); // Fixed from dispatchEvent
+  };
+
+  const handleSave = () => {
+    if (!qid) {
+      createQuizForCourse();
+    } else {
+      updateQuiz(newQuiz);
+    }
   };
 
   return (
@@ -102,7 +131,13 @@ export default function QuizEditor() {
                   Cancel
                 </button>
               </a>
-              <button className="btn btn-danger btn-lg">Save</button>
+              <Link
+                className="btn btn-danger btn-lg"
+                to={`#/Kanbas/Courses/${cid}/Quizzes`}
+                onChange={handleSave}
+              >
+                Save
+              </Link>
             </div>
           </div>
         </div>
