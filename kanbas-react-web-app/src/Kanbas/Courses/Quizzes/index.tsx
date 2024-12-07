@@ -151,7 +151,7 @@ export default function Quizzes({ course }: { course: any }) {
                           <span className="grey-font">
                             {" "}
                             <b>Due</b> {formatDate(new Date(quiz.due))} |{" "}
-                            {quiz.points}pts | {quiz.questions.length} questions
+                            {quiz.points}pts | GET QUESTIONS questions
                           </span>
                         </span>
                       </div>
