@@ -1,22 +1,24 @@
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import GreenCheckmark from "../Modules/GreenCheckmark";
-import { FcCancel } from "react-icons/fc";
-import { IoEllipsisVertical } from "react-icons/io5";
-export default function QuizDetailsEditor() {
+export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
   return (
     <div id="wd-quizzes-details-editor">
       <div className="col-8">
         <input id="wd-name" className="form-control mb-3" value={"QUIZ NAME"} />
       </div>
       <label htmlFor="wd-instructions">Quiz Instructions:</label>
-      <textarea className="form-control mb-3" id="wd-instructions" />
+      <textarea
+        className="form-control mb-3"
+        id="wd-instructions"
+        value={quiz.instructions}
+      />
       <div className="row mb-4">
         <div className="row mb-2">
           <div className="col-4 d-flex flex-column text-end">Quiz Type</div>
           <div className="col-4 flex-column">
-            <select className="form-select w-100" id="wd-type">
+            <select
+              className="form-select w-100"
+              id="wd-type"
+              value={quiz.quizType}
+            >
               <option value={"Graded Quiz"}>Graded Quiz</option>
               <option value={"Practice Quiz"}>Practice Quiz</option>
               <option value={"Graded Survey"}>Graded Survey</option>

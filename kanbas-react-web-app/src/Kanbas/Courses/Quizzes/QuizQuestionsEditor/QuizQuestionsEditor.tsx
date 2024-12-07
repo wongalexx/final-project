@@ -4,7 +4,7 @@ import MultipleChoiceQuestionEditor from "./MutltipleChoiseQuestionEditor";
 import TrueFalseQuestionEditor from "./TrueFalseQuestionEditor";
 import FillInTheBlankQuestionEditor from "./FillInTheBlankQuestionEditor";
 
-const QuizQuestionsEditor = () => {
+const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
   const [questions, setQuestions] = useState<any[]>([]);
 
   const addNewQuestion = () => {

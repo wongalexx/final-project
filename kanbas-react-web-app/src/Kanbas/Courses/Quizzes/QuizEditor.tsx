@@ -10,6 +10,28 @@ import QuizQuestionsEditor from "./QuizQuestionsEditor/QuizQuestionsEditor";
 export default function QuizEditor() {
   const { cid, qid, qtitle } = useParams();
   const [activeTab, setActiveTab] = useState("details");
+  const { quizzes } = useSelector((state: any) => state.quizReducer);
+  const quiz = quizzes.find((quiz: any) => quiz._id === qid) || {
+    title: "",
+    points: 0,
+    published: false,
+    instructions: "",
+    quizType: "Graded Quiz",
+    assignmentGroup: "Quizzes",
+    shuffleAnswers: false,
+    timeLimit: 0,
+    multipleAttempts: false,
+    attemptsAllowed: 1,
+    showCorrectAnswers: "Immediately",
+    accessCode: "",
+    oneQuestionAtATime: false,
+    webcamRequired: false,
+    lockQuestionsAfterAnswering: false,
+    availableFromDate: "",
+    due: "",
+    availableUntilDate: "",
+    questions: [],
+  };
 
   const handleTabChange = (tab: any) => {
     setActiveTab(tab);
@@ -17,24 +39,20 @@ export default function QuizEditor() {
 
   return (
     <div id="quiz-editor">
-      <span className="d-flex justify-content-end align-items-center">
-        <b className="pe-2">Points (GET QUIZ POINTS)</b>
-        <span className="pe-2">
-          <GreenCheckmark /> or <FcCancel className="fs-3" />
-          (GET IF IT IS PUBLISHED)
-        </span>
-        <button className="btn btn-secondary btn-sm ms-1">
-          <IoEllipsisVertical className="fs-4" />
-        </button>
-      </span>
-      <hr />
       {((qid && qid !== "new") || (qtitle && qtitle !== "new")) && (
         <>
           <span className="d-flex justify-content-end align-items-center">
-            <b className="pe-2">Points (GET QUIZ POINTS)</b>
-            <span className="pe-2">
-              <GreenCheckmark /> or <FcCancel className="fs-3" />
-              (GET IF IT IS PUBLISHED)
+            <b className="pe-3">Points {quiz.points}</b>
+            <span className="pe-3">
+              {quiz.published ? (
+                <span className="d-flex align-items-center justify-content-center">
+                  <GreenCheckmark /> Published
+                </span>
+              ) : (
+                <span className="d-flex align-items-center justify-content-center">
+                  <FcCancel className="fs-3 me-2" /> Unpublished
+                </span>
+              )}
             </span>
             <button className="btn btn-secondary btn-sm ms-1">
               <IoEllipsisVertical className="fs-4" />
@@ -65,8 +83,8 @@ export default function QuizEditor() {
           </button>
         </li>
       </ul>
-      {activeTab === "details" && <QuizDetailsEditor />}
-      {activeTab === "questions" && <QuizQuestionsEditor />}
+      {activeTab === "details" && <QuizDetailsEditor quiz={quiz} />}
+      {activeTab === "questions" && <QuizQuestionsEditor quiz={quiz} />}
       <div className="col">
         <hr />
         <div className="mt-2">

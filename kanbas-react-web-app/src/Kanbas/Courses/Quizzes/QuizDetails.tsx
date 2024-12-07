@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 export default function QuizDetails({ course }: { course: any }) {
   const { cid, qid } = useParams();
-  // get quiz using quiz id
   const { quizzes } = useSelector((state: any) => state.quizReducer);
   const quiz = quizzes.find((quiz: any) => quiz._id === qid);
 
