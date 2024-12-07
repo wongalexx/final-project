@@ -1,20 +1,79 @@
-export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
+import * as quizClient from "./client";
+import * as coursesClient from "../client";
+import { setQuizzes, updateQuizzes, addQuizzes } from "./reducer";
+
+export default function QuizDetailsEditor() {
   function formatToDatetimeLocal(date: string | Date | undefined): string {
     if (!date) return "";
     const formattedDate = typeof date === "string" ? new Date(date) : date;
-
     if (isNaN(formattedDate.getTime())) return "";
-
     return formattedDate.toISOString().slice(0, 16);
   }
+  const { quizzes } = useSelector((state: any) => state.quizReducer);
+  const { cid, qid } = useParams();
+  const quiz = quizzes.find((quiz: any) => quiz._id === qid);
 
+  const [newQuiz, setNewQuiz] = useState({
+    _id: 1,
+    title: "New Quiz",
+    course: "",
+    quizType: "",
+    points: 100,
+    assignmentGroup: "",
+    shuffleAnswers: true,
+    timeLimit: 30,
+    multipleAttempts: false,
+    attemptsAllowed: 1,
+    showCorrectAnswers: "",
+    accessCode: "",
+    oneQuestionAtATime: true,
+    webcamRequired: false,
+    lockQuestionsAfterAnswering: true,
+    availableFromDate: "2024-11-01T00:00:00",
+    availableUntilDate: "2024-11-10T23:59:59",
+    due: "2024-11-10T23:59:59",
+    questions: [],
+    published: true,
+    ...quiz,
+  });
+  const dispatch = useDispatch();
+
+  const createQuizForCourse = async () => {
+    const quizData = {
+      _id: new Date().getTime().toString(),
+      ...newQuiz,
+      course: cid,
+    };
+    const quiz = await coursesClient.createQuizzesForCourse(cid, quizData);
+    dispatch(addQuizzes(quiz));
+  };
+
+  const updateQuiz = async (quiz: any) => {
+    await quizClient.updateQuiz(quiz);
+    dispatch(updateQuizzes(quiz));
+  };
+
+  const handleSave = () => {
+    // if (!qid) {
+    //   createQuizForCourse();
+    // } else {
+    updateQuiz(newQuiz);
+    //}
+  };
+
+  useEffect(() => {}, [quizzes]);
   return (
     <div id="wd-quizzes-details-editor">
       <div className="col-8">
         <input
           id="wd-name"
           className="form-control mb-3"
-          value={quiz.title}
+          value={newQuiz.title}
+          onChange={(e) => setNewQuiz({ ...quiz, title: e.target.value })}
           placeholder="Enter quiz title..."
         />
       </div>
@@ -22,7 +81,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
       <textarea
         className="form-control mb-3"
         id="wd-instructions"
-        value={quiz.instructions}
+        value={newQuiz.instructions}
       />
       <div className="row mb-4">
         <div className="row mb-2">
@@ -31,7 +90,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
             <select
               className="form-select w-100"
               id="wd-type"
-              value={quiz.quizType}
+              value={newQuiz.quizType}
             >
               <option value={"Graded Quiz"}>Graded Quiz</option>
               <option value={"Practice Quiz"}>Practice Quiz</option>
@@ -48,7 +107,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
             <select
               className="form-select w-100"
               id="wd-type"
-              value={quiz.assignmentGroup}
+              value={newQuiz.assignmentGroup}
             >
               <option value={"Quizzes"}>Quizzes</option>
               <option value={"Exams"}>Exams</option>
@@ -67,7 +126,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                 type="checkbox"
                 value=""
                 id="shuffleAnswers"
-                checked={quiz.shuffleAnswers}
+                checked={newQuiz.shuffleAnswers}
               />
               <label className="form-check-label" htmlFor="shuffleAnswers">
                 Shuffle Answers
@@ -80,7 +139,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                   type="checkbox"
                   value=""
                   id="timeLimit"
-                  checked={quiz.timeLimit}
+                  checked={newQuiz.timeLimit}
                 />
                 <label className="form-check-label" htmlFor="timeLimit">
                   Time Limit
@@ -90,7 +149,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                 id="wd-quiz-minutes"
                 className="form-control me-2"
                 style={{ width: "60px" }}
-                value={quiz.timeLimit}
+                value={newQuiz.timeLimit}
               />
               <span>Minutes </span>
             </div>
@@ -102,7 +161,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                     type="checkbox"
                     value=""
                     id="allowMultipleAttempts"
-                    checked={quiz.multipleAttempts}
+                    checked={newQuiz.multipleAttempts}
                   />
                   <label
                     className="form-check-label"
@@ -141,7 +200,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                     id="wd-due-date"
                     type="datetime-local"
                     className="form-control"
-                    value={formatToDatetimeLocal(quiz.due)}
+                    value={formatToDatetimeLocal(newQuiz.due)}
                   />
                 </div>
               </div>
@@ -154,7 +213,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                     type="datetime-local"
                     id="wd-available-from"
                     className="form-control"
-                    value={formatToDatetimeLocal(quiz.availableFromDate)}
+                    value={formatToDatetimeLocal(newQuiz.availableFromDate)}
                   />
                 </div>
                 <div className="col text-right">
@@ -165,10 +224,31 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                     className="form-control"
                     type="datetime-local"
                     id="wd-available-until"
-                    value={formatToDatetimeLocal(quiz.availableUntilDate)}
+                    value={formatToDatetimeLocal(newQuiz.availableUntilDate)}
                   />
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="col">
+        <hr />
+        <div className="mt-2">
+          <div className="row float-end">
+            <div className="col">
+              <a href={`#/Kanbas/Courses/${cid}/Quizzes`}>
+                <button className="btn btn-secondary btn-lg me-2">
+                  Cancel
+                </button>
+              </a>
+              <Link
+                className="btn btn-danger btn-lg"
+                to={`/Kanbas/Courses/${cid}/Quizzes`}
+                onChange={handleSave}
+              >
+                Save
+              </Link>
             </div>
           </div>
         </div>

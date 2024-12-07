@@ -23,8 +23,8 @@ export default function Quizzes({ course }: { course: any }) {
   const toggleMenu = () => setIsMenuOpen((prevState) => !prevState);
 
   const fetchQuizzes = async () => {
-    const quiz = await coursesClient.findQuizzesForCourse(cid as string);
-    // const quiz = await coursesClient.findQuizzesForCourse(course.number);
+    //const quiz = await coursesClient.findQuizzesForCourse(cid as string);
+    const quiz = await coursesClient.findQuizzesForCourse(course.number);
 
     dispatch(setQuizzes(quiz));
   };
@@ -32,11 +32,6 @@ export default function Quizzes({ course }: { course: any }) {
   const deleteQuiz = async (qid: string) => {
     await quizClient.deleteQuiz(qid);
   };
-
-  const updateQuiz = async (qid: string) => {
-    await quizClient.updateQuiz(qid);
-  };
-
   useEffect(() => {
     fetchQuizzes();
   }, [cid, quizzes]);
@@ -89,7 +84,7 @@ export default function Quizzes({ course }: { course: any }) {
         </div>
         {currentUser.role === "FACULTY" && (
           <div className="col-md-6 text-end">
-            <a href={`#/Kanbas/Courses/${cid}/Quizzes/new/new`}>
+            <a href={`#/Kanbas/Courses/${cid}/Quizzes/new`}>
               <button id="wd-add-assignment" className="btn btn-danger btn-lg">
                 <AiOutlinePlus /> Quiz
               </button>
