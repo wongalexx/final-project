@@ -33,13 +33,9 @@ export default function QuizRoutes(app) {
   });
 
   app.put("/api/quizzes/:quizId/questions/:questionId", async (req, res) => {
-    const { quizId, questionId } = req.params;
+    const { questionId } = req.params;
     const questionUpdates = req.body;
-    const status = await quizzesDao.updateQuestion(
-      quizId,
-      questionId,
-      questionUpdates
-    );
+    const status = await quizzesDao.updateQuestion(questionId, questionUpdates);
     res.send(status);
   });
 
