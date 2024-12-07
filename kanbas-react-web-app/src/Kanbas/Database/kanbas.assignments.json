@@ -1,0 +1,236 @@
+[
+  {
+    "_id": {
+      "$oid": "674fb787abbd01e67ed059c6"
+    },
+    "id": "A101",
+    "title": "Propulsion Assignment",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05972"
+    },
+    "availableFrom": "2024-06-10T08:00:00",
+    "dueDate": "2024-06-15T23:59:59",
+    "availableUntil": "2024-06-20T23:59:59",
+    "points": 100,
+    "submissionType": "Online",
+    "submissionOptions": {
+      "textEntry": true,
+      "websiteURL": true,
+      "mediaRecordings": false,
+      "studentAnnotation": false,
+      "fileUploads": true
+    },
+    "assignmentType": "Assignment",
+    "description": "Analyze and solve problems related to propulsion systems and performance"
+  },
+  {
+    "_id": {
+      "$oid": "674fb787abbd01e67ed059c7"
+    },
+    "id": "A102",
+    "title": "Combustion Analysis",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05972"
+    },
+    "availableFrom": "2024-06-10T08:00:00",
+    "dueDate": "2024-06-15T23:59:59",
+    "availableUntil": "2024-06-20T23:59:59",
+    "points": 80,
+    "submissionType": "In-Person",
+    "assignmentType": "Assignment",
+    "description": "Conduct an in-depth analysis of combustion processes in aerospace systems"
+  },
+  {
+    "_id": {
+      "$oid": "674fb787abbd01e67ed059c8"
+    },
+    "id": "A103",
+    "title": "Nozzle Design Project",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05972"
+    },
+    "availableFrom": "2024-06-10T08:00:00",
+    "dueDate": "2024-06-15T23:59:59",
+    "availableUntil": "2024-06-20T23:59:59",
+    "points": 150,
+    "submissionType": "Online",
+    "submissionOptions": {
+      "textEntry": false,
+      "websiteURL": true,
+      "mediaRecordings": true,
+      "studentAnnotation": false,
+      "fileUploads": true
+    },
+    "assignmentType": "Project",
+    "description": "Design a high-efficiency nozzle for aerospace propulsion applications"
+  },
+  {
+    "_id": {
+      "$oid": "674fb787abbd01e67ed059c9"
+    },
+    "id": "A201",
+    "title": "Aerodynamics Quiz",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05973"
+    },
+    "availableFrom": "2024-06-10T08:00:00",
+    "dueDate": "2024-06-15T23:59:59",
+    "availableUntil": "2024-06-20T23:59:59",
+    "points": 50,
+    "submissionType": "In-Person",
+    "assignmentType": "Quiz",
+    "description": "Test your understanding of fundamental aerodynamic principles."
+  },
+  {
+    "_id": {
+      "$oid": "674fb787abbd01e67ed059ca"
+    },
+    "id": "A202",
+    "title": "Flow Analysis",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05973"
+    },
+    "availableFrom": "2024-06-10T08:00:00",
+    "dueDate": "2024-06-15T23:59:59",
+    "availableUntil": "2024-06-20T23:59:59",
+    "points": 100,
+    "submissionType": "Online",
+    "submissionOptions": {
+      "textEntry": true,
+      "websiteURL": false,
+      "mediaRecordings": false,
+      "studentAnnotation": true,
+      "fileUploads": true
+    },
+    "assignmentType": "Assignment",
+    "description": "Perform an analysis of fluid flow in aerodynamic contexts"
+  },
+  {
+    "_id": {
+      "$oid": "674fb787abbd01e67ed059cb"
+    },
+    "id": "A203",
+    "title": "Heating Analysis",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05973"
+    },
+    "availableFrom": "2024-06-10T08:00:00",
+    "dueDate": "2024-06-15T23:59:59",
+    "availableUntil": "2024-06-20T23:59:59",
+    "points": 90,
+    "submissionType": "In-Person",
+    "assignmentType": "Assignment",
+    "description": "Investigate heating effects on aerospace structures during flight"
+  },
+  {
+    "_id": {
+      "$oid": "674fb787abbd01e67ed059cc"
+    },
+    "id": "A301",
+    "title": "Structural Design Task",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05974"
+    },
+    "availableFrom": "2024-06-10T08:00:00",
+    "dueDate": "2024-06-15T23:59:59",
+    "availableUntil": "2024-06-20T23:59:59",
+    "points": 120,
+    "submissionType": "Online",
+    "submissionOptions": {
+      "textEntry": false,
+      "websiteURL": true,
+      "mediaRecordings": true,
+      "studentAnnotation": false,
+      "fileUploads": true
+    },
+    "assignmentType": "Assignment",
+    "description": "Develop a structural design for aerospace components, focusing on strength and stability"
+  },
+  {
+    "_id": {
+      "$oid": "674fb787abbd01e67ed059cd"
+    },
+    "id": "A302",
+    "title": "Orbital Calculations",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05974"
+    },
+    "availableFrom": "2024-06-10T08:00:00",
+    "dueDate": "2024-06-15T23:59:59",
+    "availableUntil": "2024-06-20T23:59:59",
+    "points": 110,
+    "submissionType": "In-Person",
+    "assignmentType": "Assignment",
+    "description": "Solve complex orbital mechanics problems using mathematical models."
+  },
+  {
+    "_id": {
+      "$oid": "674fb787abbd01e67ed059ce"
+    },
+    "id": "A303",
+    "title": "Systems Engineering Exam",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05974"
+    },
+    "availableFrom": "2024-06-10T08:00:00",
+    "dueDate": "2024-06-15T23:59:59",
+    "availableUntil": "2024-06-20T23:59:59",
+    "points": 200,
+    "submissionType": "Online",
+    "submissionOptions": {
+      "textEntry": false,
+      "websiteURL": true,
+      "mediaRecordings": true,
+      "studentAnnotation": false,
+      "fileUploads": false
+    },
+    "assignmentType": "Exam",
+    "description": "Evaluate your knowledge of systems engineering principles in aerospace applications"
+  },
+  {
+    "_id": {
+      "$oid": "67505ef306b4b08556da7e77"
+    },
+    "title": "hello ",
+    "course": "674cf5b7abbd01e67ed05972",
+    "description": "",
+    "points": "200",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6752fee4d7d72783156f4579"
+    },
+    "title": "asdfghjkl,mnb v",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05972"
+    },
+    "description": "rtyhbn ",
+    "points": "20",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "675301079518d4474b137b1b"
+    },
+    "title": "confutadis ",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05972"
+    },
+    "description": "",
+    "points": "3400",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "67530728441da65d41cc22e5"
+    },
+    "title": "maledictis",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05972"
+    },
+    "description": "cexistingAssignmentcfrwfrfrfban",
+    "points": "87",
+    "__v": 0
+  }
+]
