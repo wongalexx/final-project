@@ -1,6 +1,7 @@
 import { useParams } from "react-router";
 import { FaPencil } from "react-icons/fa6";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 export default function QuizDetails({ course }: { course: any }) {
   const { cid, qid } = useParams();
@@ -19,6 +20,8 @@ export default function QuizDetails({ course }: { course: any }) {
       hour12: true,
     });
   };
+
+  // useEffect(() => {}, [cid, qid, quizzes]);
 
   return (
     <div>
@@ -89,9 +92,7 @@ export default function QuizDetails({ course }: { course: any }) {
           <div className="col-6 text-end">
             <b>Show Correct Answers</b>
           </div>
-          <div className="col-6 text-start">
-            {quiz.showCorrectAnswers ? "Yes" : "No"}
-          </div>
+          <div className="col-6 text-start">{quiz.showCorrectAnswers}</div>
         </div>
         <div className="row">
           <div className="col-6 text-end">

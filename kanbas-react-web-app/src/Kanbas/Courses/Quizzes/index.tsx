@@ -11,6 +11,7 @@ import QuizContextMenu from "./QuizContextMenu";
 import * as coursesClient from "../client";
 import { queries } from "@testing-library/react";
 import { setQuizzes } from "./reducer";
+import * as quizClient from "./client";
 
 export default function Quizzes({ course }: { course: any }) {
   const dispatch = useDispatch();
@@ -22,10 +23,15 @@ export default function Quizzes({ course }: { course: any }) {
   const toggleMenu = () => setIsMenuOpen((prevState) => !prevState);
 
   const fetchQuizzes = async () => {
-    const quiz = await coursesClient.findQuizzesForCourse(course.number);
+    const quiz = await coursesClient.findQuizzesForCourse(cid as string);
+    //const quiz = await coursesClient.findQuizzesForCourse(course.number);
+
     dispatch(setQuizzes(quiz));
   };
 
+  const deleteQuiz = async (qid: string) => {
+    await quizClient.deleteQuiz(qid);
+  };
   useEffect(() => {
     fetchQuizzes();
   }, [cid, quizzes]);
@@ -140,7 +146,7 @@ export default function Quizzes({ course }: { course: any }) {
                           <span className="grey-font">
                             {" "}
                             <b>Due</b> {formatDate(new Date(quiz.due))} |{" "}
-                            {quiz.points}pts | {quiz.questions.length} questions
+                            {quiz.points}pts | GET QUESTIONS questions
                           </span>
                         </span>
                       </div>
@@ -153,7 +159,7 @@ export default function Quizzes({ course }: { course: any }) {
                         ) : (
                           <FcCancel className="fs-3" />
                         )}
-                        <QuizContextMenu quiz={quiz} />
+                        <QuizContextMenu quiz={quiz} deleteQuiz={deleteQuiz} />
                       </div>
                     )}
                   </div>
