@@ -45,7 +45,7 @@ export default function QuizEditor() {
   const handleTabChange = (tab: any) => {
     setActiveTab(tab);
   };
-  useEffect(() => {}, [cid, qid, quizzes]);
+  // useEffect(() => {}, [cid, qid, quizzes]);
 
   return (
     <div id="quiz-editor">

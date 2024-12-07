@@ -65,7 +65,7 @@ export default function QuizDetailsEditor() {
     }
   };
 
-  useEffect(() => {}, [quizzes]);
+  // useEffect(() => {}, [quizzes]);
   return (
     <div id="wd-quizzes-details-editor">
       <div className="col-8">

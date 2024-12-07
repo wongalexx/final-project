@@ -21,7 +21,7 @@ export default function QuizDetails({ course }: { course: any }) {
     });
   };
 
-  useEffect(() => {}, [cid, qid, quizzes]);
+  // useEffect(() => {}, [cid, qid, quizzes]);
 
   return (
     <div>
