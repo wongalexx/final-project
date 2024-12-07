@@ -1,43 +1,42 @@
-import model from "./model.js";
+import { quizModel, questionModel } from "./model.js";
+
 export function findQuizzesForCourse(courseId) {
-  return model.find({ course: courseId });
+  return quizModel.find({ course: courseId });
 }
+
 export function createQuiz(quiz) {
   delete quiz._id;
-  return model.create(quiz);
+  return quizModel.create(quiz);
 }
 
 export function deleteQuiz(quizId) {
-  return model.deleteOne({ _id: quizId });
+  return quizModel.deleteOne({ _id: quizId });
 }
 
 export function updateQuiz(quizId, quizUpdates) {
-  return model.updateOne({ _id: quizId }, quizUpdates);
+  return quizModel.updateOne({ _id: quizId }, quizUpdates);
 }
 
-export async function findQuestionsForQuiz(quizId) {
-  const quiz = await model.findOne({ _id: quizId }, { questions: 1, _id: 0 });
-  return quiz.questions;
+export function findQuestionsForQuiz(quizId) {
+  return questionModel.find({ quiz: quizId });
 }
 
 export function createQuestion(quizId, question) {
-  return model.updateOne({ _id: quizId }, { $push: { questions: question } });
+  question.quiz = quizId;
+  return questionModel.create(question);
 }
 
 export function deleteQuestion(quizId, questionId) {
-  return model.updateOne(
-    { _id: quizId },
-    { $pull: { questions: { _id: questionId } } }
-  );
+  return questionModel.deleteOne({ _id: questionId, quiz: quizId });
 }
 
-export function updateQuestion(quizId, questionId, questionUpdates) {
-  return model.updateOne(
-    { _id: quizId, "questions._id": questionId },
-    { $set: { "questions.$": questionUpdates } }
-  );
+export function updateQuestion(questionId, questionUpdates) {
+  return questionModel.updateOne({ _id: questionId }, questionUpdates);
 }
 
 export function toggleQuizPublishedStatus(quizId, isPublished) {
-  return model.updateOne({ _id: quizId }, { $set: { published: isPublished } });
+  return quizModel.updateOne(
+    { _id: quizId },
+    { $set: { published: isPublished } }
+  );
 }
