@@ -67,6 +67,7 @@ export default function CourseRoutes(app) {
     const quizzes = await quizzesDao.findQuizzesForCourse(courseId);
     res.json(quizzes);
   });
+
   app.post("/api/courses/:courseId/quizzes", async (req, res) => {
     const { courseId } = req.params;
     const quiz = {
