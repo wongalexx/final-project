@@ -82,6 +82,7 @@ export default function QuizDetailsEditor() {
         className="form-control mb-3"
         id="wd-instructions"
         value={newQuiz.instructions}
+        onChange={(e) => setNewQuiz({ ...quiz, instructions: e.target.value })}
       />
       <div className="row mb-4">
         <div className="row mb-2">
@@ -91,6 +92,9 @@ export default function QuizDetailsEditor() {
               className="form-select w-100"
               id="wd-type"
               value={newQuiz.quizType}
+              onChange={(e) =>
+                setNewQuiz({ ...quiz, quizType: e.target.value })
+              }
             >
               <option value={"Graded Quiz"}>Graded Quiz</option>
               <option value={"Practice Quiz"}>Practice Quiz</option>
@@ -108,6 +112,9 @@ export default function QuizDetailsEditor() {
               className="form-select w-100"
               id="wd-type"
               value={newQuiz.assignmentGroup}
+              onChange={(e) =>
+                setNewQuiz({ ...quiz, assignmentGroup: e.target.value })
+              }
             >
               <option value={"Quizzes"}>Quizzes</option>
               <option value={"Exams"}>Exams</option>
@@ -127,6 +134,9 @@ export default function QuizDetailsEditor() {
                 value=""
                 id="shuffleAnswers"
                 checked={newQuiz.shuffleAnswers}
+                onChange={(e) =>
+                  setNewQuiz({ ...quiz, shuffleAnswers: e.target.value })
+                }
               />
               <label className="form-check-label" htmlFor="shuffleAnswers">
                 Shuffle Answers
@@ -140,6 +150,9 @@ export default function QuizDetailsEditor() {
                   value=""
                   id="timeLimit"
                   checked={newQuiz.timeLimit}
+                  onChange={(e) =>
+                    setNewQuiz({ ...quiz, timeLimit: undefined })
+                  }
                 />
                 <label className="form-check-label" htmlFor="timeLimit">
                   Time Limit
@@ -150,6 +163,9 @@ export default function QuizDetailsEditor() {
                 className="form-control me-2"
                 style={{ width: "60px" }}
                 value={newQuiz.timeLimit}
+                onChange={(e) =>
+                  setNewQuiz({ ...quiz, timeLimit: e.target.value })
+                }
               />
               <span>Minutes </span>
             </div>
@@ -162,6 +178,9 @@ export default function QuizDetailsEditor() {
                     value=""
                     id="allowMultipleAttempts"
                     checked={newQuiz.multipleAttempts}
+                    onChange={(e) =>
+                      setNewQuiz({ ...quiz, multipleAttempts: e.target.value })
+                    }
                   />
                   <label
                     className="form-check-label"
@@ -201,6 +220,9 @@ export default function QuizDetailsEditor() {
                     type="datetime-local"
                     className="form-control"
                     value={formatToDatetimeLocal(newQuiz.due)}
+                    onChange={(e) =>
+                      setNewQuiz({ ...quiz, due: e.target.value })
+                    }
                   />
                 </div>
               </div>
@@ -214,6 +236,9 @@ export default function QuizDetailsEditor() {
                     id="wd-available-from"
                     className="form-control"
                     value={formatToDatetimeLocal(newQuiz.availableFromDate)}
+                    onChange={(e) =>
+                      setNewQuiz({ ...quiz, availableFromDate: e.target.value })
+                    }
                   />
                 </div>
                 <div className="col text-right">
@@ -225,6 +250,12 @@ export default function QuizDetailsEditor() {
                     type="datetime-local"
                     id="wd-available-until"
                     value={formatToDatetimeLocal(newQuiz.availableUntilDate)}
+                    onChange={(e) =>
+                      setNewQuiz({
+                        ...quiz,
+                        availableUntilDate: e.target.value,
+                      })
+                    }
                   />
                 </div>
               </div>
