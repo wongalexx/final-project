@@ -23,10 +23,8 @@ export default function Quizzes({ course }: { course: any }) {
   const toggleMenu = () => setIsMenuOpen((prevState) => !prevState);
 
   const fetchQuizzes = async () => {
-    //const quiz = await coursesClient.findQuizzesForCourse(cid as string);
-    const quiz = await coursesClient.findQuizzesForCourse(
-      course.Number as string
-    );
+    const quiz = await coursesClient.findQuizzesForCourse(cid as string);
+    //const quiz = await coursesClient.findQuizzesForCourse(course.Number);
 
     dispatch(setQuizzes(quiz));
   };

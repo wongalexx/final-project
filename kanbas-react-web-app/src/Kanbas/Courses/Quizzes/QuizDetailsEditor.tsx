@@ -5,18 +5,33 @@ import GreenCheckmark from "../Modules/GreenCheckmark";
 import { FcCancel } from "react-icons/fc";
 import { IoEllipsisVertical } from "react-icons/io5";
 export default function QuizDetailsEditor() {
+  const { cid, qid } = useParams();
+  const { quizzes } = useSelector((state: any) => state.quizReducer);
+  const quiz = quizzes.find((quiz: any) => quiz._id === qid);
+
   return (
     <div id="wd-quizzes-details-editor">
       <div className="col-8">
-        <input id="wd-name" className="form-control mb-3" value={"QUIZ NAME"} />
+        <input
+          id="wd-name"
+          className="form-control mb-3"
+          value={quiz.title}
+          placeholder="Insert quiz name"
+        />
       </div>
       <label htmlFor="wd-instructions">Quiz Instructions:</label>
-      <textarea className="form-control mb-3" id="wd-instructions" />
+      <textarea className="form-control mb-3" id="wd-instructions">
+        {quiz.instructions}
+      </textarea>
       <div className="row mb-4">
         <div className="row mb-2">
           <div className="col-4 d-flex flex-column text-end">Quiz Type</div>
           <div className="col-4 flex-column">
-            <select className="form-select w-100" id="wd-type">
+            <select
+              className="form-select w-100"
+              id="wd-type"
+              value={quiz.quizType}
+            >
               <option value={"Graded Quiz"}>Graded Quiz</option>
               <option value={"Practice Quiz"}>Practice Quiz</option>
               <option value={"Graded Survey"}>Graded Survey</option>
@@ -29,7 +44,11 @@ export default function QuizDetailsEditor() {
             Assignment Group
           </div>
           <div className="col-4 flex-column">
-            <select className="form-select w-100" id="wd-type">
+            <select
+              className="form-select w-100"
+              id="wd-type"
+              value={quiz.assignmentGroup}
+            >
               <option value={"Quizzes"}>Quizzes</option>
               <option value={"Exams"}>Exams</option>
               <option value={"Assignments"}>Assignments</option>
@@ -47,6 +66,7 @@ export default function QuizDetailsEditor() {
                 type="checkbox"
                 value=""
                 id="shuffleAnswers"
+                checked={quiz.shuffleAnswers}
               />
               <label className="form-check-label" htmlFor="shuffleAnswers">
                 Shuffle Answers
@@ -68,8 +88,9 @@ export default function QuizDetailsEditor() {
                 id="wd-quiz-minutes"
                 className="form-control me-2"
                 style={{ width: "60px" }}
+                value={quiz.timeLimit}
               />
-              <span>Minutes</span>
+              <span>Minutes </span>
             </div>
             <div className="card mt-2">
               <div className="card-body">
@@ -79,6 +100,7 @@ export default function QuizDetailsEditor() {
                     type="checkbox"
                     value=""
                     id="allowMultipleAttempts"
+                    checked={quiz.multipleAttempts}
                   />
                   <label
                     className="form-check-label"
@@ -117,6 +139,7 @@ export default function QuizDetailsEditor() {
                     id="wd-due-date"
                     type="datetime-local"
                     className="form-control"
+                    value={quiz.due}
                   />
                 </div>
               </div>
@@ -126,9 +149,10 @@ export default function QuizDetailsEditor() {
                     <b>Available from</b>
                   </label>
                   <input
-                    className="form-control"
                     type="datetime-local"
                     id="wd-available-from"
+                    className="form-control"
+                    value={quiz.availableFromDate}
                   />
                 </div>
                 <div className="col text-right">
@@ -139,6 +163,7 @@ export default function QuizDetailsEditor() {
                     className="form-control"
                     type="datetime-local"
                     id="wd-available-until"
+                    value={quiz.availableUntilDate}
                   />
                 </div>
               </div>
