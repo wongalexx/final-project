@@ -2,7 +2,12 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
   return (
     <div id="wd-quizzes-details-editor">
       <div className="col-8">
-        <input id="wd-name" className="form-control mb-3" value={"QUIZ NAME"} />
+        <input
+          id="wd-name"
+          className="form-control mb-3"
+          value={quiz.title}
+          placeholder="Insert quiz name"
+        />
       </div>
       <label htmlFor="wd-instructions">Quiz Instructions:</label>
       <textarea
@@ -14,6 +19,11 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
         <div className="row mb-2">
           <div className="col-4 d-flex flex-column text-end">Quiz Type</div>
           <div className="col-4 flex-column">
+            <select
+              className="form-select w-100"
+              id="wd-type"
+              value={quiz.quizType}
+            >
             <select
               className="form-select w-100"
               id="wd-type"
@@ -31,7 +41,11 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
             Assignment Group
           </div>
           <div className="col-4 flex-column">
-            <select className="form-select w-100" id="wd-type">
+            <select
+              className="form-select w-100"
+              id="wd-type"
+              value={quiz.assignmentGroup}
+            >
               <option value={"Quizzes"}>Quizzes</option>
               <option value={"Exams"}>Exams</option>
               <option value={"Assignments"}>Assignments</option>
@@ -49,6 +63,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                 type="checkbox"
                 value=""
                 id="shuffleAnswers"
+                checked={quiz.shuffleAnswers}
               />
               <label className="form-check-label" htmlFor="shuffleAnswers">
                 Shuffle Answers
@@ -70,8 +85,9 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                 id="wd-quiz-minutes"
                 className="form-control me-2"
                 style={{ width: "60px" }}
+                value={quiz.timeLimit}
               />
-              <span>Minutes</span>
+              <span>Minutes </span>
             </div>
             <div className="card mt-2">
               <div className="card-body">
@@ -81,6 +97,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                     type="checkbox"
                     value=""
                     id="allowMultipleAttempts"
+                    checked={quiz.multipleAttempts}
                   />
                   <label
                     className="form-check-label"
@@ -119,6 +136,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                     id="wd-due-date"
                     type="datetime-local"
                     className="form-control"
+                    value={quiz.due}
                   />
                 </div>
               </div>
@@ -128,9 +146,10 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                     <b>Available from</b>
                   </label>
                   <input
-                    className="form-control"
                     type="datetime-local"
                     id="wd-available-from"
+                    className="form-control"
+                    value={quiz.availableFromDate}
                   />
                 </div>
                 <div className="col text-right">
@@ -141,6 +160,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                     className="form-control"
                     type="datetime-local"
                     id="wd-available-until"
+                    value={quiz.availableUntilDate}
                   />
                 </div>
               </div>

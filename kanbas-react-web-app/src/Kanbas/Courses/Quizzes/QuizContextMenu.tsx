@@ -4,7 +4,13 @@ import { FaPencil, FaTrash } from "react-icons/fa6";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { FcCancel } from "react-icons/fc";
 import { useParams } from "react-router";
-const QuizContextMenu = ({ quiz }: { quiz: any }) => {
+const QuizContextMenu = ({
+  quiz,
+  deleteQuiz,
+}: {
+  quiz: any;
+  deleteQuiz: (quizId: string) => void;
+}) => {
   const { cid } = useParams();
   return (
     <div className="dropdown">
@@ -29,13 +35,15 @@ const QuizContextMenu = ({ quiz }: { quiz: any }) => {
           <a
             className="dropdown-item"
             href="#"
-            onClick={() => {
-              /* Delete functionality */
+            onClick={(event) => {
+              event.preventDefault();
+              deleteQuiz(quiz._id);
             }}
           >
             <FaTrash /> Delete
           </a>
         </li>
+
         <li>
           <a
             className="dropdown-item"

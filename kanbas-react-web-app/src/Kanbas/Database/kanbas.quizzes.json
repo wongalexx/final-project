@@ -1,244 +1,218 @@
-[{
-  "_id": {
-    "$oid": "6752254f0f0d38ca72f0c902"
+[
+  {
+    "_id": {
+      "$oid": "6752254f0f0d38ca72f0c902"
+    },
+    "title": "Rocket Propulsion Fundamentals Quiz",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05972"
+    },
+    "instructions": "Please review the lecture slides before attempting this quiz.",
+    "quizType": "Graded Quiz",
+    "points": 20,
+    "assignmentGroup": "Quizzes",
+    "shuffleAnswers": true,
+    "timeLimit": 20,
+    "multipleAttempts": false,
+    "attemptsAllowed": 1,
+    "showCorrectAnswers": "Immediately",
+    "accessCode": "",
+    "oneQuestionAtATime": true,
+    "webcamRequired": false,
+    "lockQuestionsAfterAnswering": false,
+    "availableFromDate": "2024-02-01T08:00:00.00",
+    "due": "2024-02-05T23:59:59.00",
+    "availableUntilDate": "2024-02-06T23:59:59.00",
+    "questions": ["q1", "q2", "q3", "q4"],
+    "published": true
   },
-  "title": "Rocket Propulsion Fundamentals Quiz",
-  "course": {
-    "$oid": "674cf5b7abbd01e67ed05972"
+  {
+    "_id": {
+      "$oid": "6752254f0f0d38ca72f0c903"
+    },
+    "title": "Advanced Rocket Propulsion Quiz",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05972"
+    },
+    "instructions": "Ensure you have completed the practice problems in Chapter 5.",
+    "quizType": "Practice Quiz",
+    "points": 30,
+    "assignmentGroup": "Exams",
+    "shuffleAnswers": true,
+    "timeLimit": 40,
+    "multipleAttempts": true,
+    "attemptsAllowed": 2,
+    "showCorrectAnswers": "After Due Date",
+    "accessCode": "ROCKETADV",
+    "oneQuestionAtATime": true,
+    "webcamRequired": false,
+    "lockQuestionsAfterAnswering": true,
+    "availableFromDate": "2024-02-15T08:00:00.00",
+    "due": "2024-02-20T23:59:59.00",
+    "availableUntilDate": "2024-02-21T23:59:59.00",
+    "questions": ["q14", "q15", "q16", "q17", "q18"],
+    "published": true
   },
-  "quizType": "Graded Quiz",
-  "points": 20,
-  "assignmentGroup": "Quizzes",
-  "shuffleAnswers": true,
-  "timeLimit": 20,
-  "multipleAttempts": false,
-  "attemptsAllowed": 1,
-  "showCorrectAnswers": "Immediately",
-  "accessCode": "",
-  "oneQuestionAtATime": true,
-  "webcamRequired": false,
-  "lockQuestionsAfterAnswering": false,
-  "availableFromDate": "2024-02-01T08:00:00.000Z",
-  "due": "2024-02-05T23:59:59.000Z",
-  "availableUntilDate": "2024-02-06T23:59:59.000Z",
-  "questions": [
-    "q1",
-    "q2",
-    "q3",
-    "q4"
-  ],
-  "published": true
-},
-{
-  "_id": {
-    "$oid": "6752254f0f0d38ca72f0c903"
+  {
+    "_id": {
+      "$oid": "6752254f0f0d38ca72f0c904"
+    },
+    "title": "Aerodynamics Concepts Practice Quiz",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05973"
+    },
+    "instructions": "Complete the textbook readings on Aerodynamics before starting.",
+    "quizType": "Practice Quiz",
+    "points": 15,
+    "assignmentGroup": "Quizzes",
+    "shuffleAnswers": true,
+    "timeLimit": 20,
+    "multipleAttempts": true,
+    "attemptsAllowed": 3,
+    "showCorrectAnswers": "After Due Date",
+    "accessCode": "FLIGHT123",
+    "oneQuestionAtATime": false,
+    "webcamRequired": false,
+    "lockQuestionsAfterAnswering": false,
+    "availableFromDate": "2024-03-01T08:00:00.00",
+    "due": "2024-03-10T23:59:59.00",
+    "availableUntilDate": "2024-03-11T23:59:59.00",
+    "questions": ["q5", "q6", "q7"],
+    "published": false
   },
-  "title": "Advanced Rocket Propulsion Quiz",
-  "course": {
-    "$oid": "674cf5b7abbd01e67ed05972"
+  {
+    "_id": {
+      "$oid": "6752254f0f0d38ca72f0c905"
+    },
+    "title": "Aerodynamics Applications Quiz",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05973"
+    },
+    "instructions": "Use lecture notes on Aerodynamics for preparation.",
+    "quizType": "Graded Quiz",
+    "points": 25,
+    "assignmentGroup": "Quizzes",
+    "shuffleAnswers": false,
+    "timeLimit": 25,
+    "multipleAttempts": false,
+    "attemptsAllowed": 1,
+    "showCorrectAnswers": "Immediately",
+    "accessCode": "",
+    "oneQuestionAtATime": false,
+    "webcamRequired": false,
+    "lockQuestionsAfterAnswering": false,
+    "availableFromDate": "2024-03-20T08:00:00.00",
+    "due": "2024-03-25T23:59:59.00",
+    "availableUntilDate": "2024-03-26T23:59:59.00",
+    "questions": ["q19", "q20", "q21", "q22"],
+    "published": true
   },
-  "quizType": "Practice Quiz",
-  "points": 30,
-  "assignmentGroup": "Exams",
-  "shuffleAnswers": true,
-  "timeLimit": 40,
-  "multipleAttempts": true,
-  "attemptsAllowed": 2,
-  "showCorrectAnswers": "After Due Date",
-  "accessCode": "ROCKETADV",
-  "oneQuestionAtATime": true,
-  "webcamRequired": false,
-  "lockQuestionsAfterAnswering": true,
-  "availableFromDate": "2024-02-15T08:00:00.000Z",
-  "due": "2024-02-20T23:59:59.000Z",
-  "availableUntilDate": "2024-02-21T23:59:59.000Z",
-  "questions": [
-    "q14",
-    "q15",
-    "q16",
-    "q17",
-    "q18"
-  ],
-  "published": true
-},
-{
-  "_id": {
-    "$oid": "6752254f0f0d38ca72f0c904"
+  {
+    "_id": {
+      "$oid": "6752254f0f0d38ca72f0c906"
+    },
+    "title": "Spacecraft Systems Design Quiz",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05974"
+    },
+    "instructions": "Ensure webcam and browser permissions are configured.",
+    "quizType": "Graded Survey",
+    "points": 25,
+    "assignmentGroup": "Exams",
+    "shuffleAnswers": false,
+    "timeLimit": 30,
+    "multipleAttempts": true,
+    "attemptsAllowed": 2,
+    "showCorrectAnswers": "Never",
+    "accessCode": "SPACE2024",
+    "oneQuestionAtATime": true,
+    "webcamRequired": true,
+    "lockQuestionsAfterAnswering": true,
+    "availableFromDate": "2024-04-01T08:00:00.00",
+    "due": "2024-04-10T23:59:59.00",
+    "availableUntilDate": "2024-04-11T23:59:59.00",
+    "questions": ["q8", "q9", "q10", "q11"],
+    "published": true
   },
-  "title": "Aerodynamics Concepts Practice Quiz",
-  "course": {
-    "$oid": "674cf5b7abbd01e67ed05973"
+  {
+    "_id": {
+      "$oid": "6752254f0f0d38ca72f0c907"
+    },
+    "title": "Spacecraft Thermal Control Quiz",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05974"
+    },
+    "instructions": "Refer to project guidelines before taking the quiz.",
+    "quizType": "Graded Quiz",
+    "points": 20,
+    "assignmentGroup": "Project",
+    "shuffleAnswers": true,
+    "timeLimit": 15,
+    "multipleAttempts": true,
+    "attemptsAllowed": 3,
+    "showCorrectAnswers": "Never",
+    "accessCode": "THERMAL2024",
+    "oneQuestionAtATime": true,
+    "webcamRequired": false,
+    "lockQuestionsAfterAnswering": false,
+    "availableFromDate": "2024-04-15T08:00:00.00",
+    "due": "2024-04-20T23:59:59.00",
+    "availableUntilDate": "2024-04-21T23:59:59.00",
+    "questions": ["q23", "q24", "q25"],
+    "published": true
   },
-  "quizType": "Practice Quiz",
-  "points": 15,
-  "assignmentGroup": "Quizzes",
-  "shuffleAnswers": true,
-  "timeLimit": 20,
-  "multipleAttempts": true,
-  "attemptsAllowed": 3,
-  "showCorrectAnswers": "After Due Date",
-  "accessCode": "FLIGHT123",
-  "oneQuestionAtATime": false,
-  "webcamRequired": false,
-  "lockQuestionsAfterAnswering": false,
-  "availableFromDate": "2024-03-01T08:00:00.000Z",
-  "due": "2024-03-10T23:59:59.000Z",
-  "availableUntilDate": "2024-03-11T23:59:59.000Z",
-  "questions": [
-    "q5",
-    "q6",
-    "q7"
-  ],
-  "published": false
-},
-{
-  "_id": {
-    "$oid": "6752254f0f0d38ca72f0c905"
+  {
+    "_id": {
+      "$oid": "6752254f0f0d38ca72f0c908"
+    },
+    "title": "Organic Chemistry Basics Quiz",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05975"
+    },
+    "instructions": "Refer to project guidelines before taking the quiz.",
+    "quizType": "Ungraded Survey",
+    "points": 0,
+    "assignmentGroup": "Assignments",
+    "shuffleAnswers": true,
+    "timeLimit": 10,
+    "multipleAttempts": false,
+    "attemptsAllowed": 1,
+    "showCorrectAnswers": "Never",
+    "accessCode": "",
+    "oneQuestionAtATime": false,
+    "webcamRequired": false,
+    "lockQuestionsAfterAnswering": false,
+    "availableFromDate": "2024-05-01T08:00:00.00",
+    "due": "2024-05-05T23:59:59.00",
+    "availableUntilDate": "2024-05-06T23:59:59.00",
+    "questions": ["q12", "q13"],
+    "published": false
   },
-  "title": "Aerodynamics Applications Quiz",
-  "course": {
-    "$oid": "674cf5b7abbd01e67ed05973"
-  },
-  "quizType": "Graded Quiz",
-  "points": 25,
-  "assignmentGroup": "Quizzes",
-  "shuffleAnswers": false,
-  "timeLimit": 25,
-  "multipleAttempts": false,
-  "attemptsAllowed": 1,
-  "showCorrectAnswers": "Immediately",
-  "accessCode": "",
-  "oneQuestionAtATime": false,
-  "webcamRequired": false,
-  "lockQuestionsAfterAnswering": false,
-  "availableFromDate": "2024-03-20T08:00:00.000Z",
-  "due": "2024-03-25T23:59:59.000Z",
-  "availableUntilDate": "2024-03-26T23:59:59.000Z",
-  "questions": [
-    "q19",
-    "q20",
-    "q21",
-    "q22"
-  ],
-  "published": true
-},
-{
-  "_id": {
-    "$oid": "6752254f0f0d38ca72f0c906"
-  },
-  "title": "Spacecraft Systems Design Quiz",
-  "course": {
-    "$oid": "674cf5b7abbd01e67ed05974"
-  },
-  "quizType": "Graded Survey",
-  "points": 25,
-  "assignmentGroup": "Exams",
-  "shuffleAnswers": false,
-  "timeLimit": 30,
-  "multipleAttempts": true,
-  "attemptsAllowed": 2,
-  "showCorrectAnswers": "Never",
-  "accessCode": "SPACE2024",
-  "oneQuestionAtATime": true,
-  "webcamRequired": true,
-  "lockQuestionsAfterAnswering": true,
-  "availableFromDate": "2024-04-01T08:00:00.000Z",
-  "due": "2024-04-10T23:59:59.000Z",
-  "availableUntilDate": "2024-04-11T23:59:59.000Z",
-  "questions": [
-    "q8",
-    "q9",
-    "q10",
-    "q11"
-  ],
-  "published": true
-},
-{
-  "_id": {
-    "$oid": "6752254f0f0d38ca72f0c907"
-  },
-  "title": "Spacecraft Thermal Control Quiz",
-  "course": {
-    "$oid": "674cf5b7abbd01e67ed05974"
-  },
-  "quizType": "Graded Quiz",
-  "points": 20,
-  "assignmentGroup": "Project",
-  "shuffleAnswers": true,
-  "timeLimit": 15,
-  "multipleAttempts": true,
-  "attemptsAllowed": 3,
-  "showCorrectAnswers": "Never",
-  "accessCode": "THERMAL2024",
-  "oneQuestionAtATime": true,
-  "webcamRequired": false,
-  "lockQuestionsAfterAnswering": false,
-  "availableFromDate": "2024-04-15T08:00:00.000Z",
-  "due": "2024-04-20T23:59:59.000Z",
-  "availableUntilDate": "2024-04-21T23:59:59.000Z",
-  "questions": [
-    "q23",
-    "q24",
-    "q25"
-  ],
-  "published": true
-},
-{
-  "_id": {
-    "$oid": "6752254f0f0d38ca72f0c908"
-  },
-  "title": "Organic Chemistry Basics Quiz",
-  "course": {
-    "$oid": "674cf5b7abbd01e67ed05975"
-  },
-  "quizType": "Ungraded Survey",
-  "points": 0,
-  "assignmentGroup": "Assignments",
-  "shuffleAnswers": true,
-  "timeLimit": 10,
-  "multipleAttempts": false,
-  "attemptsAllowed": 1,
-  "showCorrectAnswers": "Never",
-  "accessCode": "",
-  "oneQuestionAtATime": false,
-  "webcamRequired": false,
-  "lockQuestionsAfterAnswering": false,
-  "availableFromDate": "2024-05-01T08:00:00.000Z",
-  "due": "2024-05-05T23:59:59.000Z",
-  "availableUntilDate": "2024-05-06T23:59:59.000Z",
-  "questions": [
-    "q12",
-    "q13"
-  ],
-  "published": false
-},
-{
-  "_id": {
-    "$oid": "6752254f0f0d38ca72f0c909"
-  },
-  "title": "Advanced Organic Chemistry Reactions Quiz",
-  "course": {
-    "$oid": "674cf5b7abbd01e67ed05975"
-  },
-  "quizType": "Practice Quiz",
-  "points": 10,
-  "assignmentGroup": "Assignments",
-  "shuffleAnswers": false,
-  "timeLimit": 15,
-  "multipleAttempts": true,
-  "attemptsAllowed": 5,
-  "showCorrectAnswers": "Immediately",
-  "accessCode": "",
-  "oneQuestionAtATime": false,
-  "webcamRequired": false,
-  "lockQuestionsAfterAnswering": false,
-  "availableFromDate": "2024-05-10T08:00:00.000Z",
-  "due": "2024-05-15T23:59:59.000Z",
-  "availableUntilDate": "2024-05-16T23:59:59.000Z",
-  "questions": [
-    "q26",
-    "q27",
-    "q28"
-  ],
-  "published": false
-}]
+  {
+    "_id": {
+      "$oid": "6752254f0f0d38ca72f0c909"
+    },
+    "title": "Advanced Organic Chemistry Reactions Quiz",
+    "course": {
+      "$oid": "674cf5b7abbd01e67ed05975"
+    },
+    "instructions": "Refer to project guidelines before taking the quiz.",
+    "quizType": "Practice Quiz",
+    "points": 10,
+    "assignmentGroup": "Assignments",
+    "shuffleAnswers": false,
+    "timeLimit": 15,
+    "multipleAttempts": true,
+    "attemptsAllowed": 5,
+    "showCorrectAnswers": "Immediately",
+    "accessCode": "",
+    "oneQuestionAtATime": false,
+    "webcamRequired": false,
+    "lockQuestionsAfterAnswering": false,
+    "availableFromDate": "2024-05-10T08:00:00.00",
+    "due": "2024-05-15T23:59:59.00",
+    "availableUntilDate": "2024-05-16T23:59:59.00",
+    "questions": ["q26", "q27", "q28"],
+    "published": false
+  }
+]
