@@ -24,7 +24,7 @@ export default function Quizzes({ course }: { course: any }) {
 
   const fetchQuizzes = async () => {
     //const quiz = await coursesClient.findQuizzesForCourse(cid as string);
-    const quiz = await coursesClient.findQuizzesForCourse(course.Number);
+    const quiz = await coursesClient.findQuizzesForCourse(course.number);
 
     dispatch(setQuizzes(quiz));
   };

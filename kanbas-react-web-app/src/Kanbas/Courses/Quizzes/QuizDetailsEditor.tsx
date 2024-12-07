@@ -1,4 +1,13 @@
 export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
+  function formatToDatetimeLocal(date: string | Date | undefined): string {
+    if (!date) return "";
+    const formattedDate = typeof date === "string" ? new Date(date) : date;
+
+    if (isNaN(formattedDate.getTime())) return "";
+
+    return formattedDate.toISOString().slice(0, 16);
+  }
+
   return (
     <div id="wd-quizzes-details-editor">
       <div className="col-8">
@@ -6,7 +15,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
           id="wd-name"
           className="form-control mb-3"
           value={quiz.title}
-          placeholder="Insert quiz name"
+          placeholder="Enter quiz title..."
         />
       </div>
       <label htmlFor="wd-instructions">Quiz Instructions:</label>
@@ -19,11 +28,6 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
         <div className="row mb-2">
           <div className="col-4 d-flex flex-column text-end">Quiz Type</div>
           <div className="col-4 flex-column">
-            <select
-              className="form-select w-100"
-              id="wd-type"
-              value={quiz.quizType}
-            >
             <select
               className="form-select w-100"
               id="wd-type"
@@ -76,6 +80,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                   type="checkbox"
                   value=""
                   id="timeLimit"
+                  checked={quiz.timeLimit}
                 />
                 <label className="form-check-label" htmlFor="timeLimit">
                   Time Limit
@@ -136,7 +141,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                     id="wd-due-date"
                     type="datetime-local"
                     className="form-control"
-                    value={quiz.due}
+                    value={formatToDatetimeLocal(quiz.due)}
                   />
                 </div>
               </div>
@@ -149,7 +154,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                     type="datetime-local"
                     id="wd-available-from"
                     className="form-control"
-                    value={quiz.availableFromDate}
+                    value={formatToDatetimeLocal(quiz.availableFromDate)}
                   />
                 </div>
                 <div className="col text-right">
@@ -160,7 +165,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                     className="form-control"
                     type="datetime-local"
                     id="wd-available-until"
-                    value={quiz.availableUntilDate}
+                    value={formatToDatetimeLocal(quiz.availableUntilDate)}
                   />
                 </div>
               </div>
