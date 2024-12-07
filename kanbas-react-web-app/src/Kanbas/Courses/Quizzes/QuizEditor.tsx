@@ -12,6 +12,29 @@ export default function QuizEditor() {
   const [activeTab, setActiveTab] = useState("details");
   const { quizzes } = useSelector((state: any) => state.quizReducer);
   const quiz = quizzes.find((quiz: any) => quiz._id === qid);
+  const [newQuiz, setNewQuiz] = useState({
+    _id: 1,
+    title: "New Quiz",
+    course: "",
+    quizType: "",
+    points: 100,
+    assignmentGroup: "",
+    shuffleAnswers: true,
+    timeLimit: 30,
+    multipleAttempts: false,
+    attemptsAllowed: 1,
+    showCorrectAnswers: "",
+    accessCode: "",
+    oneQuestionAtATime: true,
+    webcamRequired: false,
+    lockQuestionsAfterAnswering: true,
+    availableFromDate: "2024-11-01T00:00:00",
+    availableUntilDate: "2024-11-10T23:59:59",
+    due: "2024-11-10T23:59:59",
+    questions: [],
+    published: true,
+    ...quiz,
+  });
 
   const handleTabChange = (tab: any) => {
     setActiveTab(tab);
@@ -20,10 +43,10 @@ export default function QuizEditor() {
   return (
     <div id="quiz-editor">
       {/* <span className="d-flex justify-content-end align-items-center">
-        <b className="pe-2">Points {quiz.points}</b>
+        <b className="pe-2">Points {newQuiz.points}</b>
         <span className="pe-2">
           <GreenCheckmark /> or <FcCancel className="fs-3" />
-          {quiz.published ? "Published" : "Not Published"}
+          {newQuiz.published ? "Published" : "Not Published"}
         </span>
         <button className="btn btn-secondary btn-sm ms-1">
           <IoEllipsisVertical className="fs-4" />
@@ -33,10 +56,10 @@ export default function QuizEditor() {
       {((qid && qid !== "new") || (qtitle && qtitle !== "new")) && (
         <>
           <span className="d-flex justify-content-end align-items-center">
-            <b className="pe-2">Points {quiz.points}</b>
+            <b className="pe-2">Points {newQuiz.points}</b>
             <span className="pe-2">
               <GreenCheckmark /> or <FcCancel className="fs-3" />
-              {quiz.published ? "Published" : "Not Published"}
+              {newQuiz.published ? "Published" : "Not Published"}
             </span>
             <button className="btn btn-secondary btn-sm ms-1">
               <IoEllipsisVertical className="fs-4" />
@@ -67,7 +90,7 @@ export default function QuizEditor() {
           </button>
         </li>
       </ul>
-      {activeTab === "details" && <QuizDetailsEditor />}
+      {activeTab === "details" && <QuizDetailsEditor quiz={newQuiz} />}
       {activeTab === "questions" && <QuizQuestionsEditor />}
       <div className="col">
         <hr />

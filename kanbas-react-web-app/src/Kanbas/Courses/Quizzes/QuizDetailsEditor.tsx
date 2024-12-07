@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { FcCancel } from "react-icons/fc";
 import { IoEllipsisVertical } from "react-icons/io5";
-export default function QuizDetailsEditor() {
+export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
   const { cid, qid } = useParams();
   const { quizzes } = useSelector((state: any) => state.quizReducer);
-  const quiz = quizzes.find((quiz: any) => quiz._id === qid);
+  //const quiz = quizzes.find((quiz: any) => quiz._id === qid);
 
   return (
     <div id="wd-quizzes-details-editor">
