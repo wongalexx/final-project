@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 import Quizzes from "./Quizzes";
 import QuizDetails from "./Quizzes/QuizDetails";
 import QuizEditor from "./Quizzes/QuizEditor";
+import QuizPreviewScreen from "./Quizzes/QuizPreview";
+
 export default function Courses({ courses }: { courses: any[] }) {
   const { cid } = useParams();
   const [users, setUsers] = useState<any[]>([]);
@@ -42,7 +44,9 @@ export default function Courses({ courses }: { courses: any[] }) {
           <Routes>
             <Route path="Home" element={<Home course={course} />} />
             <Route path="Modules" element={<Modules course={course} />} />
-            <Route path="Assignments" element={<Assignments course={course} />}
+            <Route
+              path="Assignments"
+              element={<Assignments course={course} />}
             />
             <Route
               path="Assignments/:aid"
@@ -57,6 +61,11 @@ export default function Courses({ courses }: { courses: any[] }) {
               path="Quizzes/:qid/:qtitle"
               element={<QuizEditor course={course} />}
             />
+            <Route
+              path="Quizzes/:qid/Preview"
+              element={<QuizPreviewScreen />}
+            />
+
             <Route path="People" element={<PeopleTable users={users} />} />
           </Routes>
         </div>
