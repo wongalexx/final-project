@@ -1,13 +1,12 @@
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import GreenCheckmark from "../Modules/GreenCheckmark";
-import { FcCancel } from "react-icons/fc";
-import { IoEllipsisVertical } from "react-icons/io5";
 export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
-  const { cid, qid } = useParams();
-  const { quizzes } = useSelector((state: any) => state.quizReducer);
-  //const quiz = quizzes.find((quiz: any) => quiz._id === qid);
+  function formatToDatetimeLocal(date: string | Date | undefined): string {
+    if (!date) return "";
+    const formattedDate = typeof date === "string" ? new Date(date) : date;
+
+    if (isNaN(formattedDate.getTime())) return "";
+
+    return formattedDate.toISOString().slice(0, 16);
+  }
 
   return (
     <div id="wd-quizzes-details-editor">
@@ -16,13 +15,15 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
           id="wd-name"
           className="form-control mb-3"
           value={quiz.title}
-          placeholder="Insert quiz name"
+          placeholder="Enter quiz title..."
         />
       </div>
       <label htmlFor="wd-instructions">Quiz Instructions:</label>
-      <textarea className="form-control mb-3" id="wd-instructions">
-        {quiz.instructions}
-      </textarea>
+      <textarea
+        className="form-control mb-3"
+        id="wd-instructions"
+        value={quiz.instructions}
+      />
       <div className="row mb-4">
         <div className="row mb-2">
           <div className="col-4 d-flex flex-column text-end">Quiz Type</div>
@@ -79,6 +80,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                   type="checkbox"
                   value=""
                   id="timeLimit"
+                  checked={quiz.timeLimit}
                 />
                 <label className="form-check-label" htmlFor="timeLimit">
                   Time Limit
@@ -139,7 +141,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                     id="wd-due-date"
                     type="datetime-local"
                     className="form-control"
-                    value={quiz.due}
+                    value={formatToDatetimeLocal(quiz.due)}
                   />
                 </div>
               </div>
@@ -152,7 +154,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                     type="datetime-local"
                     id="wd-available-from"
                     className="form-control"
-                    value={quiz.availableFromDate}
+                    value={formatToDatetimeLocal(quiz.availableFromDate)}
                   />
                 </div>
                 <div className="col text-right">
@@ -163,7 +165,7 @@ export default function QuizDetailsEditor({ quiz }: { quiz: any }) {
                     className="form-control"
                     type="datetime-local"
                     id="wd-available-until"
-                    value={quiz.availableUntilDate}
+                    value={formatToDatetimeLocal(quiz.availableUntilDate)}
                   />
                 </div>
               </div>
