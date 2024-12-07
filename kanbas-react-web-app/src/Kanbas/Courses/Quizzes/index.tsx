@@ -160,11 +160,7 @@ export default function Quizzes({ course }: { course: any }) {
                         ) : (
                           <FcCancel className="fs-3" />
                         )}
-                        <QuizContextMenu
-                          quiz={quiz}
-                          quizId={quiz._id}
-                          deleteQuiz={deleteQuiz}
-                        />
+                        <QuizContextMenu quiz={quiz} deleteQuiz={deleteQuiz} />
                       </div>
                     )}
                   </div>
