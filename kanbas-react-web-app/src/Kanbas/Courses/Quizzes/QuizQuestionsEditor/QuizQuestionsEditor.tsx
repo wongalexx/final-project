@@ -12,11 +12,13 @@ import { Link } from "react-router-dom";
 
 const QuizQuestionsEditor = () => {
   const dispatch = useDispatch();
-  const { cid, qid } = useParams();
+  const { cid, qid, qtitle } = useParams();
   const { questions } = useSelector((state: any) => state.questionsReducer);
   const fetchQuestions = async () => {
-    const questions = await quizClient.findQuestionsForQuiz(qid);
-    dispatch(setQuestions(questions));
+    if (qtitle !== "new") {
+      const questions = await quizClient.findQuestionsForQuiz(qid);
+      dispatch(setQuestions(questions));
+    }
     console.log(questions);
   };
 

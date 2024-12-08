@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 export default function QuizDetails() {
-  const { cid, qid } = useParams();
+  const { cid, qid, qitle } = useParams();
   // get quiz using quiz id
   const { quizzes } = useSelector((state: any) => state.quizReducer);
   const quiz = quizzes.find((quiz: any) => quiz._id === qid);
@@ -27,7 +27,7 @@ export default function QuizDetails() {
     <div>
       <span className="d-flex justify-content-center align-items-center">
         <button className="btn btn-secondary btn-md me-2">Preview</button>
-        <a href={`#/Kanbas/Courses/${cid}/Quizzes/${qid}/details`}>
+        <a href={`#/Kanbas/Courses/${cid}/Quizzes/${qid}/${qitle}`}>
           <button className="btn btn-secondary btn-md">
             <span className="d-flex justify-content-center align-items-center">
               <FaPencil className="me-1" /> Edit
