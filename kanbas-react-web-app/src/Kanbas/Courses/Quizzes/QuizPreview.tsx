@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { FaPencil } from "react-icons/fa6";
+import { PiWarningCircleBold } from "react-icons/pi";
 
 // Mock data for testing
 const fakeQuiz = {
-  _id: "6751db5462c6e57969110b39", // Example quiz ID
+  _id: "6751db5462c6e57969110b39",
   title: "Physics and Chemistry Quiz",
   questions: [
     {
@@ -50,6 +52,7 @@ const fakeQuiz = {
 };
 
 export default function QuizPreviewScreen({ quiz = fakeQuiz }: { quiz?: any }) {
+  const { cid, qid } = useParams();
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const navigate = useNavigate();
 
@@ -61,15 +64,26 @@ export default function QuizPreviewScreen({ quiz = fakeQuiz }: { quiz?: any }) {
   };
 
   const handleEditQuiz = () => {
-    navigate(`/Kanbas/Courses/${quiz._id}/Quizzes/${quiz._id}/editor`);
+    navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/editor`);
   };
 
   return (
-    <div className="container mt-4">
+    <div className="container">
       <h1>{quiz.title}</h1>
+      <div className="card mt-2 mb-2 bg-danger-subtle text-danger border-0">
+        <div className="card-body">
+          <span className="d-flex align-items-center">
+            <PiWarningCircleBold className="me-1" /> This is a preview of the
+            published version of the quiz
+          </span>
+        </div>
+      </div>
+
+      <span>Started: Nov 29 at 8:19am</span>
       <p>
-        <b>Instructions:</b> Answer all questions below. Submit when done.
+        <b>Quiz Instructions:</b> Answer all questions below. Submit when done.
       </p>
+      <hr className="mb-4" />
       {quiz.questions.length > 0 ? (
         quiz.questions.map((question: any, index: number) => (
           <div key={index} className="card mb-3">
@@ -129,17 +143,22 @@ export default function QuizPreviewScreen({ quiz = fakeQuiz }: { quiz?: any }) {
       ) : (
         <p>No questions available for this quiz.</p>
       )}
-      <div className="d-flex justify-content-between mt-4">
-        {/* "Keep Editing This Quiz" Button */}
-        <button className="btn btn-secondary" onClick={handleEditQuiz}>
-          Keep Editing This Quiz
-        </button>
-        {/* Submit Button */}
+      <ul id="wd-assignments" className="list-group rounded-0 mt-4">
+        <li className="list-group-item p-2 ps-1 d-flex justify-content-end align-items-center">
+          <div className="me-2">Quiz saved at 8:19am</div>
+          <button className="btn btn-secondary">Submit Quiz</button>
+        </li>
+      </ul>
+      <div className="d-flex mt-4">
         <button
-          className="btn btn-primary"
-          onClick={() => console.log("Submitted answers:", answers)}
+          className="btn btn-secondary"
+          onClick={handleEditQuiz}
+          style={{ width: "100%" }}
         >
-          Submit Quiz
+          <span className="d-flex align-items-center">
+            <FaPencil className="me-1" />
+            Keep Editing This Quiz
+          </span>
         </button>
       </div>
     </div>
