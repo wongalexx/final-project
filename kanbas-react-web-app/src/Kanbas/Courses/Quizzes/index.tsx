@@ -154,9 +154,16 @@ export default function Quizzes() {
                     </div>
                     {currentUser.role === "FACULTY" && (
                       <div className="col d-flex justify-content-end align-items-center">
-                        {/* ON CLICK NEEDS TO MAKE IT SO IT IS PUBLISHED */}
                         {quiz.published ? (
-                          <GreenCheckmark />
+                          <span
+                            className="d-flex align-items-center"
+                            onClick={() =>
+                              updateQuiz({ ...quiz, published: false })
+                            }
+                            style={{ cursor: "pointer" }}
+                          >
+                            <GreenCheckmark />
+                          </span>
                         ) : (
                           <FcCancel
                             className="fs-3"
