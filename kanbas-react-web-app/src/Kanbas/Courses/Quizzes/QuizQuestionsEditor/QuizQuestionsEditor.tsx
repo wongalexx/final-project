@@ -7,11 +7,13 @@ import TrueFalseQuestionEditor from "./TrueFalseQuestionEditor";
 import FillInTheBlankQuestionEditor from "./FillInTheBlankQuestionEditor";
 import * as quizClient from "../client";
 import * as questionsClient from "./client";
-import { setQuestions, addQuestions } from "./reducer";
+import { setQuestions, addQuestions, deleteQuestions } from "./reducer";
+import { FaTrashCan } from "react-icons/fa6";
 
 const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
   const dispatch = useDispatch();
   const { cid, qid } = useParams();
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { questions } = useSelector((state: any) => state.questionsReducer);
   const fetchQuestions = async () => {
     const questions = await quizClient.findQuestionsForQuiz(qid);
@@ -38,13 +40,10 @@ const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
   };
 
   const toggleEditMode = (id: any) => {
-    dispatch(
-      setQuestions((prevQuestions: any) =>
-        prevQuestions.map((q: any) =>
-          q.id === id ? { ...q, editMode: !q.editMode } : q
-        )
-      )
+    const updatedQuestions = questions.map((q: any) =>
+      q._id === id ? { ...q, editMode: !q.editMode } : q
     );
+    dispatch(setQuestions(updatedQuestions));
   };
 
   const changeQuestionType = (id: any, newType: any) => {
@@ -52,6 +51,12 @@ const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
       prevQuestions.map((q: any) => (q.id === id ? { ...q, type: newType } : q))
     );
   };
+
+  const removeQuestion = async (questionId: string) => {
+    await questionsClient.deleteQuestion(qid, questionId);
+    dispatch(deleteQuestions(questionId));
+  };
+
   useEffect(() => {
     fetchQuestions();
     console.log("QUESSITONS", questions);
@@ -120,13 +125,13 @@ const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
                 <div className="mt-3 ms-4">
                   <button
                     className="btn btn-secondary me-2"
-                    onClick={() => toggleEditMode(question.id)}
+                    onClick={() => toggleEditMode(question._id)}
                   >
                     Cancel
                   </button>
                   <button
                     className="btn btn-danger"
-                    onClick={() => toggleEditMode(question.id)}
+                    onClick={() => toggleEditMode(question._id)}
                   >
                     Update Question
                   </button>
@@ -134,11 +139,21 @@ const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
               </li>
             ) : (
               <li className="list-group-item p-3 ps-1">
-                <span
-                  className="ms-2"
-                  onClick={() => toggleEditMode(question.id)}
-                >
-                  {question.title}
+                <span className="d-flex">
+                  <span
+                    className="ms-2"
+                    onClick={() => toggleEditMode(question._id)}
+                  >
+                    {question.title}
+                  </span>
+                  {currentUser.role === "FACULTY" && (
+                    <div className="col d-flex justify-content-end align-items-center">
+                      <FaTrashCan
+                        className="me-2"
+                        onClick={() => removeQuestion(question._id)}
+                      />
+                    </div>
+                  )}
                 </span>
               </li>
             )}
