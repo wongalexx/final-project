@@ -3,7 +3,7 @@ import { FaPencil } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
-export default function QuizDetails({ course }: { course: any }) {
+export default function QuizDetails() {
   const { cid, qid } = useParams();
   // get quiz using quiz id
   const navigate = useNavigate(); // Initialize navigate for routing
