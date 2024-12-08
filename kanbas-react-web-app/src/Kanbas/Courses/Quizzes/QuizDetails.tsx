@@ -30,7 +30,7 @@ export default function QuizDetails() {
         <button
           className="btn btn-secondary btn-md me-2"
           onClick={() =>
-            navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/preview`)
+            navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/Preview`)
           }
         >
           Preview

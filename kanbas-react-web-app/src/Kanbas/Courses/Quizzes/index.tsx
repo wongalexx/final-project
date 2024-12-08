@@ -131,7 +131,7 @@ export default function Quizzes() {
                         {currentUser.role === "FACULTY" ? (
                           <a
                             className="wd-assignment-link"
-                            href={`#/Kanbas/Courses/${cid}/Quizzes/${quiz._id}`}
+                            href={`#/Kanbas/Courses/${cid}/Quizzes/${quiz._id}/Details`}
                           >
                             <b>{quiz.title}</b>
                           </a>
