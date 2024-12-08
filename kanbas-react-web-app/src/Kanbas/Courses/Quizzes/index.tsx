@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import QuizContextMenu from "./QuizContextMenu";
 import * as coursesClient from "../client";
 import { queries } from "@testing-library/react";
-import { setQuizzes } from "./reducer";
+import { setQuizzes, updateQuizzes, deleteQuizzes } from "./reducer";
 import * as quizClient from "./client";
 
 export default function Quizzes() {
@@ -30,10 +30,8 @@ export default function Quizzes() {
 
   const deleteQuiz = async (qid: string) => {
     await quizClient.deleteQuiz(qid);
+    dispatch(deleteQuizzes(qid));
   };
-  useEffect(() => {
-    fetchQuizzes();
-  }, [cid]);
 
   const formatDate = (newDate: string | number | Date) => {
     const date = new Date(newDate);
@@ -64,6 +62,14 @@ export default function Quizzes() {
       return <b>Available</b>;
     }
   };
+  const updateQuiz = async (quiz: any) => {
+    await quizClient.updateQuiz(quiz);
+    dispatch(updateQuizzes(quiz));
+  };
+
+  useEffect(() => {
+    fetchQuizzes();
+  }, [cid]);
 
   return (
     <div id="wd-assignments">
@@ -156,7 +162,13 @@ export default function Quizzes() {
                         {quiz.published ? (
                           <GreenCheckmark />
                         ) : (
-                          <FcCancel className="fs-3" />
+                          <FcCancel
+                            className="fs-3"
+                            onClick={() =>
+                              updateQuiz({ ...quiz, published: true })
+                            }
+                            style={{ cursor: "pointer" }}
+                          />
                         )}
                         <QuizContextMenu quiz={quiz} deleteQuiz={deleteQuiz} />
                       </div>
