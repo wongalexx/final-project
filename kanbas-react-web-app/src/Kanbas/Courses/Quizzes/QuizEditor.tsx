@@ -45,7 +45,7 @@ export default function QuizEditor() {
   const handleTabChange = (tab: any) => {
     setActiveTab(tab);
   };
-  // useEffect(() => {}, [cid, qid, quizzes]);
+  useEffect(() => {}, [cid, qid]);
 
   return (
     <div id="quiz-editor">
@@ -64,6 +64,10 @@ export default function QuizEditor() {
                 </span>
               )}
             </span>
+            {/* <div
+              id="wd-unpublish-quiz"
+              onChange={() => setNewQuiz({ ...newQuiz, published: false })}
+            ></div> */}
             <button className="btn btn-secondary btn-sm ms-1">
               <IoEllipsisVertical className="fs-4" />
             </button>
@@ -94,7 +98,7 @@ export default function QuizEditor() {
         </li>
       </ul>
       {activeTab === "details" && <QuizDetailsEditor />}
-      {activeTab === "questions" && <QuizQuestionsEditor quiz={quiz} />}
+      {activeTab === "questions" && <QuizQuestionsEditor />}
     </div>
   );
 }

@@ -6,8 +6,7 @@ import { useEffect, useState } from "react";
 export default function QuizDetails() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { cid, qid } = useParams();
-  // get quiz using quiz id
-  const navigate = useNavigate(); // Initialize navigate for routing
+  const navigate = useNavigate();
   const { quizzes } = useSelector((state: any) => state.quizReducer);
   const quiz = quizzes.find((quiz: any) => quiz._id === qid);
 

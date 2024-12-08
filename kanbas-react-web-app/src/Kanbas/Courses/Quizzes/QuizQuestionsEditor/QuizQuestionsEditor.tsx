@@ -2,28 +2,34 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { AiOutlinePlus } from "react-icons/ai";
-import MultipleChoiceQuestionEditor from "./MutltipleChoiseQuestionEditor";
+import MultipleChoiceQuestionEditor from "./MutltipleChoiceQuestionEditor";
 import TrueFalseQuestionEditor from "./TrueFalseQuestionEditor";
 import FillInTheBlankQuestionEditor from "./FillInTheBlankQuestionEditor";
 import * as quizClient from "../client";
 import * as questionsClient from "./client";
 import { setQuestions, addQuestions, deleteQuestions } from "./reducer";
+import { Link } from "react-router-dom";
 import { FaTrashCan } from "react-icons/fa6";
 
-const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
+const QuizQuestionsEditor = () => {
   const dispatch = useDispatch();
-  const { cid, qid } = useParams();
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const { cid, qid, qtitle } = useParams();
   const { questions } = useSelector((state: any) => state.questionsReducer);
 
   const isNewQuiz = qid === "new";
 
   const fetchQuestions = async () => {
-    if (!isNewQuiz) {
+    if (qtitle !== "new") {
       const questions = await quizClient.findQuestionsForQuiz(qid);
       dispatch(setQuestions(questions));
     }
+    console.log(questions);
   };
+
+  useEffect(() => {
+    fetchQuestions();
+  }, [cid, qid]);
+  const question = questions.find((q: any) => q._id === qid);
 
   const [newQuestion, setNewQuestion] = useState({
     _id: 1,
@@ -45,33 +51,19 @@ const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
   };
 
   const toggleEditMode = (id: any) => {
-    dispatch(
-      setQuestions((prevQuestions: any) =>
-        prevQuestions.map((q: any) =>
-          q.id === id ? { ...q, editMode: !q.editMode } : q
-        )
-      )
+    const updatedQuestions = questions.map((q: any) =>
+      q._id === id ? { ...q, editMode: !q.editMode } : q
     );
+    dispatch(setQuestions(updatedQuestions));
   };
 
   const changeQuestionType = (id: any, newType: any) => {
     setQuestions((prevQuestions: any) =>
-      prevQuestions.map((q: any) => (q.id === id ? { ...q, type: newType } : q))
+      prevQuestions.map((q: any) =>
+        q._id === id ? { ...q, type: newType } : q
+      )
     );
   };
-
-  const removeQuestion = async (questionId: string) => {
-    if (!isNewQuiz) {
-      await questionsClient.deleteQuestion(qid, questionId);
-      dispatch(deleteQuestions(questionId));
-    }
-  };
-
-  useEffect(() => {
-    if (!isNewQuiz) {
-      fetchQuestions();
-    }
-  }, [cid, qid]);
 
   return (
     <div className="quiz-questions-editor mb-4">
@@ -126,12 +118,15 @@ const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
                   </div>
                 </div>
                 <hr />
+
                 {question.type === "Multiple Choice" && (
-                  <MultipleChoiceQuestionEditor />
+                  <MultipleChoiceQuestionEditor question={question} />
                 )}
-                {question.type === "True/False" && <TrueFalseQuestionEditor />}
+                {question.type === "True/False" && (
+                  <TrueFalseQuestionEditor question={question} />
+                )}
                 {question.type === "Fill in the Blank" && (
-                  <FillInTheBlankQuestionEditor />
+                  <FillInTheBlankQuestionEditor question={question} />
                 )}
                 <div className="mt-3 ms-4">
                   <button
@@ -149,23 +144,20 @@ const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
                 </div>
               </li>
             ) : (
-              <li className="list-group-item p-3 ps-1">
-                <span className="d-flex">
-                  <span
-                    className="ms-2"
-                    onClick={() => toggleEditMode(question._id)}
-                  >
-                    {question.title}
-                  </span>
-                  {currentUser.role === "FACULTY" && (
-                    <div className="col d-flex justify-content-end align-items-center">
-                      <FaTrashCan
-                        className="me-2"
-                        onClick={() => removeQuestion(question._id)}
-                      />
-                    </div>
-                  )}
+              <li className="list-group-item p-3 ps-1 d-flex align-items-center">
+                <span
+                  className="ms-2"
+                  onClick={() => toggleEditMode(question._id)}
+                >
+                  {question.title}
                 </span>
+
+                <div className="col d-flex justify-content-end align-items-center">
+                  <FaTrashCan
+                    className="me-2"
+                    onClick={() => deleteQuestions(question._id)}
+                  />
+                </div>
               </li>
             )}
           </div>
