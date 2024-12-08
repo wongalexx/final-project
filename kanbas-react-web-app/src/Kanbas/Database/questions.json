@@ -1,0 +1,122 @@
+[
+  {
+    "quiz": {
+      "$oid": "6752254f0f0d38ca72f0c902"
+    },
+    "title": "Newton's Third Law",
+    "points": 5,
+    "questionText": "Which of the following best describes Newton's Third Law of Motion?",
+    "type": "Multiple Choice",
+    "answers": [
+      {
+        "text": "Every action has an equal and opposite reaction.",
+        "correct": true
+      },
+      { "text": "Objects in motion stay in motion.", "correct": false },
+      { "text": "Force equals mass times acceleration.", "correct": false }
+    ]
+  },
+  {
+    "quiz": {
+      "$oid": "6752254f0f0d38ca72f0c903"
+    },
+    "title": "Specific Impulse",
+    "points": 10,
+    "questionText": "What is the specific impulse of a rocket engine a measure of?",
+    "type": "Multiple Choice",
+    "answers": [
+      { "text": "The thrust produced per unit of fuel.", "correct": false },
+      { "text": "The efficiency of propellant usage.", "correct": true },
+      { "text": "The total fuel consumed during launch.", "correct": false }
+    ]
+  },
+  {
+    "quiz": {
+      "$oid": "6752254f0f0d38ca72f0c904"
+    },
+    "title": "Bernoulli's Principle",
+    "points": 5,
+    "questionText": "Bernoulli's principle explains which aerodynamic effect?",
+    "type": "Multiple Choice",
+    "answers": [
+      { "text": "Lift due to pressure differences.", "correct": true },
+      { "text": "Drag caused by air resistance.", "correct": false },
+      { "text": "Turbulence at high speeds.", "correct": false }
+    ]
+  },
+  {
+    "quiz": {
+      "$oid": "6752254f0f0d38ca72f0c905"
+    },
+    "title": "Mach Number",
+    "points": 8,
+    "questionText": "What does the Mach number represent in aerodynamics?",
+    "type": "Multiple Choice",
+    "answers": [
+      {
+        "text": "The speed of an object relative to the speed of light.",
+        "correct": false
+      },
+      {
+        "text": "The speed of an object relative to the speed of sound.",
+        "correct": true
+      },
+      { "text": "The density of air around an object.", "correct": false }
+    ]
+  },
+  {
+    "quiz": {
+      "$oid": "6752254f0f0d38ca72f0c906"
+    },
+    "title": "Thermal Control",
+    "points": 5,
+    "questionText": "Which is the primary method for spacecraft thermal control in vacuum?",
+    "type": "Multiple Choice",
+    "answers": [
+      { "text": "Conduction.", "correct": false },
+      { "text": "Radiation.", "correct": true },
+      { "text": "Convection.", "correct": false }
+    ]
+  },
+  {
+    "quiz": {
+      "$oid": "6752254f0f0d38ca72f0c907"
+    },
+    "title": "Heat Shields",
+    "points": 5,
+    "questionText": "What is the main purpose of heat shields in spacecraft?",
+    "type": "True/False",
+    "answers": [
+      { "text": "True", "correct": true },
+      { "text": "False", "correct": false }
+    ]
+  },
+  {
+    "quiz": {
+      "$oid": "6752254f0f0d38ca72f0c908"
+    },
+    "title": "Atomic Bonds",
+    "points": 3,
+    "questionText": "What type of bond forms between hydrogen and oxygen in water?",
+    "type": "Multiple Choice",
+    "answers": [
+      { "text": "Ionic Bond.", "correct": false },
+      { "text": "Covalent Bond.", "correct": true },
+      { "text": "Hydrogen Bond.", "correct": false }
+    ]
+  },
+  {
+    "quiz": {
+      "$oid": "6752254f0f0d38ca72f0c909"
+    },
+    "title": "SN1 Reaction",
+    "points": 5,
+    "questionText": "What is the rate-determining step of an SN1 reaction?",
+    "type": "Multiple Choice",
+    "answers": [
+      { "text": "Formation of the carbocation intermediate.", "correct": true },
+      { "text": "Nucleophile attack.", "correct": false },
+      { "text": "Loss of leaving group.", "correct": false }
+    ]
+  }
+]

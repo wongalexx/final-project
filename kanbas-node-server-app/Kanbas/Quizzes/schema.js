@@ -1,29 +1,33 @@
 import mongoose from "mongoose";
 
-const questionSchema = new mongoose.Schema({
-  title: String,
-  points: Number,
-  question: String,
-  type: {
-    type: String,
-    enum: ["Multiple Choice", "True/False", "Fill in the Blank"],
-    required: true,
-  },
-  choices: [
-    {
-      text: String,
-      correct: Boolean,
+const questionSchema = new mongoose.Schema(
+  {
+    // quiz: String,
+    quiz: { type: mongoose.Schema.Types.ObjectId, ref: "QuizModel" },
+    title: String,
+    points: Number,
+    questionText: String,
+    type: {
+      type: String,
+      enum: ["Multiple Choice", "True/False", "Fill in the Blank"],
+      required: true,
     },
-  ],
-  correctAnswer: String,
-});
+    answers: [
+      {
+        text: String,
+        correct: Boolean,
+      },
+    ],
+  },
+  { collection: "questions" }
+);
 
 const quizSchema = new mongoose.Schema(
   {
     title: String,
-    course: String,
-    //course: { type: mongoose.Schema.Types.ObjectId, ref: "CourseModel" },
-
+    //course: String,
+    course: { type: mongoose.Schema.Types.ObjectId, ref: "CourseModel" },
+    instructions: String,
     quizType: {
       type: String,
       enum: [
@@ -59,10 +63,9 @@ const quizSchema = new mongoose.Schema(
     availableFromDate: String,
     availableUntilDate: String,
     due: String,
-    questions: [questionSchema],
     published: { type: Boolean, default: false },
   },
   { collection: "quizzes" }
 );
 
-export default quizSchema;
+export { questionSchema, quizSchema };

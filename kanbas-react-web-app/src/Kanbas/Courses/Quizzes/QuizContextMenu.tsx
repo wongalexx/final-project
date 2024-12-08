@@ -3,7 +3,15 @@ import { IoEllipsisVertical } from "react-icons/io5";
 import { FaPencil, FaTrash } from "react-icons/fa6";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { FcCancel } from "react-icons/fc";
-const QuizContextMenu = ({ quiz }: { quiz: any }) => {
+import { useParams } from "react-router";
+const QuizContextMenu = ({
+  quiz,
+  deleteQuiz,
+}: {
+  quiz: any;
+  deleteQuiz: (quizId: string) => void;
+}) => {
+  const { cid } = useParams();
   return (
     <div className="dropdown">
       <button
@@ -18,7 +26,7 @@ const QuizContextMenu = ({ quiz }: { quiz: any }) => {
         <li>
           <a
             className="dropdown-item"
-            href={`#/Kanbas/Courses/${quiz.courseId}/Quizzes/${quiz._id}`}
+            href={`#/Kanbas/Courses/${cid}/Quizzes/${quiz._id}/${quiz.title}`}
           >
             <FaPencil /> Edit
           </a>
@@ -27,13 +35,15 @@ const QuizContextMenu = ({ quiz }: { quiz: any }) => {
           <a
             className="dropdown-item"
             href="#"
-            onClick={() => {
-              /* Delete functionality */
+            onClick={(event) => {
+              event.preventDefault();
+              deleteQuiz(quiz._id);
             }}
           >
             <FaTrash /> Delete
           </a>
         </li>
+
         <li>
           <a
             className="dropdown-item"

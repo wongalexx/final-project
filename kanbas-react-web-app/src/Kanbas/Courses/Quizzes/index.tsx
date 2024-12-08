@@ -10,23 +10,32 @@ import { useEffect, useState } from "react";
 import QuizContextMenu from "./QuizContextMenu";
 import * as coursesClient from "../client";
 import { queries } from "@testing-library/react";
+import { setQuizzes } from "./reducer";
+import * as quizClient from "./client";
 
-export default function Quizzes({ course }: { course: any }) {
+export default function Quizzes() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const { cid, qid } = useParams();
-  const [quizzes, setQuizzes] = useState<any[]>([]);
+  const { quizzes } = useSelector((state: any) => state.quizReducer);
+  const { questions } = useSelector((state: any) => state.questionsReducer);
+  const { cid } = useParams();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen((prevState) => !prevState);
 
   const fetchQuizzes = async () => {
     const quiz = await coursesClient.findQuizzesForCourse(cid as string);
-    setQuizzes(quiz);
+    //const quiz = await coursesClient.findQuizzesForCourse(course.number);
+
+    dispatch(setQuizzes(quiz));
+  };
+
+  const deleteQuiz = async (qid: string) => {
+    await quizClient.deleteQuiz(qid);
   };
   useEffect(() => {
     fetchQuizzes();
-  }, [cid, quizzes]);
+  }, [cid]);
 
   const formatDate = (newDate: string | number | Date) => {
     const date = new Date(newDate);
@@ -76,7 +85,7 @@ export default function Quizzes({ course }: { course: any }) {
         </div>
         {currentUser.role === "FACULTY" && (
           <div className="col-md-6 text-end">
-            <a href={`#/Kanbas/Courses/${cid}/Quizzes/${qid}`}>
+            <a href={`#/Kanbas/Courses/${cid}/Quizzes/new/new`}>
               <button id="wd-add-assignment" className="btn btn-danger btn-lg">
                 <AiOutlinePlus /> Quiz
               </button>
@@ -92,7 +101,7 @@ export default function Quizzes({ course }: { course: any }) {
       </div>
       <hr />
       {quizzes.length === 0 ? (
-        <b>Please click the 'Add Quiz' button (+ Quiz) to add a new quiz.</b>
+        <b>Click the 'Add Quiz' button (+ Quiz) to add a new quiz.</b>
       ) : (
         <ul id="wd-assignments" className="list-group rounded-0">
           <li className="wd-assignments list-group-item p-0 mb-5 fs-5 border-gray">
@@ -138,7 +147,7 @@ export default function Quizzes({ course }: { course: any }) {
                           <span className="grey-font">
                             {" "}
                             <b>Due</b> {formatDate(new Date(quiz.due))} |{" "}
-                            {quiz.points}pts | {quiz.length} questions
+                            {quiz.points}pts | GET QUESTIONS questions
                           </span>
                         </span>
                       </div>
@@ -151,7 +160,7 @@ export default function Quizzes({ course }: { course: any }) {
                         ) : (
                           <FcCancel className="fs-3" />
                         )}
-                        <QuizContextMenu quiz={quiz} />
+                        <QuizContextMenu quiz={quiz} deleteQuiz={deleteQuiz} />
                       </div>
                     )}
                   </div>
