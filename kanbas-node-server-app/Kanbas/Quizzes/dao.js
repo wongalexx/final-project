@@ -22,14 +22,13 @@ export function findQuestionsForQuiz(quizId) {
   return questionModel.find({ quiz: quizId });
 }
 
-export function createQuestion(quizId, question) {
-  // const id = new mongoose.Types.ObjectId(quizId);
+export function createQuestion(question) {
   delete question._id;
   return questionModel.create(question);
 }
 
-export function deleteQuestion(quizId, questionId) {
-  return questionModel.deleteOne({ _id: questionId, quiz: quizId });
+export function deleteQuestion(questionId) {
+  return questionModel.deleteOne({ _id: questionId });
 }
 
 export function updateQuestion(questionId, questionUpdates) {

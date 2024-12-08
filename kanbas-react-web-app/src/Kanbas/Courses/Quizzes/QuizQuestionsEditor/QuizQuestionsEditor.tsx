@@ -25,7 +25,6 @@ const QuizQuestionsEditor = () => {
     } else {
       dispatch(setQuestions([]));
     }
-    console.log(questions);
   };
 
   useEffect(() => {
@@ -37,19 +36,28 @@ const QuizQuestionsEditor = () => {
     _id: 1,
     title: "new title",
     points: 10,
-    questionText: "hello",
+    questionText: "",
     type: "Multiple Choice",
     answers: {
       text: "Question.",
       correct: true,
     },
+    ...question,
   });
 
-  const addNewQuestion = () => {
-    if (!isNewQuiz) {
-      dispatch(addQuestions([...questions, newQuestion]));
-    } else {
-    }
+  const addNewQuestion = async () => {
+    const questionData = {
+      _id: new Date().getTime().toString(),
+      ...newQuestion,
+      course: cid,
+    };
+    const question = await quizClient.createQuestionsForQuiz(qid, questionData);
+    dispatch(addQuestions(question));
+  };
+
+  const deleteQuestion = async (qid: string, questionId: string) => {
+    await questionsClient.deleteQuestion(qid as string, questionId as string);
+    dispatch(deleteQuestions(qid));
   };
 
   const toggleEditMode = (id: any) => {
@@ -157,7 +165,7 @@ const QuizQuestionsEditor = () => {
                 <div className="col d-flex justify-content-end align-items-center">
                   <FaTrashCan
                     className="me-2"
-                    onClick={() => deleteQuestions(question._id)}
+                    onClick={() => deleteQuestion(qid as string, question._id)}
                   />
                 </div>
               </li>
