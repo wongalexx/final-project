@@ -40,10 +40,13 @@ const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
   };
 
   const toggleEditMode = (id: any) => {
-    const updatedQuestions = questions.map((q: any) =>
-      q._id === id ? { ...q, editMode: !q.editMode } : q
+    dispatch(
+      setQuestions((prevQuestions: any) =>
+        prevQuestions.map((q: any) =>
+          q.id === id ? { ...q, editMode: !q.editMode } : q
+        )
+      )
     );
-    dispatch(setQuestions(updatedQuestions));
   };
 
   const changeQuestionType = (id: any, newType: any) => {
