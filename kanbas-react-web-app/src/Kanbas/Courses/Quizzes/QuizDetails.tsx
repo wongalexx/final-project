@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { FaPencil } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -8,6 +8,7 @@ export default function QuizDetails() {
   // get quiz using quiz id
   const { quizzes } = useSelector((state: any) => state.quizReducer);
   const quiz = quizzes.find((quiz: any) => quiz._id === qid);
+  const navigate = useNavigate(); // Initialize navigate for routing
 
   const formatDate = (newDate: string | number | Date) => {
     const date = new Date(newDate);
@@ -26,7 +27,14 @@ export default function QuizDetails() {
   return (
     <div>
       <span className="d-flex justify-content-center align-items-center">
-        <button className="btn btn-secondary btn-md me-2">Preview</button>
+        <button
+          className="btn btn-secondary btn-md me-2"
+          onClick={() =>
+            navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/Preview`)
+          }
+        >
+          Preview
+        </button>
         <a href={`#/Kanbas/Courses/${cid}/Quizzes/${qid}/${qitle}`}>
           <button className="btn btn-secondary btn-md">
             <span className="d-flex justify-content-center align-items-center">
