@@ -22,6 +22,8 @@ const QuizQuestionsEditor = () => {
     if (qtitle !== "new") {
       const questions = await quizClient.findQuestionsForQuiz(qid);
       dispatch(setQuestions(questions));
+    } else {
+      dispatch(setQuestions([]));
     }
     console.log(questions);
   };
