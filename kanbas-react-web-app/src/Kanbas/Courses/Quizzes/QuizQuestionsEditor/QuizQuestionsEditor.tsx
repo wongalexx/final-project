@@ -29,7 +29,7 @@ const QuizQuestionsEditor = () => {
 
   useEffect(() => {
     fetchQuestions();
-  }, [cid, qid]);
+  }, [cid, qid, questions]);
   const question = questions.find((q: any) => q._id === qid);
 
   const [newQuestion, setNewQuestion] = useState({
