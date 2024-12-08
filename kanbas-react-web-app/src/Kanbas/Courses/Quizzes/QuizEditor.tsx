@@ -24,7 +24,7 @@ export default function QuizEditor() {
     points: 100,
     assignmentGroup: "",
     shuffleAnswers: true,
-    timeLimit: 30,
+    timeLimit: 20,
     multipleAttempts: false,
     attemptsAllowed: 1,
     showCorrectAnswers: "",

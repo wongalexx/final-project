@@ -27,7 +27,7 @@ export default function QuizDetailsEditor() {
     points: 100,
     assignmentGroup: "Quizzes",
     shuffleAnswers: true,
-    timeLimit: 30,
+    timeLimit: 20,
     multipleAttempts: false,
     attemptsAllowed: 1,
     showCorrectAnswers: "After Due Date",
