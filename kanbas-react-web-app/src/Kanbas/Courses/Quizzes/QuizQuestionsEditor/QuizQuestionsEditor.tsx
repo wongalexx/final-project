@@ -15,12 +15,15 @@ const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
   const { cid, qid } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { questions } = useSelector((state: any) => state.questionsReducer);
-  const fetchQuestions = async () => {
-    const questions = await quizClient.findQuestionsForQuiz(qid);
-    dispatch(setQuestions(questions));
-  };
 
-  const question = questions.find((q: any) => q._id === qid);
+  const isNewQuiz = qid === "new";
+
+  const fetchQuestions = async () => {
+    if (!isNewQuiz) {
+      const questions = await quizClient.findQuestionsForQuiz(qid);
+      dispatch(setQuestions(questions));
+    }
+  };
 
   const [newQuestion, setNewQuestion] = useState({
     _id: 1,
@@ -32,11 +35,13 @@ const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
       text: "Question.",
       correct: true,
     },
-    ...question,
   });
 
   const addNewQuestion = () => {
-    dispatch(addQuestions([...questions, newQuestion]));
+    if (!isNewQuiz) {
+      dispatch(addQuestions([...questions, newQuestion]));
+    } else {
+    }
   };
 
   const toggleEditMode = (id: any) => {
@@ -56,14 +61,17 @@ const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
   };
 
   const removeQuestion = async (questionId: string) => {
-    await questionsClient.deleteQuestion(qid, questionId);
-    dispatch(deleteQuestions(questionId));
+    if (!isNewQuiz) {
+      await questionsClient.deleteQuestion(qid, questionId);
+      dispatch(deleteQuestions(questionId));
+    }
   };
 
   useEffect(() => {
-    fetchQuestions();
-    console.log("QUESSITONS", questions);
-  }, [cid]);
+    if (!isNewQuiz) {
+      fetchQuestions();
+    }
+  }, [cid, qid]);
 
   return (
     <div className="quiz-questions-editor mb-4">
