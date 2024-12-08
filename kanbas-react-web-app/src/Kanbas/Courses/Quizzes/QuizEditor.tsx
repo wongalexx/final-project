@@ -11,7 +11,7 @@ import * as coursesClient from "../client";
 import { setQuizzes, updateQuizzes, addQuizzes } from "./reducer";
 import { Link } from "react-router-dom";
 
-export default function QuizEditor({ course }: { course: any }) {
+export default function QuizEditor() {
   const { cid, qid, qtitle } = useParams();
   const [activeTab, setActiveTab] = useState("details");
   const { quizzes } = useSelector((state: any) => state.quizReducer);
@@ -24,7 +24,7 @@ export default function QuizEditor({ course }: { course: any }) {
     points: 100,
     assignmentGroup: "",
     shuffleAnswers: true,
-    timeLimit: 30,
+    timeLimit: 20,
     multipleAttempts: false,
     attemptsAllowed: 1,
     showCorrectAnswers: "",
@@ -45,7 +45,7 @@ export default function QuizEditor({ course }: { course: any }) {
   const handleTabChange = (tab: any) => {
     setActiveTab(tab);
   };
-  // useEffect(() => {}, [cid, qid, quizzes]);
+  useEffect(() => {}, [cid, qid]);
 
   return (
     <div id="quiz-editor">
@@ -64,6 +64,10 @@ export default function QuizEditor({ course }: { course: any }) {
                 </span>
               )}
             </span>
+            {/* <div
+              id="wd-unpublish-quiz"
+              onChange={() => setNewQuiz({ ...newQuiz, published: false })}
+            ></div> */}
             <button className="btn btn-secondary btn-sm ms-1">
               <IoEllipsisVertical className="fs-4" />
             </button>
@@ -93,8 +97,8 @@ export default function QuizEditor({ course }: { course: any }) {
           </button>
         </li>
       </ul>
-      {activeTab === "details" && <QuizDetailsEditor course={course} />}
-      {activeTab === "questions" && <QuizQuestionsEditor quiz={quiz} />}
+      {activeTab === "details" && <QuizDetailsEditor />}
+      {activeTab === "questions" && <QuizQuestionsEditor />}
     </div>
   );
 }

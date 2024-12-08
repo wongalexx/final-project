@@ -4,6 +4,10 @@ import { FaPencil, FaTrash } from "react-icons/fa6";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { FcCancel } from "react-icons/fc";
 import { useParams } from "react-router";
+import * as quizClient from "./client";
+import { setQuizzes, updateQuizzes } from "./reducer";
+import { useDispatch } from "react-redux";
+
 const QuizContextMenu = ({
   quiz,
   deleteQuiz,
@@ -12,6 +16,14 @@ const QuizContextMenu = ({
   deleteQuiz: (quizId: string) => void;
 }) => {
   const { cid } = useParams();
+
+  const dispatch = useDispatch();
+
+  const updateQuiz = async (quiz: any) => {
+    await quizClient.updateQuiz(quiz);
+    dispatch(updateQuizzes(quiz));
+  };
+
   return (
     <div className="dropdown">
       <button
@@ -32,29 +44,28 @@ const QuizContextMenu = ({
           </a>
         </li>
         <li>
-          <a
+          <button
             className="dropdown-item"
-            href="#"
             onClick={(event) => {
               event.preventDefault();
               deleteQuiz(quiz._id);
             }}
           >
             <FaTrash /> Delete
-          </a>
+          </button>
         </li>
 
         <li>
-          <a
+          <button
             className="dropdown-item"
-            href="#"
-            onClick={() => {
-              /* Publish functionality */
+            onClick={(event) => {
+              event.preventDefault();
+              updateQuiz({ ...quiz, published: !quiz.published });
             }}
           >
             {quiz.published ? <FcCancel /> : <GreenCheckmark />}
             {quiz.published ? "Unpublish" : "Publish"}
-          </a>
+          </button>
         </li>
       </ul>
     </div>

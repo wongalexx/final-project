@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TbArrowBigRightFilled } from "react-icons/tb";
 
-const TrueFalseQuestionEditor = () => {
+const TrueFalseQuestionEditor = ({ question }: { question: any }) => {
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleClick = (value: any) => {

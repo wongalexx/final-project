@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa6";
 
-const FillInTheBlankQuestionEditor = () => {
+const FillInTheBlankQuestionEditor = ({ question }: { question: any }) => {
   const [questionText, setQuestionText] = useState("");
   const [answers, setAnswers] = useState([{ text: "" }]);
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState<null | number>(

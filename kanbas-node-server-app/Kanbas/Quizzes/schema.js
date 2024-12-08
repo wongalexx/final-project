@@ -1,23 +1,26 @@
 import mongoose from "mongoose";
 
-const questionSchema = new mongoose.Schema({
-  // quiz: String,
-  quiz: { type: mongoose.Schema.Types.ObjectId, ref: "QuizModel" },
-  title: String,
-  points: Number,
-  questionText: String,
-  type: {
-    type: String,
-    enum: ["Multiple Choice", "True/False", "Fill in the Blank"],
-    required: true,
-  },
-  answers: [
-    {
-      text: String,
-      correct: Boolean,
+const questionSchema = new mongoose.Schema(
+  {
+    // quiz: String,
+    quiz: { type: mongoose.Schema.Types.ObjectId, ref: "QuizModel" },
+    title: String,
+    points: Number,
+    questionText: String,
+    type: {
+      type: String,
+      enum: ["Multiple Choice", "True/False", "Fill in the Blank"],
+      required: true,
     },
-  ],
-});
+    answers: [
+      {
+        text: String,
+        correct: Boolean,
+      },
+    ],
+  },
+  { collection: "questions" }
+);
 
 const quizSchema = new mongoose.Schema(
   {

@@ -1,32 +1,67 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
 import { AiOutlinePlus } from "react-icons/ai";
-import MultipleChoiceQuestionEditor from "./MutltipleChoiseQuestionEditor";
+import MultipleChoiceQuestionEditor from "./MutltipleChoiceQuestionEditor";
 import TrueFalseQuestionEditor from "./TrueFalseQuestionEditor";
 import FillInTheBlankQuestionEditor from "./FillInTheBlankQuestionEditor";
+import * as quizClient from "../client";
+import * as questionsClient from "./client";
+import { setQuestions, addQuestions, deleteQuestions } from "./reducer";
+import { Link } from "react-router-dom";
+import { FaTrashCan } from "react-icons/fa6";
 
-const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
-  const [questions, setQuestions] = useState<any[]>([]);
+const QuizQuestionsEditor = () => {
+  const dispatch = useDispatch();
+  const { cid, qid, qtitle } = useParams();
+  const { questions } = useSelector((state: any) => state.questionsReducer);
+
+  const isNewQuiz = qid === "new";
+
+  const fetchQuestions = async () => {
+    if (qtitle !== "new") {
+      const questions = await quizClient.findQuestionsForQuiz(qid);
+      dispatch(setQuestions(questions));
+    }
+    console.log(questions);
+  };
+
+  useEffect(() => {
+    fetchQuestions();
+  }, [cid, qid]);
+  const question = questions.find((q: any) => q._id === qid);
+
+  const [newQuestion, setNewQuestion] = useState({
+    _id: 1,
+    title: "new title",
+    points: 10,
+    questionText: "hello",
+    type: "Multiple Choice",
+    answers: {
+      text: "Question.",
+      correct: true,
+    },
+  });
 
   const addNewQuestion = () => {
-    const newQuestion = {
-      id: Date.now(),
-      type: "Multiple Choice",
-      editMode: true,
-    };
-    setQuestions([...questions, newQuestion]);
+    if (!isNewQuiz) {
+      dispatch(addQuestions([...questions, newQuestion]));
+    } else {
+    }
   };
 
   const toggleEditMode = (id: any) => {
-    setQuestions((prevQuestions) =>
-      prevQuestions.map((q) =>
-        q.id === id ? { ...q, editMode: !q.editMode } : q
-      )
+    const updatedQuestions = questions.map((q: any) =>
+      q._id === id ? { ...q, editMode: !q.editMode } : q
     );
+    dispatch(setQuestions(updatedQuestions));
   };
 
   const changeQuestionType = (id: any, newType: any) => {
-    setQuestions((prevQuestions) =>
-      prevQuestions.map((q) => (q.id === id ? { ...q, type: newType } : q))
+    setQuestions((prevQuestions: any) =>
+      prevQuestions.map((q: any) =>
+        q._id === id ? { ...q, type: newType } : q
+      )
     );
   };
 
@@ -43,7 +78,7 @@ const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
         </button>
       </div>
       <ul id="wd-assignments" className="list-group rounded-0">
-        {questions.map((question) => (
+        {questions.map((question: any) => (
           <div key={question.id}>
             {question.editMode ? (
               <li className="list-group-item p-3 ps-1">
@@ -83,36 +118,46 @@ const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
                   </div>
                 </div>
                 <hr />
+
                 {question.type === "Multiple Choice" && (
-                  <MultipleChoiceQuestionEditor />
+                  <MultipleChoiceQuestionEditor question={question} />
                 )}
-                {question.type === "True/False" && <TrueFalseQuestionEditor />}
+                {question.type === "True/False" && (
+                  <TrueFalseQuestionEditor question={question} />
+                )}
                 {question.type === "Fill in the Blank" && (
-                  <FillInTheBlankQuestionEditor />
+                  <FillInTheBlankQuestionEditor question={question} />
                 )}
                 <div className="mt-3 ms-4">
                   <button
                     className="btn btn-secondary me-2"
-                    onClick={() => toggleEditMode(question.id)}
+                    onClick={() => toggleEditMode(question._id)}
                   >
                     Cancel
                   </button>
                   <button
                     className="btn btn-danger"
-                    onClick={() => toggleEditMode(question.id)}
+                    onClick={() => toggleEditMode(question._id)}
                   >
                     Update Question
                   </button>
                 </div>
               </li>
             ) : (
-              <li className="list-group-item p-3 ps-1">
+              <li className="list-group-item p-3 ps-1 d-flex align-items-center">
                 <span
                   className="ms-2"
-                  onClick={() => toggleEditMode(question.id)}
+                  onClick={() => toggleEditMode(question._id)}
                 >
-                  QUESTION TITLE
+                  {question.title}
                 </span>
+
+                <div className="col d-flex justify-content-end align-items-center">
+                  <FaTrashCan
+                    className="me-2"
+                    onClick={() => deleteQuestions(question._id)}
+                  />
+                </div>
               </li>
             )}
           </div>

@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa6";
+import { useParams } from "react-router";
+import * as questionsClient from "./client";
+import { addQuestions } from "./reducer";
 
-const MultipleChoiceQuestionEditor = () => {
+const MultipleChoiceQuestionEditor = ({ question }: { question: any }) => {
   const [questionText, setQuestionText] = useState("");
   const [answers, setAnswers] = useState([{ text: "" }]);
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState<null | number>(

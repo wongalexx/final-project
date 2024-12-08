@@ -6,7 +6,7 @@ import * as quizClient from "./client";
 import * as coursesClient from "../client";
 import { setQuizzes, updateQuizzes, addQuizzes } from "./reducer";
 
-export default function QuizDetailsEditor({ course }: { course: any }) {
+export default function QuizDetailsEditor() {
   function formatToDatetimeLocal(date: string | Date | undefined): string {
     if (!date) return "";
     const formattedDate = typeof date === "string" ? new Date(date) : date;
@@ -27,7 +27,7 @@ export default function QuizDetailsEditor({ course }: { course: any }) {
     points: 100,
     assignmentGroup: "Quizzes",
     shuffleAnswers: true,
-    timeLimit: 30,
+    timeLimit: 20,
     multipleAttempts: false,
     attemptsAllowed: 1,
     showCorrectAnswers: "After Due Date",
@@ -173,10 +173,12 @@ export default function QuizDetailsEditor({ course }: { course: any }) {
                   type="checkbox"
                   id="timeLimitCheckbox"
                   checked={Boolean(newQuiz.timeLimit)}
-                  onChange={() =>
+                  onChange={(e) =>
                     setNewQuiz({
                       ...newQuiz,
-                      timeLimit: newQuiz.timeLimit ? undefined : 30,
+                      timeLimit: newQuiz.timeLimit
+                        ? e.target.checked
+                        : undefined,
                     })
                   }
                 />

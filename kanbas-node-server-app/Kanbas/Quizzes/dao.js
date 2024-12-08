@@ -1,4 +1,5 @@
 import { quizModel, questionModel } from "./model.js";
+import mongoose from "mongoose";
 
 export function findQuizzesForCourse(courseId) {
   return quizModel.find({ course: courseId });
@@ -22,7 +23,8 @@ export function findQuestionsForQuiz(quizId) {
 }
 
 export function createQuestion(quizId, question) {
-  question.quiz = quizId;
+  // const id = new mongoose.Types.ObjectId(quizId);
+  delete question._id;
   return questionModel.create(question);
 }
 

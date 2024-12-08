@@ -10,13 +10,14 @@ import { useEffect, useState } from "react";
 import QuizContextMenu from "./QuizContextMenu";
 import * as coursesClient from "../client";
 import { queries } from "@testing-library/react";
-import { setQuizzes } from "./reducer";
+import { setQuizzes, updateQuizzes, deleteQuizzes } from "./reducer";
 import * as quizClient from "./client";
 
-export default function Quizzes({ course }: { course: any }) {
+export default function Quizzes() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { quizzes } = useSelector((state: any) => state.quizReducer);
+  const { questions } = useSelector((state: any) => state.questionsReducer);
   const { cid } = useParams();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,17 +25,13 @@ export default function Quizzes({ course }: { course: any }) {
 
   const fetchQuizzes = async () => {
     const quiz = await coursesClient.findQuizzesForCourse(cid as string);
-    //const quiz = await coursesClient.findQuizzesForCourse(course.number);
-
     dispatch(setQuizzes(quiz));
   };
 
   const deleteQuiz = async (qid: string) => {
     await quizClient.deleteQuiz(qid);
+    dispatch(deleteQuizzes(qid));
   };
-  useEffect(() => {
-    fetchQuizzes();
-  }, [cid, quizzes]);
 
   const formatDate = (newDate: string | number | Date) => {
     const date = new Date(newDate);
@@ -65,6 +62,14 @@ export default function Quizzes({ course }: { course: any }) {
       return <b>Available</b>;
     }
   };
+  const updateQuiz = async (quiz: any) => {
+    await quizClient.updateQuiz(quiz);
+    dispatch(updateQuizzes(quiz));
+  };
+
+  useEffect(() => {
+    fetchQuizzes();
+  }, [cid]);
 
   return (
     <div id="wd-assignments">
@@ -127,16 +132,12 @@ export default function Quizzes({ course }: { course: any }) {
                     </div>
                     <div className="col-9 text-left p-0">
                       <div className="row">
-                        {currentUser.role === "FACULTY" ? (
-                          <a
-                            className="wd-assignment-link"
-                            href={`#/Kanbas/Courses/${cid}/Quizzes/${quiz._id}`}
-                          >
-                            <b>{quiz.title}</b>
-                          </a>
-                        ) : (
-                          <b className="wd-assignment-link">{quiz.title}</b>
-                        )}
+                        <a
+                          className="wd-assignment-link"
+                          href={`#/Kanbas/Courses/${cid}/Quizzes/${quiz._id}/Details`}
+                        >
+                          <b>{quiz.title}</b>
+                        </a>
                       </div>
                       <div className="row">
                         <span className="wd-assignment-description">
@@ -153,11 +154,24 @@ export default function Quizzes({ course }: { course: any }) {
                     </div>
                     {currentUser.role === "FACULTY" && (
                       <div className="col d-flex justify-content-end align-items-center">
-                        {/* ON CLICK NEEDS TO MAKE IT SO IT IS PUBLISHED */}
                         {quiz.published ? (
-                          <GreenCheckmark />
+                          <span
+                            className="d-flex align-items-center"
+                            onClick={() =>
+                              updateQuiz({ ...quiz, published: false })
+                            }
+                            style={{ cursor: "pointer" }}
+                          >
+                            <GreenCheckmark />
+                          </span>
                         ) : (
-                          <FcCancel className="fs-3" />
+                          <FcCancel
+                            className="fs-3"
+                            onClick={() =>
+                              updateQuiz({ ...quiz, published: true })
+                            }
+                            style={{ cursor: "pointer" }}
+                          />
                         )}
                         <QuizContextMenu quiz={quiz} deleteQuiz={deleteQuiz} />
                       </div>
