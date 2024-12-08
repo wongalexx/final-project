@@ -10,12 +10,15 @@ import * as quizClient from "./client";
 import * as coursesClient from "../client";
 import { setQuizzes, updateQuizzes, addQuizzes } from "./reducer";
 import { Link } from "react-router-dom";
+import { setQuestions, addQuestions } from "./QuizQuestionsEditor/reducer";
 
 export default function QuizEditor() {
-  const { cid, qid, qtitle } = useParams();
+  const { cid, qid, questionId } = useParams();
   const [activeTab, setActiveTab] = useState("details");
   const { quizzes } = useSelector((state: any) => state.quizReducer);
+  const { questions } = useSelector((state: any) => state.questionsReducer);
   const quiz = quizzes.find((quiz: any) => quiz._id === qid);
+
   const [newQuiz, setNewQuiz] = useState({
     _id: 1,
     title: "New Quiz",
@@ -49,7 +52,7 @@ export default function QuizEditor() {
 
   return (
     <div id="quiz-editor">
-      {((qid && qid !== "new") || (qtitle && qtitle !== "new")) && (
+      {qid && qid !== "new" && (
         <>
           <span className="d-flex justify-content-end align-items-center">
             <b className="pe-3">Points {newQuiz.points}</b>
@@ -94,7 +97,7 @@ export default function QuizEditor() {
         </li>
       </ul>
       {activeTab === "details" && <QuizDetailsEditor />}
-      {activeTab === "questions" && <QuizQuestionsEditor quiz={quiz} />}
+      {activeTab === "questions" && <QuizQuestionsEditor />}
     </div>
   );
 }

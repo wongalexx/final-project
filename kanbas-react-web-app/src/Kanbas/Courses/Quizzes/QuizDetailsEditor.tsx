@@ -173,10 +173,12 @@ export default function QuizDetailsEditor() {
                   type="checkbox"
                   id="timeLimitCheckbox"
                   checked={Boolean(newQuiz.timeLimit)}
-                  onChange={() =>
+                  onChange={(e) =>
                     setNewQuiz({
                       ...newQuiz,
-                      timeLimit: newQuiz.timeLimit ? undefined : 30,
+                      timeLimit: newQuiz.timeLimit
+                        ? e.target.checked
+                        : undefined,
                     })
                   }
                 />

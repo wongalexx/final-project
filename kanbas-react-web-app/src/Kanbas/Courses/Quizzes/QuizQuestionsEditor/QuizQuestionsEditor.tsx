@@ -2,22 +2,27 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { AiOutlinePlus } from "react-icons/ai";
-import MultipleChoiceQuestionEditor from "./MutltipleChoiseQuestionEditor";
+import MultipleChoiceQuestionEditor from "./MutltipleChoiceQuestionEditor";
 import TrueFalseQuestionEditor from "./TrueFalseQuestionEditor";
 import FillInTheBlankQuestionEditor from "./FillInTheBlankQuestionEditor";
 import * as quizClient from "../client";
 import * as questionsClient from "./client";
 import { setQuestions, addQuestions } from "./reducer";
+import { Link } from "react-router-dom";
 
-const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
+const QuizQuestionsEditor = () => {
   const dispatch = useDispatch();
   const { cid, qid } = useParams();
   const { questions } = useSelector((state: any) => state.questionsReducer);
   const fetchQuestions = async () => {
     const questions = await quizClient.findQuestionsForQuiz(qid);
     dispatch(setQuestions(questions));
+    console.log(questions);
   };
 
+  useEffect(() => {
+    fetchQuestions();
+  }, [cid, qid]);
   const question = questions.find((q: any) => q._id === qid);
 
   const [newQuestion, setNewQuestion] = useState({
@@ -38,24 +43,19 @@ const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
   };
 
   const toggleEditMode = (id: any) => {
-    dispatch(
-      setQuestions((prevQuestions: any) =>
-        prevQuestions.map((q: any) =>
-          q.id === id ? { ...q, editMode: !q.editMode } : q
-        )
-      )
+    const updatedQuestions = questions.map((q: any) =>
+      q._id === id ? { ...q, editMode: !q.editMode } : q
     );
+    dispatch(setQuestions(updatedQuestions));
   };
 
   const changeQuestionType = (id: any, newType: any) => {
     setQuestions((prevQuestions: any) =>
-      prevQuestions.map((q: any) => (q.id === id ? { ...q, type: newType } : q))
+      prevQuestions.map((q: any) =>
+        q._id === id ? { ...q, type: newType } : q
+      )
     );
   };
-  useEffect(() => {
-    fetchQuestions();
-    console.log("QUESSITONS", questions);
-  }, [cid]);
 
   return (
     <div className="quiz-questions-editor mb-4">
@@ -110,23 +110,26 @@ const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
                   </div>
                 </div>
                 <hr />
+
                 {question.type === "Multiple Choice" && (
-                  <MultipleChoiceQuestionEditor />
+                  <MultipleChoiceQuestionEditor question={question} />
                 )}
-                {question.type === "True/False" && <TrueFalseQuestionEditor />}
+                {question.type === "True/False" && (
+                  <TrueFalseQuestionEditor question={question} />
+                )}
                 {question.type === "Fill in the Blank" && (
-                  <FillInTheBlankQuestionEditor />
+                  <FillInTheBlankQuestionEditor question={question} />
                 )}
                 <div className="mt-3 ms-4">
                   <button
                     className="btn btn-secondary me-2"
-                    onClick={() => toggleEditMode(question.id)}
+                    onClick={() => toggleEditMode(question._id)}
                   >
                     Cancel
                   </button>
                   <button
                     className="btn btn-danger"
-                    onClick={() => toggleEditMode(question.id)}
+                    onClick={() => toggleEditMode(question._id)}
                   >
                     Update Question
                   </button>
@@ -136,7 +139,7 @@ const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
               <li className="list-group-item p-3 ps-1">
                 <span
                   className="ms-2"
-                  onClick={() => toggleEditMode(question.id)}
+                  onClick={() => toggleEditMode(question._id)}
                 >
                   {question.title}
                 </span>

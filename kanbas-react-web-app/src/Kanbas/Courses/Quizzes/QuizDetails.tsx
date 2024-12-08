@@ -27,7 +27,7 @@ export default function QuizDetails() {
     <div>
       <span className="d-flex justify-content-center align-items-center">
         <button className="btn btn-secondary btn-md me-2">Preview</button>
-        <a href={`#/Kanbas/Courses/${cid}/Quizzes/${qid}/${quiz.title}`}>
+        <a href={`#/Kanbas/Courses/${cid}/Quizzes/${qid}/details`}>
           <button className="btn btn-secondary btn-md">
             <span className="d-flex justify-content-center align-items-center">
               <FaPencil className="me-1" /> Edit

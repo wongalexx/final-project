@@ -19,13 +19,12 @@ export function updateQuiz(quizId, quizUpdates) {
 }
 
 export function findQuestionsForQuiz(quizId) {
-  const id = new mongoose.Types.ObjectId(quizId);
-  return questionModel.find({ quiz: id });
+  return questionModel.find({ quiz: quizId });
 }
 
 export function createQuestion(quizId, question) {
-  const id = new mongoose.Types.ObjectId(quizId);
-  question.quiz = id;
+  // const id = new mongoose.Types.ObjectId(quizId);
+  delete question._id;
   return questionModel.create(question);
 }
 
