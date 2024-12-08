@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { FaPencil } from "react-icons/fa6";
 import { PiWarningCircleBold } from "react-icons/pi";
 
@@ -51,8 +51,9 @@ const fakeQuiz = {
   ],
 };
 
-export default function QuizPreviewScreen({ quiz = fakeQuiz }: { quiz?: any }) {
+export default function QuizView({ quiz = fakeQuiz }: { quiz?: any }) {
   const { cid, qid } = useParams();
+  const location = useLocation();
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const navigate = useNavigate();
 
@@ -70,15 +71,16 @@ export default function QuizPreviewScreen({ quiz = fakeQuiz }: { quiz?: any }) {
   return (
     <div className="container">
       <h1>{quiz.title}</h1>
-      <div className="card mt-2 mb-2 bg-danger-subtle text-danger border-0">
-        <div className="card-body">
-          <span className="d-flex align-items-center">
-            <PiWarningCircleBold className="me-1" /> This is a preview of the
-            published version of the quiz
-          </span>
+      {location.pathname.includes("Preview") && (
+        <div className="card mt-2 mb-2 bg-danger-subtle text-danger border-0">
+          <div className="card-body">
+            <span className="d-flex align-items-center">
+              <PiWarningCircleBold className="me-1" /> This is a preview of the
+              published version of the quiz
+            </span>
+          </div>
         </div>
-      </div>
-
+      )}
       <span>Started: Nov 29 at 8:19am</span>
       <p>
         <b>Quiz Instructions:</b> Answer all questions below. Submit when done.
@@ -149,18 +151,20 @@ export default function QuizPreviewScreen({ quiz = fakeQuiz }: { quiz?: any }) {
           <button className="btn btn-secondary">Submit Quiz</button>
         </li>
       </ul>
-      <div className="d-flex mt-4">
-        <button
-          className="btn btn-secondary"
-          onClick={handleEditQuiz}
-          style={{ width: "100%" }}
-        >
-          <span className="d-flex align-items-center">
-            <FaPencil className="me-1" />
-            Keep Editing This Quiz
-          </span>
-        </button>
-      </div>
+      {location.pathname.includes("Preview") && (
+        <div className="d-flex mt-4">
+          <button
+            className="btn btn-secondary"
+            onClick={handleEditQuiz}
+            style={{ width: "100%" }}
+          >
+            <span className="d-flex align-items-center">
+              <FaPencil className="me-1" />
+              Keep Editing This Quiz
+            </span>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

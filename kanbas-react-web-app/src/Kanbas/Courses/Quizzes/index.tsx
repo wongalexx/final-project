@@ -128,16 +128,12 @@ export default function Quizzes() {
                     </div>
                     <div className="col-9 text-left p-0">
                       <div className="row">
-                        {currentUser.role === "FACULTY" ? (
-                          <a
-                            className="wd-assignment-link"
-                            href={`#/Kanbas/Courses/${cid}/Quizzes/${quiz._id}/Details`}
-                          >
-                            <b>{quiz.title}</b>
-                          </a>
-                        ) : (
-                          <b className="wd-assignment-link">{quiz.title}</b>
-                        )}
+                        <a
+                          className="wd-assignment-link"
+                          href={`#/Kanbas/Courses/${cid}/Quizzes/${quiz._id}/Details`}
+                        >
+                          <b>{quiz.title}</b>
+                        </a>
                       </div>
                       <div className="row">
                         <span className="wd-assignment-description">
