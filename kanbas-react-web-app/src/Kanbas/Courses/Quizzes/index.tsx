@@ -13,10 +13,11 @@ import { queries } from "@testing-library/react";
 import { setQuizzes } from "./reducer";
 import * as quizClient from "./client";
 
-export default function Quizzes({ course }: { course: any }) {
+export default function Quizzes() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { quizzes } = useSelector((state: any) => state.quizReducer);
+  const { questions } = useSelector((state: any) => state.questionsReducer);
   const { cid } = useParams();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,7 +35,7 @@ export default function Quizzes({ course }: { course: any }) {
   };
   useEffect(() => {
     fetchQuizzes();
-  }, [cid, quizzes]);
+  }, [cid]);
 
   const formatDate = (newDate: string | number | Date) => {
     const date = new Date(newDate);
