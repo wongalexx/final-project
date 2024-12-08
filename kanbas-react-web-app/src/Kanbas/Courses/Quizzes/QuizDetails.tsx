@@ -90,7 +90,7 @@ export default function QuizDetails() {
             <div className="col-6 text-end">
               <b>Time Limit</b>
             </div>
-            <div className="col-6 text-start">{quiz.timeLimit}</div>
+            <div className="col-6 text-start">{quiz.timeLimit || "None"}</div>
           </div>
           <div className="row">
             <div className="col-6 text-end">
