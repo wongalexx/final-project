@@ -10,14 +10,18 @@ import * as quizClient from "./client";
 import * as coursesClient from "../client";
 import { setQuizzes, updateQuizzes, addQuizzes } from "./reducer";
 import { Link } from "react-router-dom";
+import mongoose from "mongoose";
 
 export default function QuizEditor() {
   const { cid, qid, qtitle } = useParams();
   const [activeTab, setActiveTab] = useState("details");
   const { quizzes } = useSelector((state: any) => state.quizReducer);
   const quiz = quizzes.find((quiz: any) => quiz._id === qid);
+
+  const quizId = qid === "new" ? new mongoose.Types.ObjectId() : qid;
+
   const [newQuiz, setNewQuiz] = useState({
-    _id: 1,
+    _id: quizId,
     title: "New Quiz",
     course: "",
     quizType: "",
@@ -97,8 +101,8 @@ export default function QuizEditor() {
           </button>
         </li>
       </ul>
-      {activeTab === "details" && <QuizDetailsEditor />}
-      {activeTab === "questions" && <QuizQuestionsEditor />}
+      {activeTab === "details" && <QuizDetailsEditor q={newQuiz} />}
+      {activeTab === "questions" && <QuizQuestionsEditor quiz={newQuiz} />}
     </div>
   );
 }

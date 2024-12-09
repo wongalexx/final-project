@@ -11,12 +11,10 @@ import { setQuestions, addQuestions, deleteQuestions } from "./reducer";
 import { Link } from "react-router-dom";
 import { FaTrashCan } from "react-icons/fa6";
 
-const QuizQuestionsEditor = () => {
+const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
   const dispatch = useDispatch();
   const { cid, qid, qtitle } = useParams();
   const { questions } = useSelector((state: any) => state.questionsReducer);
-
-  const isNewQuiz = qid === "new";
 
   const fetchQuestions = async () => {
     if (qtitle !== "new") {
@@ -54,7 +52,7 @@ const QuizQuestionsEditor = () => {
     if (question.isNew) {
       const questionData = { ...question, course: cid };
       const savedQuestion = await quizClient.createQuestionsForQuiz(
-        qid,
+        quiz._id,
         questionData
       );
       dispatch(

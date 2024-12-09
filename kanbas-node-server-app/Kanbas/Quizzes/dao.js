@@ -6,7 +6,7 @@ export function findQuizzesForCourse(courseId) {
 }
 
 export function createQuiz(quiz) {
-  delete quiz._id;
+  // delete quiz._id;
   return quizModel.create(quiz);
 }
 
