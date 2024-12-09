@@ -1,62 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { FaPencil } from "react-icons/fa6";
 import { PiWarningCircleBold } from "react-icons/pi";
+import * as quizClient from "./client";
 
-// Mock data for testing
-const fakeQuiz = {
-  _id: "6751db5462c6e57969110b39",
-  title: "Physics and Chemistry Quiz",
-  questions: [
-    {
-      quiz: { $oid: "6752254f0f0d38ca72f0c902" },
-      title: "Newton's Third Law",
-      points: 5,
-      questionText:
-        "Which of the following best describes Newton's Third Law of Motion?",
-      type: "Multiple Choice",
-      answers: [
-        {
-          text: "Every action has an equal and opposite reaction.",
-          correct: true,
-        },
-        { text: "Objects in motion stay in motion.", correct: false },
-        { text: "Force equals mass times acceleration.", correct: false },
-      ],
-    },
-    {
-      quiz: { $oid: "6752254f0f0d38ca72f0c903" },
-      title: "Specific Impulse",
-      points: 10,
-      questionText:
-        "What is the specific impulse of a rocket engine a measure of?",
-      type: "Multiple Choice",
-      answers: [
-        { text: "The thrust produced per unit of fuel.", correct: false },
-        { text: "The efficiency of propellant usage.", correct: true },
-        { text: "The total fuel consumed during launch.", correct: false },
-      ],
-    },
-    {
-      quiz: { $oid: "6752254f0f0d38ca72f0c907" },
-      title: "Heat Shields",
-      points: 5,
-      questionText: "What is the main purpose of heat shields in spacecraft?",
-      type: "True/False",
-      answers: [
-        { text: "True", correct: true },
-        { text: "False", correct: false },
-      ],
-    },
-  ],
-};
-
-export default function QuizView({ quiz = fakeQuiz }: { quiz?: any }) {
+export default function QuizView() {
   const { cid, qid } = useParams();
   const location = useLocation();
-  const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const navigate = useNavigate();
 
+  // Access quizzes from the Redux store
+  const { quizzes } = useSelector((state: any) => state.quizReducer);
+  const quizFromRedux = quizzes.find((quiz: any) => quiz._id === qid);
+
+  // Component state
+  const [quiz, setQuiz] = useState<any>(
+    quizFromRedux || { title: "", questions: [] }
+  );
+  const [answers, setAnswers] = useState<{ [key: string]: string }>({});
+  const [loading, setLoading] = useState(!quizFromRedux);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch questions from the API
+  useEffect(() => {
+    const fetchQuizData = async () => {
+      try {
+        // Always fetch questions to ensure they are up-to-date
+        const questions = await quizClient.findQuestionsForQuiz(qid);
+        console.log("Fetched Questions:", questions);
+
+        setQuiz((prevQuiz: any) => ({
+          ...prevQuiz,
+          title: prevQuiz.title || quizFromRedux?.title || "Untitled Quiz",
+          questions, // Update questions
+        }));
+      } catch (err) {
+        console.error("Failed to fetch questions:", err);
+        setError("Failed to load quiz data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchQuizData();
+  }, [qid, quizFromRedux]);
+
+  // Handle answer changes
   const handleAnswerChange = (questionId: string, answer: string) => {
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
@@ -64,9 +54,15 @@ export default function QuizView({ quiz = fakeQuiz }: { quiz?: any }) {
     }));
   };
 
+  // Navigate to the editor
   const handleEditQuiz = () => {
     navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/editor`);
   };
+
+  // Render loading or error states
+  if (loading) return <p>Loading quiz...</p>;
+  if (error) return <p>{error}</p>;
+  if (!quiz) return <p>Quiz not found.</p>;
 
   return (
     <div className="container">
@@ -86,7 +82,7 @@ export default function QuizView({ quiz = fakeQuiz }: { quiz?: any }) {
         <b>Quiz Instructions:</b> Answer all questions below. Submit when done.
       </p>
       <hr className="mb-4" />
-      {quiz.questions.length > 0 ? (
+      {quiz.questions?.length > 0 ? (
         quiz.questions.map((question: any, index: number) => (
           <div key={index} className="card mb-3">
             <div className="card-header d-flex justify-content-between">
@@ -95,6 +91,7 @@ export default function QuizView({ quiz = fakeQuiz }: { quiz?: any }) {
             </div>
             <div className="card-body">
               <p>{question.questionText}</p>
+              {/* Render Multiple Choice Questions */}
               {question.type === "Multiple Choice" && (
                 <div className="list-group">
                   {question.answers.map((answer: any, idx: number) => (
@@ -106,9 +103,9 @@ export default function QuizView({ quiz = fakeQuiz }: { quiz?: any }) {
                         type="radio"
                         name={`question-${index}`}
                         value={answer.text}
-                        checked={answers[index] === answer.text}
+                        checked={answers[question._id] === answer.text}
                         onChange={() =>
-                          handleAnswerChange(String(index), answer.text)
+                          handleAnswerChange(question._id, answer.text)
                         }
                         className="me-2"
                       />
@@ -117,6 +114,7 @@ export default function QuizView({ quiz = fakeQuiz }: { quiz?: any }) {
                   ))}
                 </div>
               )}
+              {/* Render True/False Questions */}
               {question.type === "True/False" && (
                 <div className="list-group">
                   {question.answers.map((answer: any, idx: number) => (
@@ -128,15 +126,29 @@ export default function QuizView({ quiz = fakeQuiz }: { quiz?: any }) {
                         type="radio"
                         name={`question-${index}`}
                         value={answer.text}
-                        checked={answers[index] === answer.text}
+                        checked={answers[question._id] === answer.text}
                         onChange={() =>
-                          handleAnswerChange(String(index), answer.text)
+                          handleAnswerChange(question._id, answer.text)
                         }
                         className="me-2"
                       />
                       {answer.text}
                     </label>
                   ))}
+                </div>
+              )}
+              {/* Render Fill in the Blank Questions */}
+              {question.type === "Fill in the Blank" && (
+                <div className="mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    style={{ height: "80px" }}
+                    value={answers[question._id] || ""}
+                    onChange={(e) =>
+                      handleAnswerChange(question._id, e.target.value)
+                    }
+                  />
                 </div>
               )}
             </div>

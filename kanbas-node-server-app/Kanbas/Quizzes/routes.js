@@ -21,25 +21,24 @@ export default function QuizRoutes(app) {
 
   app.post("/api/quizzes/:quizId/questions", async (req, res) => {
     const { quizId } = req.params;
-    const question = req.body;
-    const status = await quizzesDao.createQuestion(quizId, question);
+    const question = {
+      ...req.body,
+      quiz: quizId,
+    };
+    const status = await quizzesDao.createQuestion(question);
     res.send(status);
   });
 
   app.delete("/api/quizzes/:quizId/questions/:questionId", async (req, res) => {
     const { quizId, questionId } = req.params;
-    const status = await quizzesDao.deleteQuestion(quizId, questionId);
+    const status = await quizzesDao.deleteQuestion(questionId);
     res.send(status);
   });
 
   app.put("/api/quizzes/:quizId/questions/:questionId", async (req, res) => {
-    const { quizId, questionId } = req.params;
+    const { questionId } = req.params;
     const questionUpdates = req.body;
-    const status = await quizzesDao.updateQuestion(
-      quizId,
-      questionId,
-      questionUpdates
-    );
+    const status = await quizzesDao.updateQuestion(questionId, questionUpdates);
     res.send(status);
   });
 
