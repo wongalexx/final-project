@@ -6,28 +6,28 @@ import * as questionsClient from "./client";
 import { addQuestions } from "./reducer";
 
 const MultipleChoiceQuestionEditor = ({ question }: { question: any }) => {
-  const [questionText, setQuestionText] = useState("");
-  const [answers, setAnswers] = useState([{ text: "" }]);
-  const [correctAnswerIndex, setCorrectAnswerIndex] = useState<null | number>(
-    0
-  );
+  // const [questionText, setQuestionText] = useState("");
+  // const [answers, setAnswers] = useState([{ text: "" }]);
+  // const [correctAnswerIndex, setCorrectAnswerIndex] = useState<null | number>(
+  //   0
+  // );
 
-  const handleAnswerChange = (
-    index: number,
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const updatedAnswers = [...answers];
-    updatedAnswers[index].text = e.target.value;
-    setAnswers(updatedAnswers);
-  };
+  // const handleAnswerChange = (
+  //   index: number,
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   const updatedAnswers = [...answers];
+  //   updatedAnswers[index].text = e.target.value;
+  //   setAnswers(updatedAnswers);
+  // };
 
-  const addAnswer = () => {
-    setAnswers([...answers, { text: "" }]);
-  };
+  // const addAnswer = () => {
+  //   setAnswers([...answers, { text: "" }]);
+  // };
 
-  const removeAnswer = (index: number) => {
-    setAnswers(answers.filter((_, i) => i !== index));
-  };
+  // const removeAnswer = (index: number) => {
+  //   setAnswers(answers.filter((_, i) => i !== index));
+  // };
 
   return (
     <div className="question-editor m-4">
@@ -44,44 +44,43 @@ const MultipleChoiceQuestionEditor = ({ question }: { question: any }) => {
             className="form-control"
             id="wd-multiple-choice-question"
             placeholder="Enter your question here"
+            value={question.questionText}
           />
         </div>
         <div className="choices-section">
           <b>Answers:</b>
-          {answers.map((answer, index) => (
+          {question.answers.map((answer: any, index: number) => (
             <div key={index} className="input-group mb-2 align-items-center">
               <div className="choice d-flex align-items-center w-100">
                 <span
                   className={`answer-choice-text me-2 text-nowrap d-flex align-items-center justify-content-start ${
-                    correctAnswerIndex === index ? "text-success" : "text-muted"
+                    answer.correct ? "text-success" : "text-muted"
                   }`}
                   style={{
                     cursor: "pointer",
                     whiteSpace: "nowrap",
                     width: "155px",
                   }}
-                  onClick={() =>
-                    setCorrectAnswerIndex(
-                      index === correctAnswerIndex ? null : index
-                    )
-                  }
+                  // onClick={() =>
+                  //   setCorrectAnswerIndex(
+                  //     index === correctAnswerIndex ? null : index
+                  //   )
+                  // }
                 >
-                  {correctAnswerIndex === index
-                    ? "Correct Answer"
-                    : "Possible Answer"}
+                  {answer.correct ? "Correct Answer" : "Possible Answer"}
                 </span>
                 <div className="input-group flex-grow-1">
                   <input
                     type="text"
                     className="form-control"
                     value={answer.text}
-                    onChange={(e) => handleAnswerChange(index, e)}
+                    // onChange={(e) => handleAnswerChange(index, e)}
                     placeholder="Enter answer..."
                   />
                   <button
                     type="button"
                     className="btn btn-outline-secondary"
-                    onClick={() => removeAnswer(index)}
+                    // onClick={() => removeAnswer(index)}
                     disabled={index === 0}
                     style={{ flexShrink: 0 }}
                   >
@@ -95,7 +94,7 @@ const MultipleChoiceQuestionEditor = ({ question }: { question: any }) => {
             <button
               type="button"
               className="btn p-0 text-danger"
-              onClick={addAnswer}
+              // onClick={addAnswer}
               style={{ border: "none", boxShadow: "none" }}
             >
               <span
