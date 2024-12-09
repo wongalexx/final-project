@@ -6,7 +6,7 @@ import * as quizClient from "./client";
 import * as coursesClient from "../client";
 import { setQuizzes, updateQuizzes, addQuizzes } from "./reducer";
 
-export default function QuizDetailsEditor() {
+export default function QuizDetailsEditor({ q }: { q: any }) {
   function formatToDatetimeLocal(date: string | Date | undefined): string {
     if (!date) return "";
     const formattedDate = typeof date === "string" ? new Date(date) : date;
@@ -19,7 +19,7 @@ export default function QuizDetailsEditor() {
   const quiz = quizzes.find((quiz: any) => quiz._id === qid) || {};
 
   const [newQuiz, setNewQuiz] = useState({
-    _id: 1,
+    _id: q._id,
     title: "New Quiz",
     course: cid,
     instructions: "",
