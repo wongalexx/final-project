@@ -14,25 +14,26 @@ export default function QuizView() {
   const { quizzes } = useSelector((state: any) => state.quizReducer);
   const quizFromRedux = quizzes.find((quiz: any) => quiz._id === qid);
 
+  // Component state
   const [quiz, setQuiz] = useState<any>(
     quizFromRedux || { title: "", questions: [] }
   );
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
-  const [loading, setLoading] = useState(!quizFromRedux); // Only show loading if not found in Redux
+  const [loading, setLoading] = useState(!quizFromRedux);
   const [error, setError] = useState<string | null>(null);
 
+  // Fetch questions from the API
   useEffect(() => {
-    const fetchQuestions = async () => {
+    const fetchQuizData = async () => {
       try {
-        const questions = await quizClient.findQuestionsForQuiz(qid); // Fetch only the questions
+        // Always fetch questions to ensure they are up-to-date
+        const questions = await quizClient.findQuestionsForQuiz(qid);
         console.log("Fetched Questions:", questions);
 
         setQuiz((prevQuiz: any) => ({
           ...prevQuiz,
-          title:
-            prevQuiz.title ||
-            (quizFromRedux ? quizFromRedux.title : "Untitled Quiz"),
-          questions,
+          title: prevQuiz.title || quizFromRedux?.title || "Untitled Quiz",
+          questions, // Update questions
         }));
       } catch (err) {
         console.error("Failed to fetch questions:", err);
@@ -42,11 +43,10 @@ export default function QuizView() {
       }
     };
 
-    if (!quizFromRedux || !quizFromRedux.questions) {
-      fetchQuestions();
-    }
+    fetchQuizData();
   }, [qid, quizFromRedux]);
 
+  // Handle answer changes
   const handleAnswerChange = (questionId: string, answer: string) => {
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
@@ -54,10 +54,12 @@ export default function QuizView() {
     }));
   };
 
+  // Navigate to the editor
   const handleEditQuiz = () => {
     navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/editor`);
   };
 
+  // Render loading or error states
   if (loading) return <p>Loading quiz...</p>;
   if (error) return <p>{error}</p>;
   if (!quiz) return <p>Quiz not found.</p>;
