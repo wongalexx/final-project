@@ -97,12 +97,6 @@ const FillInTheBlankQuestionEditor = ({
         </label>
         <div className="answers-section">
           <b>Answers:</b>
-          {updateQuestion.isNew && (
-            <div>
-              Click the 'Add Another Answer' button (+ Add Another Answer) to
-              add a new answer.
-            </div>
-          )}
           {Array.isArray(question.answers) &&
             question.answers.map((answer: any, index: number) => (
               <div key={index} className="input-group mb-2 align-items-center">

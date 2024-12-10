@@ -29,7 +29,6 @@ const MultipleChoiceQuestionEditor = ({
     questionText: "",
     answers: question.answers || [{ text: "", correct: false }],
     ...question,
-    isNew: true,
   });
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState<number | null>(
     updateQuestion.answers && Array.isArray(question.answers)
@@ -65,6 +64,12 @@ const MultipleChoiceQuestionEditor = ({
   };
 
   const toggleCorrectAnswer = (index: number) => {
+    const updatedAnswers = answers.map((answer: any, i: any) => ({
+      ...answer,
+      correct: i === index ? !answer.correct : false,
+    }));
+    setAnswers(updatedAnswers);
+    setUpdateQuestion({ ...updateQuestion, answers: updatedAnswers });
     setCorrectAnswerIndex(index === correctAnswerIndex ? null : index);
   };
 
@@ -97,12 +102,6 @@ const MultipleChoiceQuestionEditor = ({
         </div>
         <div className="choices-section">
           <b>Answers:</b>
-          {!updateQuestion.isNew && (
-            <div>
-              Click the 'Add Another Answer' button (+ Add Another Answer) to
-              add a new answer.
-            </div>
-          )}
           {answers.map((answer: any, index: any) => (
             <div key={index} className="input-group mb-2 align-items-center">
               <div className="choice d-flex align-items-center w-100">
@@ -142,6 +141,10 @@ const MultipleChoiceQuestionEditor = ({
               </div>
             </div>
           ))}
+          <div>
+            Click the 'Add Another Answer' button (+ Add Another Answer) to add
+            a new answer.
+          </div>
           <div className="d-flex justify-content-end">
             <button
               type="button"
