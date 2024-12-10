@@ -49,18 +49,26 @@ export default function QuizEditor() {
   });
 
   const fetchQuestionsAndCalculatePoints = async () => {
-    if (!qid) return;
-    const fetchedQuestions = await quizClient.findQuestionsForQuiz(qid);
-    setQuestions(fetchedQuestions);
+    if (!qid || qid === "new") {
+      console.log("Skipping fetch for new quiz");
+      return;
+    }
 
-    const pointsSum = fetchedQuestions.reduce(
-      (sum: number, question: any) => sum + (question.points || 0),
-      0
-    );
+    try {
+      const fetchedQuestions = await quizClient.findQuestionsForQuiz(qid);
+      setQuestions(fetchedQuestions);
 
-    // Update the newQuiz state with dynamic total points
-    setTotalPoints(pointsSum);
-    setNewQuiz((prevQuiz: any) => ({ ...prevQuiz, points: pointsSum }));
+      const pointsSum = fetchedQuestions.reduce(
+        (sum: number, question: any) => sum + (question.points || 0),
+        0
+      );
+
+      // Update the newQuiz state with dynamic total points
+      setTotalPoints(pointsSum);
+      setNewQuiz((prevQuiz: any) => ({ ...prevQuiz, points: pointsSum }));
+    } catch (error) {
+      console.error("Error fetching questions:", error);
+    }
   };
 
   useEffect(() => {

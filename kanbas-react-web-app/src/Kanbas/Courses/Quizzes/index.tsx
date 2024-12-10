@@ -33,13 +33,18 @@ export default function Quizzes() {
   // };
 
   const fetchQuizzes = async () => {
-    const quizzes = await coursesClient.findQuizzesForCourse(cid as string);
-    dispatch(setQuizzes(quizzes));
+    try {
+      const quizzes = await coursesClient.findQuizzesForCourse(cid as string);
+      dispatch(setQuizzes(quizzes));
 
-    // Calculate total points and question counts for each quiz
-    quizzes.forEach((quiz: any) => {
-      fetchQuestionsAndCalculatePoints(quiz._id);
-    });
+      quizzes.forEach((quiz: any) => {
+        if (quiz._id !== "new") {
+          fetchQuestionsAndCalculatePoints(quiz._id);
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching quizzes:", error);
+    }
   };
 
   const deleteQuiz = async (qid: string) => {
@@ -61,22 +66,29 @@ export default function Quizzes() {
   };
 
   const fetchQuestionsAndCalculatePoints = async (quizId: string) => {
-    const fetchedQuestions = await quizClient.findQuestionsForQuiz(quizId);
+    if (!quizId || quizId === "new") {
+      console.log("Skipping fetch for new quiz");
+      return;
+    }
 
-    const pointsSum = fetchedQuestions.reduce(
-      (sum: number, question: any) => sum + (question.points || 0),
-      0
-    );
+    try {
+      const fetchedQuestions = await quizClient.findQuestionsForQuiz(quizId);
+      const pointsSum = fetchedQuestions.reduce(
+        (sum: number, question: any) => sum + (question.points || 0),
+        0
+      );
 
-    // Update points and question count in state
-    setQuizPoints((prevPoints) => ({
-      ...prevPoints,
-      [quizId]: pointsSum,
-    }));
-    setQuestionCounts((prevCounts) => ({
-      ...prevCounts,
-      [quizId]: fetchedQuestions.length,
-    }));
+      setQuizPoints((prevPoints) => ({
+        ...prevPoints,
+        [quizId]: pointsSum,
+      }));
+      setQuestionCounts((prevCounts) => ({
+        ...prevCounts,
+        [quizId]: fetchedQuestions.length,
+      }));
+    } catch (error) {
+      console.error("Error fetching questions:", error);
+    }
   };
 
   const fetchAvailability = (quiz: any) => {
