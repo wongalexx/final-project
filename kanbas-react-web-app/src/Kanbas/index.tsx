@@ -24,9 +24,42 @@ export default function Kanbas() {
     description: "New Description",
   });
   const addNewCourse = async () => {
-    const newCourse = await courseClient.createCourse(course);
-    setCourses([...courses, newCourse]);
+    try {
+      // Create the new course
+      const newCourse = await courseClient.createCourse(course);
+
+      // Fetch updated enrollments for the current user
+      const updatedEnrollments = await enrollmentClient.fetchEnrollments();
+      setEnrollments(updatedEnrollments);
+
+      if (enrolling) {
+        // If in "My Courses" view, update only enrolled courses
+        const enrolledCourses = await userClient.findCoursesForUser(
+          currentUser._id
+        );
+        setCourses(enrolledCourses);
+      } else {
+        // If in "All Courses" view, fetch all courses and update the state
+        const allCourses = await courseClient.fetchAllCourses();
+        const updatedCourses = allCourses.map((course: any) => {
+          if (
+            updatedEnrollments.some(
+              (enrollment: any) =>
+                enrollment.user === currentUser._id &&
+                enrollment.course === course._id
+            )
+          ) {
+            return { ...course, enrolled: true };
+          }
+          return course;
+        });
+        setCourses(updatedCourses);
+      }
+    } catch (error) {
+      console.error("Error creating and enrolling in a new course:", error);
+    }
   };
+
   // const deleteCourse = async (courseId: string) => {
   //   const status = await courseClient.deleteCourse(courseId);
   //   setCourses(courses.filter((course) => course._id !== courseId));
@@ -114,13 +147,22 @@ export default function Kanbas() {
     }
   };
   useEffect(() => {
-    if (currentUser && enrolling) {
-      fetchCourses();
-    } else {
-      findCoursesForUser();
+    const initializeCourses = async () => {
+      if (enrolling) {
+        // Fetch only enrolled courses
+        await findCoursesForUser();
+      } else {
+        // Fetch all courses
+        await fetchCourses();
+      }
+    };
+
+    if (currentUser) {
+      initializeCourses();
+      fetchEnrollments();
     }
-    fetchEnrollments();
   }, [currentUser, enrolling]);
+
   return (
     <Session>
       <div id="wd-kanbas">
