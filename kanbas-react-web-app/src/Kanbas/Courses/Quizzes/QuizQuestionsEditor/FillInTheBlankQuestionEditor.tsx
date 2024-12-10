@@ -64,6 +64,12 @@ const FillInTheBlankQuestionEditor = ({
   };
 
   const toggleCorrectAnswer = (index: number) => {
+    const updatedAnswers = answers.map((answer: any, i: any) => ({
+      ...answer,
+      correct: i === index ? !answer.correct : false,
+    }));
+    setAnswers(updatedAnswers);
+    setUpdateQuestion({ ...updateQuestion, answers: updatedAnswers });
     setCorrectAnswerIndex(index === correctAnswerIndex ? null : index);
   };
 
