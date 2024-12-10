@@ -69,6 +69,20 @@ export default function QuizDetailsEditor({ q }: { q: any }) {
       updateQuiz(newQuiz);
     }
   };
+  const handleSaveAndPublish = async () => {
+    const updatedQuiz = { ...newQuiz, published: true };
+
+    if (qid === "new") {
+      const createdQuiz = await coursesClient.createQuizzesForCourse(
+        cid,
+        updatedQuiz
+      );
+      dispatch(addQuizzes(createdQuiz));
+    } else {
+      await quizClient.updateQuiz(updatedQuiz);
+      dispatch(updateQuizzes(updatedQuiz));
+    }
+  };
 
   return (
     <div id="wd-quizzes-details-editor">
@@ -394,11 +408,18 @@ export default function QuizDetailsEditor({ q }: { q: any }) {
                 </button>
               </a>
               <Link
-                className="btn btn-danger btn-lg"
+                className="btn btn-danger btn-lg me-2"
                 to={`/Kanbas/Courses/${cid}/Quizzes`}
                 onClick={handleSave}
               >
                 Save
+              </Link>
+              <Link
+                className="btn btn-success btn-lg"
+                to={`/Kanbas/Courses/${cid}/Quizzes`}
+                onClick={handleSaveAndPublish}
+              >
+                Save and Publish
               </Link>
             </div>
           </div>

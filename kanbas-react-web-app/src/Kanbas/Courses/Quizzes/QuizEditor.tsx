@@ -83,12 +83,32 @@ export default function QuizEditor() {
             {/* Updated to use totalPoints */}
             <span className="pe-3">
               {newQuiz.published ? (
-                <span className="d-flex align-items-center justify-content-center">
-                  <GreenCheckmark /> Published
+                <span
+                  className="d-flex align-items-center justify-content-center"
+                  onClick={async () => {
+                    const updatedQuiz = { ...newQuiz, published: false };
+                    await quizClient.updateQuiz(updatedQuiz); // Update in the database
+                    setNewQuiz(updatedQuiz); // Update local state
+                    dispatch(updateQuizzes(updatedQuiz)); // Update Redux state
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  <GreenCheckmark />
+                  Published
                 </span>
               ) : (
-                <span className="d-flex align-items-center justify-content-center">
-                  <FcCancel className="fs-3 me-2" /> Unpublished
+                <span
+                  className="d-flex align-items-center justify-content-center"
+                  onClick={async () => {
+                    const updatedQuiz = { ...newQuiz, published: true };
+                    await quizClient.updateQuiz(updatedQuiz); // Update in the database
+                    setNewQuiz(updatedQuiz); // Update local state
+                    dispatch(updateQuizzes(updatedQuiz)); // Update Redux state
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  <FcCancel className="fs-3" />
+                  Unpublished
                 </span>
               )}
             </span>
