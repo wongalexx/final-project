@@ -1,14 +1,20 @@
-import { useNavigate, useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { FaPencil } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import * as quizClient from "./client";
 
 export default function QuizDetails() {
-  const { cid, qid, qitle } = useParams();
-  // get quiz using quiz id
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const { cid, qid } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
+
+  const navigate = useNavigate();
   const { quizzes } = useSelector((state: any) => state.quizReducer);
+  // State for fetched questions and total points
+  const [questions, setQuestions] = useState([]);
+  const [totalPoints, setTotalPoints] = useState(0);
   const quiz = quizzes.find((quiz: any) => quiz._id === qid);
-  const navigate = useNavigate(); // Initialize navigate for routing
 
   const formatDate = (newDate: string | number | Date) => {
     const date = new Date(newDate);
@@ -19,136 +25,195 @@ export default function QuizDetails() {
       hour: "numeric",
       minute: "numeric",
       hour12: true,
+      timeZone: "UTC", // Add this for UTC formatting
     });
   };
+
+  // Fetch questions and calculate total points
+  const fetchQuestionsAndCalculatePoints = async () => {
+    setIsLoading(true);
+    if (!qid) return;
+    const fetchedQuestions = await quizClient.findQuestionsForQuiz(qid);
+    setQuestions(fetchedQuestions);
+    const pointsSum = fetchedQuestions.reduce(
+      (sum: number, question: any) => sum + (question.points || 0),
+      0
+    );
+    setTotalPoints(pointsSum);
+    setIsLoading(false);
+  };
+
+  // Update total points when the quiz ID changes
+  useEffect(() => {
+    fetchQuestionsAndCalculatePoints();
+  }, [qid]);
 
   // useEffect(() => {}, [cid, qid, quizzes]);
 
   return (
     <div>
       <span className="d-flex justify-content-center align-items-center">
-        <button
-          className="btn btn-secondary btn-md me-2"
-          onClick={() =>
-            navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/Preview`)
-          }
-        >
-          Preview
-        </button>
-        <a href={`#/Kanbas/Courses/${cid}/Quizzes/${qid}/${qitle}`}>
-          <button className="btn btn-secondary btn-md">
-            <span className="d-flex justify-content-center align-items-center">
-              <FaPencil className="me-1" /> Edit
-            </span>
+        {currentUser.role === "FACULTY" ? (
+          <>
+            <button
+              className="btn btn-secondary btn-md me-2"
+              onClick={() =>
+                navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/Preview`)
+              }
+            >
+              Preview
+            </button>
+            <a href={`#/Kanbas/Courses/${cid}/Quizzes/${qid}/${quiz.title}`}>
+              <button className="btn btn-secondary btn-md">
+                <span className="d-flex justify-content-center align-items-center">
+                  <FaPencil className="me-1" /> Edit
+                </span>
+              </button>
+            </a>
+          </>
+        ) : (
+          <button
+            className="btn btn-secondary btn-md me-2"
+            onClick={() => navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}`)}
+          >
+            Start Quiz
           </button>
-        </a>
+        )}
       </span>
       <hr />
       <h1 className="mb-4">
         <b>{quiz.title}</b>
       </h1>
-      <div className="col-6">
-        <div className="row">
-          <div className="col-6 text-end">
-            <b>Quiz Type</b>
+      {currentUser.role === "FACULTY" && (
+        <div className="col-6">
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Quiz Type</b>
+            </div>
+            <div className="col-6 text-start">{quiz.quizType}</div>
           </div>
-          <div className="col-6 text-start">{quiz.quizType}</div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Points</b>
+            </div>
+            <div className="col-6 text-start">
+              {isLoading ? "Loading..." : totalPoints}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Assignment Group</b>
+            </div>
+            <div className="col-6 text-start">{quiz.assignmentGroup}</div>
+          </div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Shuffle Answers</b>
+            </div>
+            <div className="col-6 text-start">
+              {quiz.shuffleAnswers ? "Yes" : "No"}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Time Limit</b>
+            </div>
+            <div className="col-6 text-start">{quiz.timeLimit || "None"}</div>
+          </div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Multiple Attempts</b>
+            </div>
+            <div className="col-6 text-start">
+              {quiz.multipleAttempts
+                ? `Yes (Allowed: ${quiz.attemptsAllowed})`
+                : "No"}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>View Responses</b>
+            </div>
+            <div className="col-6 text-start">
+              {quiz.viewResponses ? "Yes" : "No"}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Show Correct Answers</b>
+            </div>
+            <div className="col-6 text-start">{quiz.showCorrectAnswers}</div>
+          </div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Access Code</b>
+            </div>
+            <div className="col-6 text-start">{quiz.accessCode || "None"}</div>
+          </div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>One Question at a Time</b>
+            </div>
+            <div className="col-6 text-start">
+              {quiz.oneQuestionAtATime ? "Yes" : "No"}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Webcam Required</b>
+            </div>
+            <div className="col-6 text-start">
+              {quiz.webcamRequired ? "Yes" : "No"}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Lock Questions After Answering</b>
+            </div>
+            <div className="col-6 text-start">
+              {quiz.lockQuestionsAfterAnswering ? "Yes" : "No"}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Require Respondus LockDown Browser</b>
+            </div>
+            <div className="col-6 text-start">
+              {quiz.respondusLockDownBrowser ? "Yes" : "No"}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Required to View Quiz Results</b>
+            </div>
+            <div className="col-6 text-start">
+              {quiz.requiredToViewResults ? "Yes" : "No"}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Webcam Required</b>
+            </div>
+            <div className="col-6 text-start">
+              {quiz.webcamRequired ? "Yes" : "No"}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Lock Questions After Answering</b>
+            </div>
+            <div className="col-6 text-start">
+              {quiz.lockQuestionsAfterAnswering ? "Yes" : "No"}
+            </div>
+          </div>
         </div>
-        <div className="row">
-          <div className="col-6 text-end">
-            <b>Points</b>
-          </div>
-          <div className="col-6 text-start">{quiz.points}</div>
-        </div>
-        <div className="row">
-          <div className="col-6 text-end">
-            <b>Assignment Group</b>
-          </div>
-          <div className="col-6 text-start">{quiz.assignmentGroup}</div>
-        </div>
-        <div className="row">
-          <div className="col-6 text-end">
-            <b>Shuffle Answers</b>
-          </div>
-          <div className="col-6 text-start">
-            {quiz.shuffleAnswers ? "Yes" : "No"}
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-6 text-end">
-            <b>Time Limit</b>
-          </div>
-          <div className="col-6 text-start">{quiz.timeLimit}</div>
-        </div>
-        <div className="row">
-          <div className="col-6 text-end">
-            <b>Multiple Attempts</b>
-          </div>
-          <div className="col-6 text-start">
-            {quiz.multipleAttempts ? "Yes" : "No"}
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-6 text-end">
-            <b>View Responses</b>
-          </div>
-          <div className="col-6 text-start">
-            {quiz.viewResponses ? "Yes" : "No"}
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-6 text-end">
-            <b>Show Correct Answers</b>
-          </div>
-          <div className="col-6 text-start">{quiz.showCorrectAnswers}</div>
-        </div>
-        <div className="row">
-          <div className="col-6 text-end">
-            <b>One Question at a Time</b>
-          </div>
-          <div className="col-6 text-start">
-            {quiz.oneQuestionAtATime ? "Yes" : "No"}
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-6 text-end">
-            <b>Require Respondus LockDown Browser</b>
-          </div>
-          <div className="col-6 text-start">
-            {quiz.respondusLockDownBrowser ? "Yes" : "No"}
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-6 text-end">
-            <b>Required to View Quiz Results</b>
-          </div>
-          <div className="col-6 text-start">
-            {quiz.requiredToViewResults ? "Yes" : "No"}
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-6 text-end">
-            <b>Webcam Required</b>
-          </div>
-          <div className="col-6 text-start">
-            {quiz.webcamRequired ? "Yes" : "No"}
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-6 text-end">
-            <b>Lock Questions After Answering</b>
-          </div>
-          <div className="col-6 text-start">
-            {quiz.lockQuestionsAfterAnswering ? "Yes" : "No"}
-          </div>
-        </div>
-      </div>
+      )}
       <div className="col text-start">
         <table className="table">
           <thead>
             <tr>
               <th scope="col">Due</th>
-              <th scope="col">For</th>
+              {currentUser.role === "FACULTY" && <th scope="col">For</th>}
               <th scope="col">Available from</th>
               <th scope="col">Until</th>
             </tr>
@@ -156,7 +221,7 @@ export default function QuizDetails() {
           <tbody>
             <tr>
               <td>{formatDate(quiz.due)}</td>
-              <td>Everyone</td>
+              {currentUser.role === "FACULTY" && <td>Everyone</td>}
               <td>{formatDate(quiz.availableFromDate)}</td>
               <td>{formatDate(quiz.availableUntilDate)}</td>
             </tr>

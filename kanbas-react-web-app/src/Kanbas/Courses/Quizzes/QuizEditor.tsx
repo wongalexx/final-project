@@ -10,21 +10,29 @@ import * as quizClient from "./client";
 import * as coursesClient from "../client";
 import { setQuizzes, updateQuizzes, addQuizzes } from "./reducer";
 import { Link } from "react-router-dom";
+import mongoose from "mongoose";
 
 export default function QuizEditor() {
   const { cid, qid, qtitle } = useParams();
   const [activeTab, setActiveTab] = useState("details");
   const { quizzes } = useSelector((state: any) => state.quizReducer);
   const quiz = quizzes.find((quiz: any) => quiz._id === qid);
+
+  // State for fetched questions and total points
+  const [questions, setQuestions] = useState([]);
+  const [totalPoints, setTotalPoints] = useState(0);
+
+  const quizId = qid === "new" ? new mongoose.Types.ObjectId() : qid;
+
   const [newQuiz, setNewQuiz] = useState({
-    _id: 1,
+    _id: quizId,
     title: "New Quiz",
     course: "",
     quizType: "",
     points: 100,
     assignmentGroup: "",
     shuffleAnswers: true,
-    timeLimit: 30,
+    timeLimit: 20,
     multipleAttempts: false,
     attemptsAllowed: 1,
     showCorrectAnswers: "",
@@ -40,6 +48,33 @@ export default function QuizEditor() {
     ...quiz,
   });
 
+  const fetchQuestionsAndCalculatePoints = async () => {
+    if (!qid || qid === "new") {
+      console.log("Skipping fetch for new quiz");
+      return;
+    }
+
+    try {
+      const fetchedQuestions = await quizClient.findQuestionsForQuiz(qid);
+      setQuestions(fetchedQuestions);
+
+      const pointsSum = fetchedQuestions.reduce(
+        (sum: number, question: any) => sum + (question.points || 0),
+        0
+      );
+
+      // Update the newQuiz state with dynamic total points
+      setTotalPoints(pointsSum);
+      setNewQuiz((prevQuiz: any) => ({ ...prevQuiz, points: pointsSum }));
+    } catch (error) {
+      console.error("Error fetching questions:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchQuestionsAndCalculatePoints();
+  }, [qid]);
+
   const dispatch = useDispatch();
 
   const handleTabChange = (tab: any) => {
@@ -52,15 +87,36 @@ export default function QuizEditor() {
       {((qid && qid !== "new") || (qtitle && qtitle !== "new")) && (
         <>
           <span className="d-flex justify-content-end align-items-center">
-            <b className="pe-3">Points {newQuiz.points}</b>
+            <b className="pe-3">Points {totalPoints}</b>{" "}
+            {/* Updated to use totalPoints */}
             <span className="pe-3">
               {newQuiz.published ? (
-                <span className="d-flex align-items-center justify-content-center">
-                  <GreenCheckmark /> Published
+                <span
+                  className="d-flex align-items-center justify-content-center"
+                  onClick={async () => {
+                    const updatedQuiz = { ...newQuiz, published: false };
+                    await quizClient.updateQuiz(updatedQuiz); // Update in the database
+                    setNewQuiz(updatedQuiz); // Update local state
+                    dispatch(updateQuizzes(updatedQuiz)); // Update Redux state
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  <GreenCheckmark />
+                  Published
                 </span>
               ) : (
-                <span className="d-flex align-items-center justify-content-center">
-                  <FcCancel className="fs-3 me-2" /> Unpublished
+                <span
+                  className="d-flex align-items-center justify-content-center"
+                  onClick={async () => {
+                    const updatedQuiz = { ...newQuiz, published: true };
+                    await quizClient.updateQuiz(updatedQuiz); // Update in the database
+                    setNewQuiz(updatedQuiz); // Update local state
+                    dispatch(updateQuizzes(updatedQuiz)); // Update Redux state
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  <FcCancel className="fs-3" />
+                  Unpublished
                 </span>
               )}
             </span>
@@ -97,8 +153,8 @@ export default function QuizEditor() {
           </button>
         </li>
       </ul>
-      {activeTab === "details" && <QuizDetailsEditor />}
-      {activeTab === "questions" && <QuizQuestionsEditor />}
+      {activeTab === "details" && <QuizDetailsEditor q={newQuiz} />}
+      {activeTab === "questions" && <QuizQuestionsEditor quiz={newQuiz} />}
     </div>
   );
 }

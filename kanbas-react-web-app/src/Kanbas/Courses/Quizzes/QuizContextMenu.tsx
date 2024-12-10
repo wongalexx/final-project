@@ -59,7 +59,7 @@ const QuizContextMenu = ({
           <button
             className="dropdown-item"
             onClick={(event) => {
-              event.preventDefault(); // Prevent the default navigation
+              event.preventDefault();
               updateQuiz({ ...quiz, published: !quiz.published });
             }}
           >

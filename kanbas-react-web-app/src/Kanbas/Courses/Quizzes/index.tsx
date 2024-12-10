@@ -19,13 +19,32 @@ export default function Quizzes() {
   const { quizzes } = useSelector((state: any) => state.quizReducer);
   const { questions } = useSelector((state: any) => state.questionsReducer);
   const { cid } = useParams();
+  const [quizPoints, setQuizPoints] = useState<{ [key: string]: number }>({});
+  const [questionCounts, setQuestionCounts] = useState<{
+    [key: string]: number;
+  }>({});
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen((prevState) => !prevState);
 
+  // const fetchQuizzes = async () => {
+  //   const quiz = await coursesClient.findQuizzesForCourse(cid as string);
+  //   dispatch(setQuizzes(quiz));
+  // };
+
   const fetchQuizzes = async () => {
-    const quiz = await coursesClient.findQuizzesForCourse(cid as string);
-    dispatch(setQuizzes(quiz));
+    try {
+      const quizzes = await coursesClient.findQuizzesForCourse(cid as string);
+      dispatch(setQuizzes(quizzes));
+
+      quizzes.forEach((quiz: any) => {
+        if (quiz._id !== "new") {
+          fetchQuestionsAndCalculatePoints(quiz._id);
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching quizzes:", error);
+    }
   };
 
   const deleteQuiz = async (qid: string) => {
@@ -42,8 +61,36 @@ export default function Quizzes() {
       hour: "numeric",
       minute: "numeric",
       hour12: true,
+      timeZone: "UTC", // Add this for UTC formatting
     });
   };
+
+  const fetchQuestionsAndCalculatePoints = async (quizId: string) => {
+    if (!quizId || quizId === "new") {
+      console.log("Skipping fetch for new quiz");
+      return;
+    }
+
+    try {
+      const fetchedQuestions = await quizClient.findQuestionsForQuiz(quizId);
+      const pointsSum = fetchedQuestions.reduce(
+        (sum: number, question: any) => sum + (question.points || 0),
+        0
+      );
+
+      setQuizPoints((prevPoints) => ({
+        ...prevPoints,
+        [quizId]: pointsSum,
+      }));
+      setQuestionCounts((prevCounts) => ({
+        ...prevCounts,
+        [quizId]: fetchedQuestions.length,
+      }));
+    } catch (error) {
+      console.error("Error fetching questions:", error);
+    }
+  };
+
   const fetchAvailability = (quiz: any) => {
     const currentDate = new Date();
 
@@ -132,16 +179,12 @@ export default function Quizzes() {
                     </div>
                     <div className="col-9 text-left p-0">
                       <div className="row">
-                        {currentUser.role === "FACULTY" ? (
-                          <a
-                            className="wd-assignment-link"
-                            href={`#/Kanbas/Courses/${cid}/Quizzes/${quiz._id}`}
-                          >
-                            <b>{quiz.title}</b>
-                          </a>
-                        ) : (
-                          <b className="wd-assignment-link">{quiz.title}</b>
-                        )}
+                        <a
+                          className="wd-assignment-link"
+                          href={`#/Kanbas/Courses/${cid}/Quizzes/${quiz._id}/Details`}
+                        >
+                          <b>{quiz.title}</b>
+                        </a>
                       </div>
                       <div className="row">
                         <span className="wd-assignment-description">
@@ -149,18 +192,25 @@ export default function Quizzes() {
                             {fetchAvailability(quiz)} |
                           </span>
                           <span className="grey-font">
-                            {" "}
                             <b>Due</b> {formatDate(new Date(quiz.due))} |{" "}
-                            {quiz.points}pts | GET QUESTIONS questions
+                            {quizPoints[quiz._id] || quiz.points}pts |{" "}
+                            {questionCounts[quiz._id] || 0} questions
                           </span>
                         </span>
                       </div>
                     </div>
                     {currentUser.role === "FACULTY" && (
                       <div className="col d-flex justify-content-end align-items-center">
-                        {/* ON CLICK NEEDS TO MAKE IT SO IT IS PUBLISHED */}
                         {quiz.published ? (
-                          <GreenCheckmark />
+                          <span
+                            className="d-flex align-items-center"
+                            onClick={() =>
+                              updateQuiz({ ...quiz, published: false })
+                            }
+                            style={{ cursor: "pointer" }}
+                          >
+                            <GreenCheckmark />
+                          </span>
                         ) : (
                           <FcCancel
                             className="fs-3"
