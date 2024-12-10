@@ -42,7 +42,6 @@ export default function QuizView() {
     fetchQuizData();
   }, [qid, quizFromRedux]);
 
-  // Handle answer changes
   const handleAnswerChange = (questionId: string, answer: string) => {
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
@@ -50,12 +49,10 @@ export default function QuizView() {
     }));
   };
 
-  // Navigate to the editor
   const handleEditQuiz = () => {
     navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/editor`);
   };
 
-  // Render loading or error states
   if (loading) return <p>Loading quiz...</p>;
   if (error) return <p>{error}</p>;
   if (!quiz) return <p>Quiz not found.</p>;

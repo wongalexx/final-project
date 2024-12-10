@@ -61,7 +61,7 @@ export default function Quizzes() {
       hour: "numeric",
       minute: "numeric",
       hour12: true,
-      timeZone: "UTC", // Add this for UTC formatting
+      timeZone: "UTC",
     });
   };
 

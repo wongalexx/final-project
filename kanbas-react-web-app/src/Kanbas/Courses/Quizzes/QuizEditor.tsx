@@ -15,8 +15,6 @@ export default function QuizEditor() {
   const [activeTab, setActiveTab] = useState("details");
   const { quizzes } = useSelector((state: any) => state.quizReducer);
   const quiz = quizzes.find((quiz: any) => quiz._id === qid);
-
-  // State for fetched questions and total points
   const [questions, setQuestions] = useState([]);
   const [totalPoints, setTotalPoints] = useState(0);
 
@@ -60,8 +58,6 @@ export default function QuizEditor() {
         (sum: number, question: any) => sum + (question.points || 0),
         0
       );
-
-      // Update the newQuiz state with dynamic total points
       setTotalPoints(pointsSum);
       setNewQuiz((prevQuiz: any) => ({ ...prevQuiz, points: pointsSum }));
     } catch (error) {
@@ -86,16 +82,15 @@ export default function QuizEditor() {
         <>
           <span className="d-flex justify-content-end align-items-center">
             <b className="pe-3">Points {totalPoints}</b>{" "}
-            {/* Updated to use totalPoints */}
             <span className="pe-3">
               {newQuiz.published ? (
                 <span
                   className="d-flex align-items-center justify-content-center"
                   onClick={async () => {
                     const updatedQuiz = { ...newQuiz, published: false };
-                    await quizClient.updateQuiz(updatedQuiz); // Update in the database
-                    setNewQuiz(updatedQuiz); // Update local state
-                    dispatch(updateQuizzes(updatedQuiz)); // Update Redux state
+                    await quizClient.updateQuiz(updatedQuiz);
+                    setNewQuiz(updatedQuiz);
+                    dispatch(updateQuizzes(updatedQuiz));
                   }}
                   style={{ cursor: "pointer" }}
                 >
@@ -107,9 +102,9 @@ export default function QuizEditor() {
                   className="d-flex align-items-center justify-content-center"
                   onClick={async () => {
                     const updatedQuiz = { ...newQuiz, published: true };
-                    await quizClient.updateQuiz(updatedQuiz); // Update in the database
-                    setNewQuiz(updatedQuiz); // Update local state
-                    dispatch(updateQuizzes(updatedQuiz)); // Update Redux state
+                    await quizClient.updateQuiz(updatedQuiz);
+                    setNewQuiz(updatedQuiz);
+                    dispatch(updateQuizzes(updatedQuiz));
                   }}
                   style={{ cursor: "pointer" }}
                 >
@@ -118,10 +113,6 @@ export default function QuizEditor() {
                 </span>
               )}
             </span>
-            {/* <div
-              id="wd-unpublish-quiz"
-              onChange={() => setNewQuiz({ ...newQuiz, published: false })}
-            ></div> */}
             <button className="btn btn-secondary btn-sm ms-1">
               <IoEllipsisVertical className="fs-4" />
             </button>

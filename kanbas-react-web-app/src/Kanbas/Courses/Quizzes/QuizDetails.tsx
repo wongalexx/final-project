@@ -11,7 +11,6 @@ export default function QuizDetails() {
 
   const navigate = useNavigate();
   const { quizzes } = useSelector((state: any) => state.quizReducer);
-  // State for fetched questions and total points
   const [questions, setQuestions] = useState([]);
   const [totalPoints, setTotalPoints] = useState(0);
   const quiz = quizzes.find((quiz: any) => quiz._id === qid);
@@ -25,11 +24,10 @@ export default function QuizDetails() {
       hour: "numeric",
       minute: "numeric",
       hour12: true,
-      timeZone: "UTC", // Add this for UTC formatting
+      timeZone: "UTC",
     });
   };
 
-  // Fetch questions and calculate total points
   const fetchQuestionsAndCalculatePoints = async () => {
     setIsLoading(true);
     if (!qid) return;
@@ -43,12 +41,9 @@ export default function QuizDetails() {
     setIsLoading(false);
   };
 
-  // Update total points when the quiz ID changes
   useEffect(() => {
     fetchQuestionsAndCalculatePoints();
   }, [qid]);
-
-  // useEffect(() => {}, [cid, qid, quizzes]);
 
   return (
     <div>
