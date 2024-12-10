@@ -15,7 +15,6 @@ import {
 } from "./reducer";
 import { Link } from "react-router-dom";
 import { FaPencil, FaTrashCan } from "react-icons/fa6";
-import { FaEdit } from "react-icons/fa";
 
 const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
   const dispatch = useDispatch();

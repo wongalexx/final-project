@@ -30,6 +30,7 @@ const MultipleChoiceQuestionEditor = ({
     answers: question.answers || [{ text: "", correct: false }],
     ...question,
   });
+  console.log(updateQuestion);
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState<number | null>(
     updateQuestion.answers && Array.isArray(question.answers)
       ? updateQuestion.answers.findIndex((answer: any) => answer.correct)

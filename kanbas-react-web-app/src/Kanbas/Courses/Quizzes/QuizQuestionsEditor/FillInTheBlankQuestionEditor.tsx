@@ -70,7 +70,7 @@ const FillInTheBlankQuestionEditor = ({
     }));
     setAnswers(updatedAnswers);
     setUpdateQuestion({ ...updateQuestion, answers: updatedAnswers });
-    setCorrectAnswerIndex(index === correctAnswerIndex ? null : index);
+    // setCorrectAnswerIndex(index === correctAnswerIndex ? null : index);
   };
 
   return (
