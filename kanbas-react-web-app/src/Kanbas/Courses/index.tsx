@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import Quizzes from "./Quizzes";
 import QuizDetails from "./Quizzes/QuizDetails";
 import QuizEditor from "./Quizzes/QuizEditor";
-import QuizPreviewScreen from "./Quizzes/QuizView";
 import QuizView from "./Quizzes/QuizView";
 
 export default function Courses({ courses }: { courses: any[] }) {

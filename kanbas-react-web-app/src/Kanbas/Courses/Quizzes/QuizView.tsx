@@ -10,11 +10,9 @@ export default function QuizView() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Access quizzes from the Redux store
   const { quizzes } = useSelector((state: any) => state.quizReducer);
   const quizFromRedux = quizzes.find((quiz: any) => quiz._id === qid);
 
-  // Component state
   const [quiz, setQuiz] = useState<any>(
     quizFromRedux || { title: "", questions: [] }
   );
@@ -22,18 +20,16 @@ export default function QuizView() {
   const [loading, setLoading] = useState(!quizFromRedux);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch questions from the API
   useEffect(() => {
     const fetchQuizData = async () => {
       try {
-        // Always fetch questions to ensure they are up-to-date
         const questions = await quizClient.findQuestionsForQuiz(qid);
         console.log("Fetched Questions:", questions);
 
         setQuiz((prevQuiz: any) => ({
           ...prevQuiz,
           title: prevQuiz.title || quizFromRedux?.title || "Untitled Quiz",
-          questions, // Update questions
+          questions,
         }));
       } catch (err) {
         console.error("Failed to fetch questions:", err);
@@ -46,7 +42,6 @@ export default function QuizView() {
     fetchQuizData();
   }, [qid, quizFromRedux]);
 
-  // Handle answer changes
   const handleAnswerChange = (questionId: string, answer: string) => {
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
@@ -54,12 +49,10 @@ export default function QuizView() {
     }));
   };
 
-  // Navigate to the editor
   const handleEditQuiz = () => {
     navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/editor`);
   };
 
-  // Render loading or error states
   if (loading) return <p>Loading quiz...</p>;
   if (error) return <p>{error}</p>;
   if (!quiz) return <p>Quiz not found.</p>;
@@ -91,7 +84,6 @@ export default function QuizView() {
             </div>
             <div className="card-body">
               <p>{question.questionText}</p>
-              {/* Render Multiple Choice Questions */}
               {question.type === "Multiple Choice" && (
                 <div className="list-group">
                   {question.answers.map((answer: any, idx: number) => (
@@ -114,7 +106,6 @@ export default function QuizView() {
                   ))}
                 </div>
               )}
-              {/* Render True/False Questions */}
               {question.type === "True/False" && (
                 <div className="list-group">
                   {question.answers.map((answer: any, idx: number) => (
@@ -137,7 +128,6 @@ export default function QuizView() {
                   ))}
                 </div>
               )}
-              {/* Render Fill in the Blank Questions */}
               {question.type === "Fill in the Blank" && (
                 <div className="mb-3">
                   <input

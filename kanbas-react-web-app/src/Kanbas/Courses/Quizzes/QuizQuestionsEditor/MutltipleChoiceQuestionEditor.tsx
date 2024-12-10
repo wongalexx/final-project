@@ -1,32 +1,77 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa6";
+import UpdateQuestionButtons from "./UpdateQuestionButtons";
+import { updateQuestions } from "./reducer";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
-import * as questionsClient from "./client";
-import { addQuestions } from "./reducer";
 
-const MultipleChoiceQuestionEditor = ({ question }: { question: any }) => {
+const MultipleChoiceQuestionEditor = ({
+  quiz,
+  question,
+  handleUpdateQuestion,
+  cancelEdit,
+}: {
+  quiz: any;
+  question: any;
+  handleUpdateQuestion: (question: any) => void;
+  cancelEdit: (id: string) => void;
+}) => {
+  const dispatch = useDispatch();
+  const { cid, qid } = useParams();
   const [questionText, setQuestionText] = useState("");
-  const [answers, setAnswers] = useState([{ text: "" }]);
-  const [correctAnswerIndex, setCorrectAnswerIndex] = useState<null | number>(
-    0
+  const [answers, setAnswers] = useState(
+    Array.isArray(question.answers)
+      ? question.answers
+      : [{ text: "", correct: false }]
+  );
+  const [updateQuestion, setUpdateQuestion] = useState({
+    questionText: "",
+    answers: question.answers || [{ text: "", correct: false }],
+    ...question,
+  });
+  console.log(updateQuestion);
+  const [correctAnswerIndex, setCorrectAnswerIndex] = useState<number | null>(
+    updateQuestion.answers && Array.isArray(question.answers)
+      ? updateQuestion.answers.findIndex((answer: any) => answer.correct)
+      : null
   );
 
   const handleAnswerChange = (
     index: number,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const updatedAnswers = [...answers];
-    updatedAnswers[index].text = e.target.value;
+    const updatedAnswers = answers.map((answer: any, i: any) =>
+      i === index ? { ...answer, text: e.target.value } : answer
+    );
     setAnswers(updatedAnswers);
+    setUpdateQuestion({ ...updateQuestion, answers: updatedAnswers });
   };
-
   const addAnswer = () => {
-    setAnswers([...answers, { text: "" }]);
+    const newAnswer = { text: "", correct: false };
+    const updatedAnswers = [...answers, newAnswer];
+    setAnswers(updatedAnswers);
+    setUpdateQuestion({ ...updateQuestion, answers: updatedAnswers });
+  };
+  const removeAnswer = (index: number) => {
+    setUpdateQuestion(
+      updateQuestion.answers.filter((_: any, i: any) => i !== index)
+    );
+    if (correctAnswerIndex === index) {
+      setCorrectAnswerIndex(null);
+    } else if (correctAnswerIndex && correctAnswerIndex > index) {
+      setCorrectAnswerIndex(correctAnswerIndex - 1);
+    }
   };
 
-  const removeAnswer = (index: number) => {
-    setAnswers(answers.filter((_, i) => i !== index));
+  const toggleCorrectAnswer = (index: number) => {
+    const updatedAnswers = answers.map((answer: any, i: any) => ({
+      ...answer,
+      correct: i === index ? !answer.correct : false,
+    }));
+    setAnswers(updatedAnswers);
+    setUpdateQuestion({ ...updateQuestion, answers: updatedAnswers });
+    setCorrectAnswerIndex(index === correctAnswerIndex ? null : index);
   };
 
   return (
@@ -43,12 +88,22 @@ const MultipleChoiceQuestionEditor = ({ question }: { question: any }) => {
           <textarea
             className="form-control"
             id="wd-multiple-choice-question"
-            placeholder="Enter your question here"
+            placeholder="Enter question..."
+            value={updateQuestion.questionText}
+            onChange={(e) => {
+              const newQuestionText = e.target.value;
+              const updatedQuestion = {
+                ...updateQuestion,
+                questionText: newQuestionText,
+              };
+              setUpdateQuestion(updatedQuestion);
+              dispatch(updateQuestions(updatedQuestion));
+            }}
           />
         </div>
         <div className="choices-section">
           <b>Answers:</b>
-          {answers.map((answer, index) => (
+          {answers.map((answer: any, index: any) => (
             <div key={index} className="input-group mb-2 align-items-center">
               <div className="choice d-flex align-items-center w-100">
                 <span
@@ -60,11 +115,7 @@ const MultipleChoiceQuestionEditor = ({ question }: { question: any }) => {
                     whiteSpace: "nowrap",
                     width: "155px",
                   }}
-                  onClick={() =>
-                    setCorrectAnswerIndex(
-                      index === correctAnswerIndex ? null : index
-                    )
-                  }
+                  onClick={() => toggleCorrectAnswer(index)}
                 >
                   {correctAnswerIndex === index
                     ? "Correct Answer"
@@ -82,7 +133,7 @@ const MultipleChoiceQuestionEditor = ({ question }: { question: any }) => {
                     type="button"
                     className="btn btn-outline-secondary"
                     onClick={() => removeAnswer(index)}
-                    disabled={index === 0}
+                    disabled={answers.length <= 1}
                     style={{ flexShrink: 0 }}
                   >
                     <FaTrash />
@@ -91,6 +142,10 @@ const MultipleChoiceQuestionEditor = ({ question }: { question: any }) => {
               </div>
             </div>
           ))}
+          <div>
+            Click the 'Add Another Answer' button (+ Add Another Answer) to add
+            a new answer.
+          </div>
           <div className="d-flex justify-content-end">
             <button
               type="button"
@@ -108,6 +163,12 @@ const MultipleChoiceQuestionEditor = ({ question }: { question: any }) => {
           </div>
         </div>
       </div>
+      <UpdateQuestionButtons
+        quiz={quiz}
+        question={updateQuestion}
+        handleUpdateQuestion={handleUpdateQuestion}
+        cancelEdit={cancelEdit}
+      />
     </div>
   );
 };

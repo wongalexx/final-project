@@ -2,12 +2,17 @@ import { useParams, useNavigate } from "react-router";
 import { FaPencil } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import * as quizClient from "./client";
 
 export default function QuizDetails() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { cid, qid } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
+
   const navigate = useNavigate();
   const { quizzes } = useSelector((state: any) => state.quizReducer);
+  const [questions, setQuestions] = useState([]);
+  const [totalPoints, setTotalPoints] = useState(0);
   const quiz = quizzes.find((quiz: any) => quiz._id === qid);
 
   const formatDate = (newDate: string | number | Date) => {
@@ -19,10 +24,26 @@ export default function QuizDetails() {
       hour: "numeric",
       minute: "numeric",
       hour12: true,
+      timeZone: "UTC",
     });
   };
 
-  // useEffect(() => {}, [cid, qid, quizzes]);
+  const fetchQuestionsAndCalculatePoints = async () => {
+    setIsLoading(true);
+    if (!qid) return;
+    const fetchedQuestions = await quizClient.findQuestionsForQuiz(qid);
+    setQuestions(fetchedQuestions);
+    const pointsSum = fetchedQuestions.reduce(
+      (sum: number, question: any) => sum + (question.points || 0),
+      0
+    );
+    setTotalPoints(pointsSum);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchQuestionsAndCalculatePoints();
+  }, [qid]);
 
   return (
     <div>
@@ -70,7 +91,9 @@ export default function QuizDetails() {
             <div className="col-6 text-end">
               <b>Points</b>
             </div>
-            <div className="col-6 text-start">{quiz.points}</div>
+            <div className="col-6 text-start">
+              {isLoading ? "Loading..." : totalPoints}
+            </div>
           </div>
           <div className="row">
             <div className="col-6 text-end">
@@ -97,7 +120,9 @@ export default function QuizDetails() {
               <b>Multiple Attempts</b>
             </div>
             <div className="col-6 text-start">
-              {quiz.multipleAttempts ? "Yes" : "No"}
+              {quiz.multipleAttempts
+                ? `Yes (Allowed: ${quiz.attemptsAllowed})`
+                : "No"}
             </div>
           </div>
           <div className="row">
@@ -116,10 +141,32 @@ export default function QuizDetails() {
           </div>
           <div className="row">
             <div className="col-6 text-end">
+              <b>Access Code</b>
+            </div>
+            <div className="col-6 text-start">{quiz.accessCode || "None"}</div>
+          </div>
+          <div className="row">
+            <div className="col-6 text-end">
               <b>One Question at a Time</b>
             </div>
             <div className="col-6 text-start">
               {quiz.oneQuestionAtATime ? "Yes" : "No"}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Webcam Required</b>
+            </div>
+            <div className="col-6 text-start">
+              {quiz.webcamRequired ? "Yes" : "No"}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6 text-end">
+              <b>Lock Questions After Answering</b>
+            </div>
+            <div className="col-6 text-start">
+              {quiz.lockQuestionsAfterAnswering ? "Yes" : "No"}
             </div>
           </div>
           <div className="row">
