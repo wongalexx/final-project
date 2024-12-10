@@ -25,6 +25,7 @@ export default function QuizDetails() {
       hour: "numeric",
       minute: "numeric",
       hour12: true,
+      timeZone: "UTC", // Add this for UTC formatting
     });
   };
 
