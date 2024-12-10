@@ -27,10 +27,28 @@ export default function Kanbas() {
     const newCourse = await courseClient.createCourse(course);
     setCourses([...courses, newCourse]);
   };
+  // const deleteCourse = async (courseId: string) => {
+  //   const status = await courseClient.deleteCourse(courseId);
+  //   setCourses(courses.filter((course) => course._id !== courseId));
+  // };
+
   const deleteCourse = async (courseId: string) => {
-    const status = await courseClient.deleteCourse(courseId);
-    setCourses(courses.filter((course) => course._id !== courseId));
+    try {
+      // Unenroll the current user from the course before deleting
+      await userClient.unenrollFromCourse(currentUser._id, courseId);
+
+      // Delete the course
+      const status = await courseClient.deleteCourse(courseId);
+
+      // Remove the course from the state
+      setCourses((prevCourses) =>
+        prevCourses.filter((course) => course?._id !== courseId)
+      );
+    } catch (error) {
+      console.error("Error unenrolling and deleting the course:", error);
+    }
   };
+
   const updateCourse = async () => {
     await courseClient.updateCourse(course);
     setCourses(
