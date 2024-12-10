@@ -34,7 +34,7 @@ export default function QuizDetailsEditor({ q }: { q: any }) {
     accessCode: "",
     oneQuestionAtATime: true,
     webcamRequired: false,
-    lockQuestionsAfterAnswering: true,
+    lockQuestionsAfterAnswering: false,
     availableFromDate: new Date(),
     availableUntilDate: new Date(),
     due: new Date(),
@@ -67,6 +67,20 @@ export default function QuizDetailsEditor({ q }: { q: any }) {
       createQuizForCourse();
     } else {
       updateQuiz(newQuiz);
+    }
+  };
+  const handleSaveAndPublish = async () => {
+    const updatedQuiz = { ...newQuiz, published: true };
+
+    if (qid === "new") {
+      const createdQuiz = await coursesClient.createQuizzesForCourse(
+        cid,
+        updatedQuiz
+      );
+      dispatch(addQuizzes(createdQuiz));
+    } else {
+      await quizClient.updateQuiz(updatedQuiz);
+      dispatch(updateQuizzes(updatedQuiz));
     }
   };
 
@@ -166,6 +180,72 @@ export default function QuizDetailsEditor({ q }: { q: any }) {
                 Shuffle Answers
               </label>
             </div>
+            <div className="form-check mt-1">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="oneQuestionAtATime"
+                checked={newQuiz.oneQuestionAtATime}
+                onChange={(e) =>
+                  setNewQuiz({
+                    ...newQuiz,
+                    oneQuestionAtATime: e.target.checked,
+                  })
+                }
+              />
+              <label className="form-check-label" htmlFor="oneQuestionAtATime">
+                One Question at a Time
+              </label>
+            </div>
+            <div className="form-check mt-1">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="webcamRequired"
+                checked={newQuiz.webcamRequired}
+                onChange={(e) =>
+                  setNewQuiz({
+                    ...newQuiz,
+                    webcamRequired: e.target.checked,
+                  })
+                }
+              />
+              <label className="form-check-label" htmlFor="webcamRequired">
+                Webcam Required
+              </label>
+            </div>
+            <div className="form-check mt-1">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="lockQuestionsAfterAnswering"
+                checked={newQuiz.lockQuestionsAfterAnswering}
+                onChange={(e) =>
+                  setNewQuiz({
+                    ...newQuiz,
+                    lockQuestionsAfterAnswering: e.target.checked,
+                  })
+                }
+              />
+              <label
+                className="form-check-label"
+                htmlFor="lockQuestionsAfterAnswering"
+              >
+                Lock Questions After Answering
+              </label>
+            </div>
+            <div className="form-group mt-2">
+              <label htmlFor="accessCode">Access Code</label>
+              <input
+                id="accessCode"
+                type="text"
+                className="form-control"
+                value={newQuiz.accessCode}
+                onChange={(e) =>
+                  setNewQuiz({ ...newQuiz, accessCode: e.target.value })
+                }
+              />
+            </div>
             <div className="d-flex align-items-center">
               <div className="form-check me-2">
                 <input
@@ -222,6 +302,24 @@ export default function QuizDetailsEditor({ q }: { q: any }) {
                     Allow Multiple Attempts
                   </label>
                 </div>
+                {newQuiz.multipleAttempts && (
+                  <div className="mt-2">
+                    <label htmlFor="attemptsAllowed">Attempts Allowed</label>
+                    <input
+                      id="attemptsAllowed"
+                      type="number"
+                      className="form-control"
+                      value={newQuiz.attemptsAllowed}
+                      onChange={(e) =>
+                        setNewQuiz({
+                          ...newQuiz,
+                          attemptsAllowed: parseInt(e.target.value) || 1,
+                        })
+                      }
+                      min={1}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -310,11 +408,18 @@ export default function QuizDetailsEditor({ q }: { q: any }) {
                 </button>
               </a>
               <Link
-                className="btn btn-danger btn-lg"
+                className="btn btn-danger btn-lg me-2"
                 to={`/Kanbas/Courses/${cid}/Quizzes`}
                 onClick={handleSave}
               >
                 Save
+              </Link>
+              <Link
+                className="btn btn-success btn-lg"
+                to={`/Kanbas/Courses/${cid}/Quizzes`}
+                onClick={handleSaveAndPublish}
+              >
+                Save and Publish
               </Link>
             </div>
           </div>

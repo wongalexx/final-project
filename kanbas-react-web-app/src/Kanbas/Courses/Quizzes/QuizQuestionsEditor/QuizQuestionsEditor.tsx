@@ -15,6 +15,7 @@ import {
 } from "./reducer";
 import { Link } from "react-router-dom";
 import { FaTrashCan } from "react-icons/fa6";
+import { FaEdit } from "react-icons/fa";
 
 const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
   const dispatch = useDispatch();
@@ -210,16 +211,32 @@ const QuizQuestionsEditor = ({ quiz }: { quiz: any }) => {
                       )
                     )
                   }
+                  style={{ cursor: "pointer" }} // Make it clear this is clickable
                 >
                   {question.title}
                 </span>
                 <div className="col d-flex justify-content-end align-items-center">
-                  <FaTrashCan
+                  <FaEdit
                     className="me-2"
+                    onClick={() =>
+                      dispatch(
+                        setQuestions(
+                          questions.map((q: any) =>
+                            q._id === question._id
+                              ? { ...q, editMode: true }
+                              : q
+                          )
+                        )
+                      )
+                    }
+                    style={{ cursor: "pointer" }} // Styling for the edit icon
+                  />
+                  <FaTrashCan
                     onClick={() => {
                       deleteQuestion(qid as string, question._id);
                       dispatch(deleteQuestions(question._id));
                     }}
+                    style={{ cursor: "pointer", color: "red" }} // Styling for the trash icon
                   />
                 </div>
               </li>
