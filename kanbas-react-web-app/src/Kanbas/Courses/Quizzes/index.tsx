@@ -19,13 +19,27 @@ export default function Quizzes() {
   const { quizzes } = useSelector((state: any) => state.quizReducer);
   const { questions } = useSelector((state: any) => state.questionsReducer);
   const { cid } = useParams();
+  const [quizPoints, setQuizPoints] = useState<{ [key: string]: number }>({});
+  const [questionCounts, setQuestionCounts] = useState<{
+    [key: string]: number;
+  }>({});
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen((prevState) => !prevState);
 
+  // const fetchQuizzes = async () => {
+  //   const quiz = await coursesClient.findQuizzesForCourse(cid as string);
+  //   dispatch(setQuizzes(quiz));
+  // };
+
   const fetchQuizzes = async () => {
-    const quiz = await coursesClient.findQuizzesForCourse(cid as string);
-    dispatch(setQuizzes(quiz));
+    const quizzes = await coursesClient.findQuizzesForCourse(cid as string);
+    dispatch(setQuizzes(quizzes));
+
+    // Calculate total points and question counts for each quiz
+    quizzes.forEach((quiz: any) => {
+      fetchQuestionsAndCalculatePoints(quiz._id);
+    });
   };
 
   const deleteQuiz = async (qid: string) => {
@@ -44,6 +58,26 @@ export default function Quizzes() {
       hour12: true,
     });
   };
+
+  const fetchQuestionsAndCalculatePoints = async (quizId: string) => {
+    const fetchedQuestions = await quizClient.findQuestionsForQuiz(quizId);
+
+    const pointsSum = fetchedQuestions.reduce(
+      (sum: number, question: any) => sum + (question.points || 0),
+      0
+    );
+
+    // Update points and question count in state
+    setQuizPoints((prevPoints) => ({
+      ...prevPoints,
+      [quizId]: pointsSum,
+    }));
+    setQuestionCounts((prevCounts) => ({
+      ...prevCounts,
+      [quizId]: fetchedQuestions.length,
+    }));
+  };
+
   const fetchAvailability = (quiz: any) => {
     const currentDate = new Date();
 
@@ -145,9 +179,9 @@ export default function Quizzes() {
                             {fetchAvailability(quiz)} |
                           </span>
                           <span className="grey-font">
-                            {" "}
                             <b>Due</b> {formatDate(new Date(quiz.due))} |{" "}
-                            {quiz.points}pts | GET QUESTIONS questions
+                            {quizPoints[quiz._id] || quiz.points}pts |{" "}
+                            {questionCounts[quiz._id] || 0} questions
                           </span>
                         </span>
                       </div>

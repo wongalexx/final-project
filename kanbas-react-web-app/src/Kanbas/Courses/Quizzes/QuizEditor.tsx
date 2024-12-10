@@ -18,6 +18,10 @@ export default function QuizEditor() {
   const { quizzes } = useSelector((state: any) => state.quizReducer);
   const quiz = quizzes.find((quiz: any) => quiz._id === qid);
 
+  // State for fetched questions and total points
+  const [questions, setQuestions] = useState([]);
+  const [totalPoints, setTotalPoints] = useState(0);
+
   const quizId = qid === "new" ? new mongoose.Types.ObjectId() : qid;
 
   const [newQuiz, setNewQuiz] = useState({
@@ -44,6 +48,25 @@ export default function QuizEditor() {
     ...quiz,
   });
 
+  const fetchQuestionsAndCalculatePoints = async () => {
+    if (!qid) return;
+    const fetchedQuestions = await quizClient.findQuestionsForQuiz(qid);
+    setQuestions(fetchedQuestions);
+
+    const pointsSum = fetchedQuestions.reduce(
+      (sum: number, question: any) => sum + (question.points || 0),
+      0
+    );
+
+    // Update the newQuiz state with dynamic total points
+    setTotalPoints(pointsSum);
+    setNewQuiz((prevQuiz: any) => ({ ...prevQuiz, points: pointsSum }));
+  };
+
+  useEffect(() => {
+    fetchQuestionsAndCalculatePoints();
+  }, [qid]);
+
   const dispatch = useDispatch();
 
   const handleTabChange = (tab: any) => {
@@ -56,7 +79,8 @@ export default function QuizEditor() {
       {((qid && qid !== "new") || (qtitle && qtitle !== "new")) && (
         <>
           <span className="d-flex justify-content-end align-items-center">
-            <b className="pe-3">Points {newQuiz.points}</b>
+            <b className="pe-3">Points {totalPoints}</b>{" "}
+            {/* Updated to use totalPoints */}
             <span className="pe-3">
               {newQuiz.published ? (
                 <span className="d-flex align-items-center justify-content-center">

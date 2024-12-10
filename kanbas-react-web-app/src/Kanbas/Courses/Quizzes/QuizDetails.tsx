@@ -2,12 +2,18 @@ import { useParams, useNavigate } from "react-router";
 import { FaPencil } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import * as quizClient from "./client";
 
 export default function QuizDetails() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { cid, qid } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
+
   const navigate = useNavigate();
   const { quizzes } = useSelector((state: any) => state.quizReducer);
+  // State for fetched questions and total points
+  const [questions, setQuestions] = useState([]);
+  const [totalPoints, setTotalPoints] = useState(0);
   const quiz = quizzes.find((quiz: any) => quiz._id === qid);
 
   const formatDate = (newDate: string | number | Date) => {
@@ -21,6 +27,25 @@ export default function QuizDetails() {
       hour12: true,
     });
   };
+
+  // Fetch questions and calculate total points
+  const fetchQuestionsAndCalculatePoints = async () => {
+    setIsLoading(true);
+    if (!qid) return;
+    const fetchedQuestions = await quizClient.findQuestionsForQuiz(qid);
+    setQuestions(fetchedQuestions);
+    const pointsSum = fetchedQuestions.reduce(
+      (sum: number, question: any) => sum + (question.points || 0),
+      0
+    );
+    setTotalPoints(pointsSum);
+    setIsLoading(false);
+  };
+
+  // Update total points when the quiz ID changes
+  useEffect(() => {
+    fetchQuestionsAndCalculatePoints();
+  }, [qid]);
 
   // useEffect(() => {}, [cid, qid, quizzes]);
 
@@ -70,7 +95,9 @@ export default function QuizDetails() {
             <div className="col-6 text-end">
               <b>Points</b>
             </div>
-            <div className="col-6 text-start">{quiz.points}</div>
+            <div className="col-6 text-start">
+              {isLoading ? "Loading..." : totalPoints}
+            </div>
           </div>
           <div className="row">
             <div className="col-6 text-end">
