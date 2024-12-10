@@ -11,7 +11,7 @@ export const deleteQuestion = async (quizId: any, questionId: any) => {
 };
 export const updateQuestion = async (quiz: any, question: any) => {
   const { data } = await axiosWithCredentials.put(
-    `${QUESTIONS_API}/${quiz._id}/${question._id}`,
+    `${QUESTIONS_API}/${quiz._id}/questions/${question._id}`,
     question
   );
   return data;

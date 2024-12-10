@@ -6,10 +6,6 @@ import { FcCancel } from "react-icons/fc";
 import { IoEllipsisVertical } from "react-icons/io5";
 import QuizDetailsEditor from "./QuizDetailsEditor";
 import QuizQuestionsEditor from "./QuizQuestionsEditor/QuizQuestionsEditor";
-import * as quizClient from "./client";
-import * as coursesClient from "../client";
-import { setQuizzes, updateQuizzes, addQuizzes } from "./reducer";
-import { Link } from "react-router-dom";
 import mongoose from "mongoose";
 
 export default function QuizEditor() {

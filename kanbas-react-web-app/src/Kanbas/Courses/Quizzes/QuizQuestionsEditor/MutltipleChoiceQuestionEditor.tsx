@@ -1,33 +1,71 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa6";
+import UpdateQuestionButtons from "./UpdateQuestionButtons";
+import { updateQuestions } from "./reducer";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
-import * as questionsClient from "./client";
-import { addQuestions } from "./reducer";
 
-const MultipleChoiceQuestionEditor = ({ question }: { question: any }) => {
-  const { cid, qid, qtitle } = useParams();
+const MultipleChoiceQuestionEditor = ({
+  quiz,
+  question,
+  handleUpdateQuestion,
+  cancelEdit,
+}: {
+  quiz: any;
+  question: any;
+  handleUpdateQuestion: (question: any) => void;
+  cancelEdit: (id: string) => void;
+}) => {
+  const dispatch = useDispatch();
+  const { cid, qid } = useParams();
   const [questionText, setQuestionText] = useState("");
-  const [answers, setAnswers] = useState([{ text: "" }]);
-  const [correctAnswerIndex, setCorrectAnswerIndex] = useState<null | number>(
-    0
+  const [answers, setAnswers] = useState(
+    Array.isArray(question.answers)
+      ? question.answers
+      : [{ text: "", correct: false }]
+  );
+  const [updateQuestion, setUpdateQuestion] = useState({
+    questionText: "",
+    answers: question.answers || [{ text: "", correct: false }],
+    ...question,
+    isNew: true,
+  });
+  const [correctAnswerIndex, setCorrectAnswerIndex] = useState<number | null>(
+    updateQuestion.answers && Array.isArray(question.answers)
+      ? updateQuestion.answers.findIndex((answer: any) => answer.correct)
+      : null
   );
 
   const handleAnswerChange = (
     index: number,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const updatedAnswers = [...answers];
-    updatedAnswers[index].text = e.target.value;
+    const updatedAnswers = answers.map((answer: any, i: any) =>
+      i === index ? { ...answer, text: e.target.value } : answer
+    );
     setAnswers(updatedAnswers);
+    setUpdateQuestion({ ...updateQuestion, answers: updatedAnswers });
   };
-
   const addAnswer = () => {
-    setAnswers([...answers, { text: "" }]);
+    const newAnswer = { text: "", correct: false };
+    const updatedAnswers = [...answers, newAnswer];
+    setAnswers(updatedAnswers);
+    setUpdateQuestion({ ...updateQuestion, answers: updatedAnswers });
+  };
+  const removeAnswer = (index: number) => {
+    setUpdateQuestion(
+      updateQuestion.answers.filter((_: any, i: any) => i !== index)
+    );
+    if (correctAnswerIndex === index) {
+      setCorrectAnswerIndex(null);
+    } else if (correctAnswerIndex && correctAnswerIndex > index) {
+      setCorrectAnswerIndex(correctAnswerIndex - 1);
+    }
   };
 
-  const removeAnswer = (index: number) => {
-    setAnswers(answers.filter((_, i) => i !== index));
+  const toggleCorrectAnswer = (index: number) => {
+    setCorrectAnswerIndex(index === correctAnswerIndex ? null : index);
   };
 
   return (
@@ -44,106 +82,66 @@ const MultipleChoiceQuestionEditor = ({ question }: { question: any }) => {
           <textarea
             className="form-control"
             id="wd-multiple-choice-question"
-            placeholder="Enter your question here"
-            value={question.questionText}
+            placeholder="Enter question..."
+            value={updateQuestion.questionText}
+            onChange={(e) => {
+              const newQuestionText = e.target.value;
+              const updatedQuestion = {
+                ...updateQuestion,
+                questionText: newQuestionText,
+              };
+              setUpdateQuestion(updatedQuestion);
+              dispatch(updateQuestions(updatedQuestion));
+            }}
           />
         </div>
         <div className="choices-section">
           <b>Answers:</b>
-          {qtitle === "new"
-            ? answers.map((answer, index) => (
-                <div
-                  key={index}
-                  className="input-group mb-2 align-items-center"
+          {!updateQuestion.isNew && (
+            <div>
+              Click the 'Add Another Answer' button (+ Add Another Answer) to
+              add a new answer.
+            </div>
+          )}
+          {answers.map((answer: any, index: any) => (
+            <div key={index} className="input-group mb-2 align-items-center">
+              <div className="choice d-flex align-items-center w-100">
+                <span
+                  className={`answer-choice-text me-2 text-nowrap d-flex align-items-center justify-content-start ${
+                    correctAnswerIndex === index ? "text-success" : "text-muted"
+                  }`}
+                  style={{
+                    cursor: "pointer",
+                    whiteSpace: "nowrap",
+                    width: "155px",
+                  }}
+                  onClick={() => toggleCorrectAnswer(index)}
                 >
-                  <div className="choice d-flex align-items-center w-100">
-                    <span
-                      className={`answer-choice-text me-2 text-nowrap d-flex align-items-center justify-content-start ${
-                        correctAnswerIndex === index
-                          ? "text-success"
-                          : "text-muted"
-                      }`}
-                      style={{
-                        cursor: "pointer",
-                        whiteSpace: "nowrap",
-                        width: "155px",
-                      }}
-                      onClick={() =>
-                        setCorrectAnswerIndex(
-                          index === correctAnswerIndex ? null : index
-                        )
-                      }
-                    >
-                      {correctAnswerIndex === index
-                        ? "Correct Answer"
-                        : "Possible Answer"}
-                    </span>
-                    <div className="input-group flex-grow-1">
-                      <input
-                        type="text"
-                        className="form-control"
-                        value={answer.text}
-                        onChange={(e) => handleAnswerChange(index, e)}
-                        placeholder="Enter answer..."
-                      />
-                      <button
-                        type="button"
-                        className="btn btn-outline-secondary"
-                        onClick={() => removeAnswer(index)}
-                        disabled={index === 0}
-                        style={{ flexShrink: 0 }}
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </div>
+                  {correctAnswerIndex === index
+                    ? "Correct Answer"
+                    : "Possible Answer"}
+                </span>
+                <div className="input-group flex-grow-1">
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={answer.text}
+                    onChange={(e) => handleAnswerChange(index, e)}
+                    placeholder="Enter answer..."
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={() => removeAnswer(index)}
+                    disabled={answers.length <= 1}
+                    style={{ flexShrink: 0 }}
+                  >
+                    <FaTrash />
+                  </button>
                 </div>
-              ))
-            : question.answers.map((answer: any, index: number) => (
-                <div
-                  key={index}
-                  className="input-group mb-2 align-items-center"
-                >
-                  <div className="choice d-flex align-items-center w-100">
-                    <span
-                      className={`answer-choice-text me-2 text-nowrap d-flex align-items-center justify-content-start ${
-                        answer.correct ? "text-success" : "text-muted"
-                      }`}
-                      style={{
-                        cursor: "pointer",
-                        whiteSpace: "nowrap",
-                        width: "155px",
-                      }}
-                      onClick={() =>
-                        setCorrectAnswerIndex(
-                          index === correctAnswerIndex ? null : index
-                        )
-                      }
-                    >
-                      {answer.correct ? "Correct Answer" : "Possible Answer"}
-                    </span>
-                    <div className="input-group flex-grow-1">
-                      <input
-                        type="text"
-                        className="form-control"
-                        value={answer.text}
-                        onChange={(e) => handleAnswerChange(index, e)}
-                        placeholder="Enter answer..."
-                      />
-                      <button
-                        type="button"
-                        className="btn btn-outline-secondary"
-                        onClick={() => removeAnswer(index)}
-                        disabled={index === 0}
-                        style={{ flexShrink: 0 }}
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-
+              </div>
+            </div>
+          ))}
           <div className="d-flex justify-content-end">
             <button
               type="button"
@@ -161,6 +159,12 @@ const MultipleChoiceQuestionEditor = ({ question }: { question: any }) => {
           </div>
         </div>
       </div>
+      <UpdateQuestionButtons
+        quiz={quiz}
+        question={updateQuestion}
+        handleUpdateQuestion={handleUpdateQuestion}
+        cancelEdit={cancelEdit}
+      />
     </div>
   );
 };
