@@ -7,6 +7,8 @@ import { IoEllipsisVertical } from "react-icons/io5";
 import QuizDetailsEditor from "./QuizDetailsEditor";
 import QuizQuestionsEditor from "./QuizQuestionsEditor/QuizQuestionsEditor";
 import mongoose from "mongoose";
+import { updateQuizzes } from "./reducer";
+import * as quizClient from "./client";
 
 export default function QuizEditor() {
   const { cid, qid, qtitle } = useParams();
