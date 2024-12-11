@@ -38,39 +38,49 @@ const FillInTheBlankQuestionEditor = ({
     index: number,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setUpdateQuestion(
-      updateQuestion.answers.map((answer: any, i: any) =>
-        i === index ? { ...answer, text: e.target.value } : answer
-      )
-    );
+    const updatedAnswers = Array.isArray(updateQuestion.answers)
+      ? updateQuestion.answers.map(
+          (answer: any, i: number) =>
+            i === index
+              ? { ...answer, text: e.target.value, correct: true }
+              : answer // Always ensure correct: true
+        )
+      : [{ text: e.target.value, correct: true }]; // Fallback case
+
+    setUpdateQuestion((prev: any) => ({
+      ...prev,
+      answers: updatedAnswers,
+    }));
+    dispatch(updateQuestions({ ...updateQuestion, answers: updatedAnswers }));
   };
 
   const addAnswer = () => {
-    setUpdateQuestion([
-      ...updateQuestion.answers,
-      { text: "", correct: false },
-    ]);
+    const updatedAnswers = Array.isArray(updateQuestion.answers)
+      ? [...updateQuestion.answers, { text: "", correct: true }] // Always set correct: true
+      : [{ text: "", correct: true }];
+
+    setUpdateQuestion((prev: any) => ({
+      ...prev,
+      answers: updatedAnswers,
+    }));
+    dispatch(updateQuestions({ ...updateQuestion, answers: updatedAnswers }));
   };
 
   const removeAnswer = (index: number) => {
-    setUpdateQuestion(
-      updateQuestion.answers.filter((_: any, i: any) => i !== index)
-    );
+    const updatedAnswers = Array.isArray(updateQuestion.answers)
+      ? updateQuestion.answers.filter((_: any, i: number) => i !== index)
+      : [];
+
+    setUpdateQuestion((prev: any) => ({
+      ...prev,
+      answers: updatedAnswers,
+    }));
+
     if (correctAnswerIndex === index) {
       setCorrectAnswerIndex(null);
     } else if (correctAnswerIndex && correctAnswerIndex > index) {
       setCorrectAnswerIndex(correctAnswerIndex - 1);
     }
-  };
-
-  const toggleCorrectAnswer = (index: number) => {
-    const updatedAnswers = answers.map((answer: any, i: any) => ({
-      ...answer,
-      correct: i === index ? !answer.correct : false,
-    }));
-    setAnswers(updatedAnswers);
-    setUpdateQuestion({ ...updateQuestion, answers: updatedAnswers });
-    // setCorrectAnswerIndex(index === correctAnswerIndex ? null : index);
   };
 
   return (
@@ -103,26 +113,19 @@ const FillInTheBlankQuestionEditor = ({
         </label>
         <div className="answers-section">
           <b>Answers:</b>
-          {Array.isArray(question.answers) &&
-            question.answers.map((answer: any, index: number) => (
+          {Array.isArray(updateQuestion.answers) &&
+            updateQuestion.answers.map((answer: any, index: number) => (
               <div key={index} className="input-group mb-2 align-items-center">
                 <div className="choice d-flex align-items-center w-100">
                   <span
-                    className={`answer-choice-text me-2 text-nowrap d-flex align-items-center justify-content-start ${
-                      answer.correct ? "text-success" : "text-muted"
-                    }`}
+                    className={`answer-choice-text me-2 text-nowrap d-flex align-items-center justify-content-start text-muted`}
                     style={{
                       cursor: "pointer",
                       whiteSpace: "nowrap",
                       width: "155px",
                     }}
-                    // onClick={() =>
-                    //   setCorrectAnswerIndex(
-                    //     index === correctAnswerIndex ? null : index
-                    //   )
-                    // }
                   >
-                    {answer.correct ? "Correct Answer" : "Possible Answer"}
+                    Possible Answer
                   </span>
                   <div className="input-group flex-grow-1">
                     <input
@@ -145,6 +148,7 @@ const FillInTheBlankQuestionEditor = ({
                 </div>
               </div>
             ))}
+
           <div>
             Click the 'Add Another Answer' button (+ Add Another Answer) to add
             a new answer.
