@@ -255,28 +255,30 @@ export default function QuizDetails() {
                   <th scope="col">Score</th>
                 </tr>
               </thead>
-              {responses
-                .filter((response: any) => response.quiz === qid)
-                .map((response: any) => (
-                  <tr>
-                    <td>
-                      <button
-                        className="btn btn-link text-danger text-decoration-none p-0"
-                        onClick={() =>
-                          navigate(
-                            `/Kanbas/Courses/${cid}/Quizzes/${qid}/Details/${response._id}`
-                          )
-                        }
-                      >
-                        Attempt {response.attempt}{" "}
-                      </button>
-                    </td>
-                    <td>{formatDate(response.submittedAt)}</td>
-                    <td>
-                      {response.grade} out of {quiz.points}
-                    </td>
-                  </tr>
-                ))}
+              <tbody>
+                {responses
+                  .filter((response: any) => response.quiz === qid)
+                  .map((response: any) => (
+                    <tr>
+                      <td>
+                        <button
+                          className="btn btn-link text-danger text-decoration-none p-0"
+                          onClick={() =>
+                            navigate(
+                              `/Kanbas/Courses/${cid}/Quizzes/${qid}/Details/${response._id}`
+                            )
+                          }
+                        >
+                          Attempt {response.attempt}{" "}
+                        </button>
+                      </td>
+                      <td>{formatDate(response.submittedAt)}</td>
+                      <td>
+                        {response.grade} out of {quiz.points}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
             </table>
           </>
         )}

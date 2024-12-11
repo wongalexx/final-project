@@ -56,7 +56,10 @@ export default function QuizView() {
 
   useEffect(() => {
     setStartTime(currentTime);
-  }, [qid]);
+    if (quiz.timeLimit) {
+      setTimeRemaining(quiz.timeLimit * 60);
+    }
+  }, [qid, quiz.timeLimit]);
 
   useEffect(() => {
     fetchQuizzes();
@@ -77,10 +80,19 @@ export default function QuizView() {
       }
     };
     fetchQuizData();
-    if (quiz.timeLimit) {
-      setTimeRemaining(quiz.timeLimit * 60);
+    if (timeRemaining === null) return;
+
+    if (timeRemaining <= 0) {
+      alert("Time is up! Submitting the quiz automatically.");
+      handleSubmitQuiz();
+      return;
     }
-  }, [qid, currentUser, quiz.timeLimit]);
+    const timer = setInterval(() => {
+      setTimeRemaining((prev) => (prev !== null ? prev - 1 : null));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [qid, currentUser, timeRemaining]);
 
   const handleAnswerChange = (questionId: string, answer: string) => {
     if (!isSubmitted && attemptCount < quiz.attemptsAllowed) {
@@ -155,6 +167,12 @@ export default function QuizView() {
 
   const hasExceededAttempts = attemptCount >= quiz.attemptsAllowed;
 
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+  };
+
   return (
     <div className="container">
       {hasExceededAttempts ? (
@@ -199,6 +217,14 @@ export default function QuizView() {
             </div>
           )}
           <span>Started: {startTime || "Loading..."}</span>
+          {timeRemaining !== null && (
+            <div className="timer">
+              <p>
+                <strong>Time Remaining: </strong>
+                {formatTime(timeRemaining)}
+              </p>
+            </div>
+          )}
           <p>
             <b>Quiz Instructions:</b> Answer all questions below. Submit when
             done.
@@ -206,11 +232,6 @@ export default function QuizView() {
           <hr className="mb-4" />
           {Array.isArray(quiz.questions) &&
             quiz.questions.map((question: any, index: number) => {
-              const matchingResponse = responses.find((response: any) =>
-                response.responses.some(
-                  (rep: any) => rep.questionId === question._id
-                )
-              );
               return (
                 <div key={index} className="card mb-3">
                   <div className="card-header d-flex justify-content-between">
