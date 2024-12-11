@@ -1,0 +1,126 @@
+// const { cid, qid } = useParams();
+//   const { currentUser } = useSelector((state: any) => state.accountReducer);
+//   const location = useLocation();
+//   const navigate = useNavigate();
+
+//   const dispatch = useDispatch();
+
+
+
+//   const { quizzes } = useSelector((state: any) => state.quizReducer);
+//   const quizFromRedux = quizzes.find((quiz: any) => quiz._id === qid);
+//   // const quiz = quizzes.find((quiz: any) => quiz._id === qid);
+
+
+//   const [quiz, setQuiz] = useState<any>(
+//     quizFromRedux || { title: "", questions: [] }
+//   );
+//   // const [answers, setAnswers] = useState<{ [key: string]: string }>({});
+//   const [loading, setLoading] = useState(!quizFromRedux);
+//   const [error, setError] = useState<string | null>(null);
+//   const [startTime, setStartTime] = useState<string | null>(null);
+//   const [isSubmitted, setIsSubmitted] = useState(false); // Track submission status
+//   const currentTime = new Date().toLocaleString("en-US", {
+//     month: "short",
+//     day: "numeric",
+//     hour: "numeric",
+//     minute: "numeric",
+//     hour12: true,
+//   });
+
+//   const { responses } = useSelector((state: any) => state.responsesReducer);
+//   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
+
+//   const findResponseForUser = async () => {
+//     const response = await userClient.findResponseForUser(
+//       currentUser._id,
+//       qid as string
+//     );
+
+//     dispatch(setResponses(response));
+//   };
+//   const handleEditQuiz = () => {
+//     navigate(/Kanbas/Courses/${cid}/Quizzes/${qid}/editor);
+//   };
+//   const fetchQuizData = async () => {
+//     try {
+//       const questions = await quizClient.findQuestionsForQuiz(qid);
+
+//       setQuiz((prevQuiz: any) => ({
+//         ...prevQuiz,
+//         title: prevQuiz.title || quizFromRedux?.title || "Untitled Quiz",
+//         questions,
+//       }));
+//     } catch (err) {
+//       console.error("Failed to fetch questions:", err);
+//       setError("Failed to load quiz data.");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+//   useEffect(() => {
+//     fetchQuizData();
+//     findResponseForUser();
+//   }, [qid]);
+
+//   useEffect(() => {
+//     setStartTime(currentTime);
+//   }, [answers]);
+//   const rep = responses.find((r: any) => r._id === qid);
+
+//   const [newResponse, setNewResponse] = useState({
+//     responses: { questionId: "", answer: "" },
+//   });
+
+//   console.log(responses);
+
+//   const handleAnswerChange = (questionId: string, answer: string) => {
+//     if (!isSubmitted) {
+//       setAnswers((prevAnswers) => {
+//         const updatedAnswers = { ...prevAnswers, [questionId]: answer };
+//         return updatedAnswers;
+//       });
+//     }
+//   };
+
+//   const handleSubmitQuiz = async () => {
+//     const quizResponses = quiz.questions.map((question: any) => ({
+//       questionId: question._id,
+//       answer: answers[question._id] || "",
+//       isCorrect: question.answers.some(
+//         (answer: any) => answer.text === answers[question._id] && answer.correct
+//       ),
+//     }));
+
+//     const quizData = {
+//       attempt: 0,
+//       grade: 0,
+//       responses: quizResponses,
+//     };
+
+//     await userClient.createQuizResponse(
+//       currentUser._id,
+//       qid as string,
+//       quizData
+//     );
+//     dispatch(addResponses(quizData));
+//     setIsSubmitted(true);
+//   };
+
+//   const getAnswerStyle = (question: any, answerText: string) => {
+//     const selectedAnswer = answers[question._id];
+//     const correctAnswer = question.answers.find(
+//       (answer: any) => answer.text === answerText && answer.correct
+//     );
+
+//     if (isSubmitted) {
+//       if (selectedAnswer === answerText) {
+//         return correctAnswer ? "correct" : "incorrect";
+//       }
+//     }
+//     return "";
+//   };
+
+//   if (loading) return <p>Loading quiz...</p>;
+//   if (error) return <p>{error}</p>;
+//   if (!quiz) return <p>Quiz not found.</p>;

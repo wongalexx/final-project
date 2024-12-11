@@ -31,18 +31,3 @@ export const findQuestionsForQuiz = async (quizId: any) => {
   );
   return response.data;
 };
-
-export const findQuizResponsesForUser = async (quizId: any) => {
-  const response = await axiosWithCredentials.get(
-    `${QUIZZES_API}/${quizId}/grade`
-  );
-  return response.data;
-};
-
-export const createQuizResponse = async (quizId: any, quizResponse: any) => {
-  const response = await axiosWithCredentials.post(
-    `${QUIZZES_API}/${quizId}/grade`,
-    quizResponse
-  );
-  return response.data;
-};

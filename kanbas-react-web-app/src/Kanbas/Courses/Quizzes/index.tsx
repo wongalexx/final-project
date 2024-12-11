@@ -188,7 +188,7 @@ export default function Quizzes() {
                       <div className="row">
                         <span className="wd-assignment-description">
                           <span className="grey-font">
-                            {fetchAvailability(quiz)} |
+                            {fetchAvailability(quiz)} |{" "}
                           </span>
                           <span className="grey-font">
                             <b>Due</b> {formatDate(new Date(quiz.due))} |{" "}

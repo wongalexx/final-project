@@ -1,19 +1,30 @@
 import { useParams, useNavigate } from "react-router";
 import { FaPencil } from "react-icons/fa6";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import * as quizClient from "./client";
+import { addResponses, setResponses } from "./responseReducer";
+import * as userClient from "../../Account/client";
 
 export default function QuizDetails() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { cid, qid } = useParams();
   const [isLoading, setIsLoading] = useState(true);
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { quizzes } = useSelector((state: any) => state.quizReducer);
   const [questions, setQuestions] = useState([]);
   const [totalPoints, setTotalPoints] = useState(0);
   const quiz = quizzes.find((quiz: any) => quiz._id === qid);
+  const { responses } = useSelector((state: any) => state.responsesReducer);
+  const findResponseForUser = async () => {
+    const response = await userClient.findResponseForUser(
+      currentUser._id,
+      qid as string
+    );
+
+    dispatch(setResponses(response));
+  };
 
   const formatDate = (newDate: string | number | Date) => {
     const date = new Date(newDate);
@@ -43,7 +54,8 @@ export default function QuizDetails() {
 
   useEffect(() => {
     fetchQuestionsAndCalculatePoints();
-  }, [qid]);
+    findResponseForUser();
+  }, [qid, quiz]);
 
   return (
     <div>
@@ -69,7 +81,7 @@ export default function QuizDetails() {
         ) : (
           <button
             className="btn btn-secondary btn-md me-2"
-            onClick={() => navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}`)}
+            onClick={() => navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/`)}
           >
             Start Quiz
           </button>
@@ -223,6 +235,33 @@ export default function QuizDetails() {
           </tbody>
         </table>
       </div>
+      <div>
+        <h3>Responses</h3>
+        {responses.filter((response: any) => response.quiz === qid).length >
+        0 ? (
+          <ul>
+            {responses
+              .filter((response: any) => response.quiz === qid)
+              .map((response: any) => (
+                <li key={response._id}>
+                  <button
+                    className="btn btn-link text-decoration-none p-0"
+                    onClick={() =>
+                      navigate(
+                        `/Kanbas/Courses/${cid}/Quizzes/${qid}/Details/${response._id}`
+                      )
+                    }
+                  >
+                    Response by {response.user} - Grade: {response.grade}
+                  </button>
+                </li>
+              ))}
+          </ul>
+        ) : (
+          <p>No responses available for this quiz.</p>
+        )}
+      </div>
+      ;<div></div>
     </div>
   );
 }
