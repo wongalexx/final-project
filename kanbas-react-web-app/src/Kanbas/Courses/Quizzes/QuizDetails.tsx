@@ -133,9 +133,7 @@ export default function QuizDetails() {
               <b>Multiple Attempts</b>
             </div>
             <div className="col-6 text-start">
-              {quiz.multipleAttempts
-                ? `Yes (Allowed: ${quiz.attemptsAllowed})`
-                : "No"}
+              {quiz.multipleAttempts ? `Yes (${quiz.attemptsAllowed})` : "No"}
             </div>
           </div>
           <div className="row">
@@ -273,7 +271,7 @@ export default function QuizDetails() {
                         Attempt {response.attempt}{" "}
                       </button>
                     </td>
-                    <td>{new Date(response.submittedAt).toLocaleString()}</td>
+                    <td>{formatDate(response.submittedAt)}</td>
                     <td>
                       {response.grade} out of {quiz.points}
                     </td>
