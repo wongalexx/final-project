@@ -108,22 +108,22 @@ export default function QuizView() {
               )}
               {question.type === "True/False" && (
                 <div className="list-group">
-                  {question.answers.map((answer: any, idx: number) => (
+                  {["True", "False"].map((option) => (
                     <label
-                      key={idx}
+                      key={option}
                       className="list-group-item d-flex align-items-center"
                     >
                       <input
                         type="radio"
                         name={`question-${index}`}
-                        value={answer.text}
-                        checked={answers[question._id] === answer.text}
+                        value={option}
+                        checked={answers[question._id] === option}
                         onChange={() =>
-                          handleAnswerChange(question._id, answer.text)
+                          handleAnswerChange(question._id, option)
                         }
                         className="me-2"
                       />
-                      {answer.text}
+                      {option}
                     </label>
                   ))}
                 </div>
