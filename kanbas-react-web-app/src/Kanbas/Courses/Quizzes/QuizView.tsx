@@ -7,9 +7,10 @@ import * as quizClient from "./client";
 import { addResponses, setResponses } from "./responseReducer";
 import * as userClient from "../../Account/client";
 import "./style.css";
+import { setQuizzes, updateQuizzes, deleteQuizzes } from "./reducer";
+import * as coursesClient from "../client";
 
 export default function QuizView() {
-  console.log("HELLOOO ");
   const { cid, qid } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const location = useLocation();
@@ -34,6 +35,14 @@ export default function QuizView() {
     minute: "numeric",
     hour12: true,
   });
+  const fetchQuizzes = async () => {
+    try {
+      const quizzes = await coursesClient.findQuizzesForCourse(cid as string);
+      dispatch(setQuizzes(quizzes));
+    } catch (error) {
+      console.error("Error fetching quizzes:", error);
+    }
+  };
 
   // const findResponseForUser = async () => {
   //   const response = await userClient.findResponseForUser(
@@ -49,12 +58,12 @@ export default function QuizView() {
   );
 
   useEffect(() => {
-    // findResponseForUser();
     setStartTime(currentTime);
   }, [qid]);
 
   // Fetch response history and quiz data
   useEffect(() => {
+    fetchQuizzes();
     const fetchQuizData = async () => {
       try {
         const questions = await quizClient.findQuestionsForQuiz(qid);

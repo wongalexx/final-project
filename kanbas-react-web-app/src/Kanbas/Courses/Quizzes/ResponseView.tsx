@@ -82,7 +82,7 @@ export default function ResponseView() {
               key={index}
               style={{
                 marginBottom: "1.5rem",
-                backgroundColor: isCorrect ? "lightgreen" : "transparent",
+                backgroundColor: isCorrect ? "lightgreen" : "lightcoral",
                 padding: "1rem",
                 border: "1px solid #ccc",
                 borderRadius: "5px",

@@ -17,6 +17,7 @@ export default function QuizDetails() {
   const [totalPoints, setTotalPoints] = useState(0);
   const quiz = quizzes.find((quiz: any) => quiz._id === qid);
   const { responses } = useSelector((state: any) => state.responsesReducer);
+
   const findResponseForUser = async () => {
     const response = await userClient.findResponseForUser(
       currentUser._id,
@@ -236,7 +237,7 @@ export default function QuizDetails() {
         </table>
       </div>
       <div>
-        <h3>Responses</h3>
+        <h3>Attempts</h3>
         {responses.filter((response: any) => response.quiz === qid).length >
         0 ? (
           <ul>
@@ -252,7 +253,7 @@ export default function QuizDetails() {
                       )
                     }
                   >
-                    Response by {response.user} - Grade: {response.grade}
+                    Attempt # {response.attempt} - Grade: {response.grade}
                   </button>
                 </li>
               ))}

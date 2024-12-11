@@ -29,6 +29,7 @@ const quizResponseSchema = new mongoose.Schema(
       type: Number,
       default: null,
     },
+    attempt: Number,
     submittedAt: {
       type: Date,
       default: Date.now,
