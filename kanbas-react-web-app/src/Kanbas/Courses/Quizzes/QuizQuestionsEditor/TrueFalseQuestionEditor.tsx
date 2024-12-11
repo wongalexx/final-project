@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TbArrowBigRightFilled } from "react-icons/tb";
 import { updateQuestions } from "./reducer";
 import { useDispatch } from "react-redux";
+import UpdateQuestionButtons from "./UpdateQuestionButtons";
 
 const TrueFalseQuestionEditor = ({
   quiz,
@@ -99,20 +100,12 @@ const TrueFalseQuestionEditor = ({
           </div>
         </div>
       </div>
-      <div className="d-flex justify-content-end mt-3">
-        <button
-          className="btn btn-secondary me-2"
-          onClick={() => cancelEdit(updateQuestion._id)}
-        >
-          Cancel
-        </button>
-        <button
-          className="btn btn-primary"
-          onClick={() => handleUpdateQuestion(updateQuestion)}
-        >
-          Save
-        </button>
-      </div>
+      <UpdateQuestionButtons
+        quiz={quiz}
+        question={updateQuestion}
+        handleUpdateQuestion={handleUpdateQuestion}
+        cancelEdit={cancelEdit}
+      />
     </div>
   );
 };
