@@ -28,20 +28,6 @@ export default function QuizView() {
 
   const { responses } = useSelector((state: any) => state.responsesReducer);
 
-  const handleSubmitQuiz = async () => {
-    const quizResponses = quiz.questions.map((question: any) => ({
-      questionId: question._id,
-      answer: answers[question._id] || "",
-    }));
-
-    await userClient.createQuizResponse(
-      currentUser._id,
-      qid as string,
-      quizResponses
-    );
-    dispatch(setResponses(quizResponses));
-  };
-
   useEffect(() => {
     const fetchQuizData = async () => {
       try {
@@ -71,14 +57,41 @@ export default function QuizView() {
       hour12: true,
     });
     setStartTime(currentTime);
-  }, []);
+  }, [answers]);
 
   const handleAnswerChange = (questionId: string, answer: string) => {
-    setAnswers((prevAnswers) => ({
-      ...prevAnswers,
-      [questionId]: answer,
-    }));
-    console.log(answers);
+    setAnswers((prevAnswers) => {
+      const updatedAnswers = { ...prevAnswers, [questionId]: answer };
+      return updatedAnswers;
+    });
+  };
+
+  const handleSubmitQuiz = async () => {
+    const quizResponses = quiz.questions.map((question: any) => {
+      const userAnswer = answers[question._id] || "";
+      const correctAnswer = question.answers.find(
+        (answer: any) => answer.correct
+      );
+      const isCorrect = correctAnswer && userAnswer === correctAnswer.text;
+
+      return {
+        questionId: question._id,
+        answer: userAnswer,
+        isCorrect: isCorrect,
+      };
+    });
+
+    const quizData = {
+      grade: 10,
+      responses: quizResponses,
+    };
+
+    await userClient.createQuizResponse(
+      currentUser._id,
+      qid as string,
+      quizData
+    );
+    dispatch(setResponses(quizData));
   };
 
   const handleEditQuiz = () => {
