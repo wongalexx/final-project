@@ -98,6 +98,21 @@ const FillInTheBlankQuestionEditor = ({
     }
   };
 
+  const toggleCorrectAnswer = (index: number) => {
+    const updatedAnswers = updateQuestion.answers.map(
+      (answer: any, i: number) => ({
+        ...answer,
+        correct: i === index ? !answer.correct : false,
+      })
+    );
+    setUpdateQuestion((prev: any) => ({
+      ...prev,
+      answers: updatedAnswers,
+    }));
+    setAnswers(updatedAnswers); // Sync answers state
+    setCorrectAnswerIndex(index === correctAnswerIndex ? null : index); // Update correct answer index
+  };
+
   return (
     <div className="question-editor m-4">
       <p>
@@ -139,8 +154,11 @@ const FillInTheBlankQuestionEditor = ({
                       whiteSpace: "nowrap",
                       width: "155px",
                     }}
+                    onClick={() => toggleCorrectAnswer(index)}
                   >
-                    Possible Answer
+                    {correctAnswerIndex === index
+                      ? "Correct Answer"
+                      : "Possible Answer"}
                   </span>
                   <div className="input-group flex-grow-1">
                     <input

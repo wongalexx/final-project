@@ -234,12 +234,14 @@ export default function QuizDetails() {
           </tbody>
         </table>
       </div>
-      <div className="mb-4">
-        <h3>
-          <b>Instructions</b>
-        </h3>
-        <p>{quiz.instructions}</p>
-      </div>
+      {currentUser.role !== "FACULTY" && (
+        <div className="mb-4">
+          <h3>
+            <b>Instructions</b>
+          </h3>
+          <p>{quiz.instructions}</p>
+        </div>
+      )}
       <div>
         {responses.filter((response: any) => response.quiz === qid).length >
           0 && (

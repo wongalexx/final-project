@@ -97,6 +97,7 @@ export default function ResponseView() {
                     question.answers.map((option: any, optionIndex: number) => (
                       <li key={optionIndex}>
                         {option.text}
+
                         {/* {option.correct ? "(Correct)" : ""} */}
                       </li>
                     ))}
