@@ -17,7 +17,6 @@ export default function Quizzes() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { quizzes } = useSelector((state: any) => state.quizReducer);
-  const { questions } = useSelector((state: any) => state.questionsReducer);
   const { cid } = useParams();
   const [quizPoints, setQuizPoints] = useState<{ [key: string]: number }>({});
   const [questionCounts, setQuestionCounts] = useState<{

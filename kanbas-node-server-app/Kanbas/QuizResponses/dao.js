@@ -1,8 +1,11 @@
 import quizResponseModel from "./model.js";
-import mongoose from "mongoose";
+
+export function findAllResponses() {
+  return quizResponseModel.find();
+}
 
 export function findQuizResponsesForUser(quizId, userId) {
-  return quizResponseModel.find({ quiz: quizId }, { user: userId });
+  return quizResponseModel.find({ quiz: quizId, user: userId });
 }
 
 export function createQuizResponse(quizResponse) {

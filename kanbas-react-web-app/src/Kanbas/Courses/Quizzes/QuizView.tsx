@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaPencil } from "react-icons/fa6";
 import { PiWarningCircleBold } from "react-icons/pi";
 import * as quizClient from "./client";
@@ -20,6 +20,9 @@ export default function QuizView() {
   const [loading, setLoading] = useState(!quizFromRedux);
   const [error, setError] = useState<string | null>(null);
   const [startTime, setStartTime] = useState<string | null>(null);
+
+  const { responses } = useSelector((state: any) => state.responsesReducer);
+
   useEffect(() => {
     const fetchQuizData = async () => {
       try {
@@ -38,7 +41,6 @@ export default function QuizView() {
         setLoading(false);
       }
     };
-
     fetchQuizData();
   }, [qid, quizFromRedux]);
 

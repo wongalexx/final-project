@@ -1,0 +1,22 @@
+{
+  "userId": {
+    "$oid": "674cf14aabbd01e67ed05967"
+  },
+  "quiz": {
+    "$oid": "6752254f0f0d38ca72f0c903"
+  },
+  "responses": [
+    {
+      "questionId": {
+        "$oid": "6754c65ae6a4d3f8b5d2124c"
+      },
+      "selectedAnswer": "The thrust produced per unit of fuel."
+    },
+    {
+      "questionId": {
+        "$oid": "6754c65ae6a4d3f8b5d2124d"
+      },
+      "selectedAnswer": "The efficiency of propellant usage."
+    }
+  ]
+}
