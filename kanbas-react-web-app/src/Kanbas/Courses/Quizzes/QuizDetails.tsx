@@ -133,9 +133,7 @@ export default function QuizDetails() {
               <b>Multiple Attempts</b>
             </div>
             <div className="col-6 text-start">
-              {quiz.multipleAttempts
-                ? `Yes (Allowed: ${quiz.attemptsAllowed})`
-                : "No"}
+              {quiz.multipleAttempts ? `Yes (${quiz.attemptsAllowed})` : "No"}
             </div>
           </div>
           <div className="row">
@@ -216,7 +214,7 @@ export default function QuizDetails() {
           </div>
         </div>
       )}
-      <div className="col text-start">
+      <div className="col text-start mb-4">
         <table className="table">
           <thead>
             <tr>
@@ -236,33 +234,53 @@ export default function QuizDetails() {
           </tbody>
         </table>
       </div>
+      <div className="mb-4">
+        <h3>
+          <b>Instructions</b>
+        </h3>
+        <p>{quiz.instructions}</p>
+      </div>
       <div>
-        <h3>Attempts</h3>
         {responses.filter((response: any) => response.quiz === qid).length >
-        0 ? (
-          <ul>
-            {responses
-              .filter((response: any) => response.quiz === qid)
-              .map((response: any) => (
-                <li key={response._id}>
-                  <button
-                    className="btn btn-link text-decoration-none p-0"
-                    onClick={() =>
-                      navigate(
-                        `/Kanbas/Courses/${cid}/Quizzes/${qid}/Details/${response._id}`
-                      )
-                    }
-                  >
-                    Attempt # {response.attempt} - Grade: {response.grade}
-                  </button>
-                </li>
-              ))}
-          </ul>
-        ) : (
-          <p>No responses available for this quiz.</p>
+          0 && (
+          <>
+            <h3>
+              <b>Attempt History</b>
+            </h3>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col">Attempt</th>
+                  <th scope="col">Submitted At</th>
+                  <th scope="col">Score</th>
+                </tr>
+              </thead>
+              {responses
+                .filter((response: any) => response.quiz === qid)
+                .map((response: any) => (
+                  <tr>
+                    <td>
+                      <button
+                        className="btn btn-link text-danger text-decoration-none p-0"
+                        onClick={() =>
+                          navigate(
+                            `/Kanbas/Courses/${cid}/Quizzes/${qid}/Details/${response._id}`
+                          )
+                        }
+                      >
+                        Attempt {response.attempt}{" "}
+                      </button>
+                    </td>
+                    <td>{formatDate(response.submittedAt)}</td>
+                    <td>
+                      {response.grade} out of {quiz.points}
+                    </td>
+                  </tr>
+                ))}
+            </table>
+          </>
         )}
       </div>
-      ;<div></div>
     </div>
   );
 }
