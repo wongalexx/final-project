@@ -142,6 +142,18 @@ export default function UserRoutes(app) {
     res.json(responses);
   });
 
+  app.post("/api/users/:uid/quizzes/:quizId/grade", async (req, res) => {
+    const { quizId } = req.params;
+    const currentUser = req.session["currentUser"];
+    const response = {
+      ...req.body,
+      quiz: quizId,
+      user: currentUser._id,
+    };
+    const status = await quizResponsesDao.createQuizResponse(response);
+    res.send(status);
+  });
+
   app.post("/api/users/:uid/courses/:cid", enrollUserInCourse);
   app.delete("/api/users/:uid/courses/:cid", unenrollUserFromCourse);
   app.get("/api/users/:uid/courses", findCoursesForUser);

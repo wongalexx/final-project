@@ -4,11 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaPencil } from "react-icons/fa6";
 import { PiWarningCircleBold } from "react-icons/pi";
 import * as quizClient from "./client";
+import { setResponses } from "./responseReducer";
+import * as userClient from "../../Account/client";
 
 export default function QuizView() {
   const { cid, qid } = useParams();
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
   const location = useLocation();
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const { quizzes } = useSelector((state: any) => state.quizReducer);
   const quizFromRedux = quizzes.find((quiz: any) => quiz._id === qid);
@@ -23,11 +28,24 @@ export default function QuizView() {
 
   const { responses } = useSelector((state: any) => state.responsesReducer);
 
+  const handleSubmitQuiz = async () => {
+    const quizResponses = quiz.questions.map((question: any) => ({
+      questionId: question._id,
+      answer: answers[question._id] || "",
+    }));
+
+    await userClient.createQuizResponse(
+      currentUser._id,
+      qid as string,
+      quizResponses
+    );
+    dispatch(setResponses(quizResponses));
+  };
+
   useEffect(() => {
     const fetchQuizData = async () => {
       try {
         const questions = await quizClient.findQuestionsForQuiz(qid);
-        console.log("Fetched Questions:", questions);
 
         setQuiz((prevQuiz: any) => ({
           ...prevQuiz,
@@ -60,6 +78,7 @@ export default function QuizView() {
       ...prevAnswers,
       [questionId]: answer,
     }));
+    console.log(answers);
   };
 
   const handleEditQuiz = () => {
@@ -163,7 +182,9 @@ export default function QuizView() {
       <ul id="wd-assignments" className="list-group rounded-0 mt-4">
         <li className="list-group-item p-2 ps-1 d-flex justify-content-end align-items-center">
           <div className="me-2">Quiz saved at {startTime || "Loading..."}</div>
-          <button className="btn btn-secondary">Submit Quiz</button>
+          <button className="btn btn-secondary" onClick={handleSubmitQuiz}>
+            Submit Quiz
+          </button>
         </li>
       </ul>
       {location.pathname.includes("Preview") && (
