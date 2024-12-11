@@ -77,7 +77,10 @@ export default function QuizView() {
       }
     };
     fetchQuizData();
-  }, [qid, currentUser]);
+    if (quiz.timeLimit) {
+      setTimeRemaining(quiz.timeLimit * 60);
+    }
+  }, [qid, currentUser, quiz.timeLimit]);
 
   const handleAnswerChange = (questionId: string, answer: string) => {
     if (!isSubmitted && attemptCount < quiz.attemptsAllowed) {
@@ -201,90 +204,92 @@ export default function QuizView() {
             done.
           </p>
           <hr className="mb-4" />
-          {quiz.questions.map((question: any, index: number) => {
-            const matchingResponse = responses.find((response: any) =>
-              response.responses.some(
-                (rep: any) => rep.questionId === question._id
-              )
-            );
-            return (
-              <div key={index} className="card mb-3">
-                <div className="card-header d-flex justify-content-between">
-                  <h4>{question.title}</h4>
-                  <span>{question.points} pts</span>
+          {Array.isArray(quiz.questions) &&
+            quiz.questions.map((question: any, index: number) => {
+              const matchingResponse = responses.find((response: any) =>
+                response.responses.some(
+                  (rep: any) => rep.questionId === question._id
+                )
+              );
+              return (
+                <div key={index} className="card mb-3">
+                  <div className="card-header d-flex justify-content-between">
+                    <h4>{question.title}</h4>
+                    <span>{question.points} pts</span>
+                  </div>
+                  <div className="card-body">
+                    <p>{question.questionText}</p>
+                    {question.type === "Multiple Choice" && (
+                      <div className="list-group">
+                        {Array.isArray(quiz.questions) &&
+                          question.answers.map((answer: any, idx: number) => (
+                            <label
+                              key={idx}
+                              className={`list-group-item d-flex align-items-center ${getAnswerStyle(
+                                question,
+                                answer.text
+                              )}`}
+                            >
+                              <input
+                                type="radio"
+                                name={`question-${index}`}
+                                value={answer.text}
+                                checked={answers[question._id] === answer.text}
+                                onChange={() =>
+                                  handleAnswerChange(question._id, answer.text)
+                                }
+                                disabled={hasExceededAttempts}
+                                className="me-2"
+                              />
+                              {answer.text}
+                            </label>
+                          ))}
+                      </div>
+                    )}
+                    {question.type === "True/False" && (
+                      <div className="list-group">
+                        {["True", "False"].map((option) => (
+                          <label
+                            key={option}
+                            className={`list-group-item d-flex align-items-center ${getAnswerStyle(
+                              question,
+                              option
+                            )}`}
+                          >
+                            <input
+                              type="radio"
+                              name={`question-${index}`}
+                              value={option}
+                              checked={answers[question._id] === option}
+                              onChange={() =>
+                                handleAnswerChange(question._id, option)
+                              }
+                              disabled={hasExceededAttempts}
+                              className="me-2"
+                            />
+                            {option}
+                          </label>
+                        ))}
+                      </div>
+                    )}
+                    {question.type === "Fill in the Blank" && (
+                      <div className="mb-3">
+                        <input
+                          type="text"
+                          className="form-control"
+                          style={{ height: "80px" }}
+                          value={answers[question._id] || ""}
+                          onChange={(e) =>
+                            handleAnswerChange(question._id, e.target.value)
+                          }
+                          disabled={hasExceededAttempts}
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <div className="card-body">
-                  <p>{question.questionText}</p>
-                  {question.type === "Multiple Choice" && (
-                    <div className="list-group">
-                      {question.answers.map((answer: any, idx: number) => (
-                        <label
-                          key={idx}
-                          className={`list-group-item d-flex align-items-center ${getAnswerStyle(
-                            question,
-                            answer.text
-                          )}`}
-                        >
-                          <input
-                            type="radio"
-                            name={`question-${index}`}
-                            value={answer.text}
-                            checked={answers[question._id] === answer.text}
-                            onChange={() =>
-                              handleAnswerChange(question._id, answer.text)
-                            }
-                            disabled={hasExceededAttempts}
-                            className="me-2"
-                          />
-                          {answer.text}
-                        </label>
-                      ))}
-                    </div>
-                  )}
-                  {question.type === "True/False" && (
-                    <div className="list-group">
-                      {["True", "False"].map((option) => (
-                        <label
-                          key={option}
-                          className={`list-group-item d-flex align-items-center ${getAnswerStyle(
-                            question,
-                            option
-                          )}`}
-                        >
-                          <input
-                            type="radio"
-                            name={`question-${index}`}
-                            value={option}
-                            checked={answers[question._id] === option}
-                            onChange={() =>
-                              handleAnswerChange(question._id, option)
-                            }
-                            disabled={hasExceededAttempts}
-                            className="me-2"
-                          />
-                          {option}
-                        </label>
-                      ))}
-                    </div>
-                  )}
-                  {question.type === "Fill in the Blank" && (
-                    <div className="mb-3">
-                      <input
-                        type="text"
-                        className="form-control"
-                        style={{ height: "80px" }}
-                        value={answers[question._id] || ""}
-                        onChange={(e) =>
-                          handleAnswerChange(question._id, e.target.value)
-                        }
-                        disabled={hasExceededAttempts}
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
           <ul id="wd-assignments" className="list-group rounded-0 mt-4">
             <li className="list-group-item p-2 ps-1 d-flex justify-content-end align-items-center">
               <div className="me-2">
