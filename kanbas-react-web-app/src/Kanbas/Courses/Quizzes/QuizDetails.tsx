@@ -90,7 +90,7 @@ export default function QuizDetails() {
       </span>
       <hr />
       <h1 className="mb-4">
-        <b>{quiz.title}</b>
+        <b>{quiz.title && quiz.title}</b>
       </h1>
       {currentUser.role === "FACULTY" && (
         <div className="col-6">
