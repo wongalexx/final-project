@@ -19,7 +19,7 @@ export default function QuizView() {
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const [loading, setLoading] = useState(!quizFromRedux);
   const [error, setError] = useState<string | null>(null);
-
+  const [startTime, setStartTime] = useState<string | null>(null);
   useEffect(() => {
     const fetchQuizData = async () => {
       try {
@@ -41,6 +41,17 @@ export default function QuizView() {
 
     fetchQuizData();
   }, [qid, quizFromRedux]);
+
+  useEffect(() => {
+    const currentTime = new Date().toLocaleString("en-US", {
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    });
+    setStartTime(currentTime);
+  }, []);
 
   const handleAnswerChange = (questionId: string, answer: string) => {
     setAnswers((prevAnswers) => ({
@@ -70,7 +81,7 @@ export default function QuizView() {
           </div>
         </div>
       )}
-      <span>Started: Nov 29 at 8:19am</span>
+      <span>Started: {startTime || "Loading..."}</span>
       <p>
         <b>Quiz Instructions:</b> Answer all questions below. Submit when done.
       </p>
@@ -149,7 +160,7 @@ export default function QuizView() {
       )}
       <ul id="wd-assignments" className="list-group rounded-0 mt-4">
         <li className="list-group-item p-2 ps-1 d-flex justify-content-end align-items-center">
-          <div className="me-2">Quiz saved at 8:19am</div>
+          <div className="me-2">Quiz saved at {startTime || "Loading..."}</div>
           <button className="btn btn-secondary">Submit Quiz</button>
         </li>
       </ul>
