@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TbArrowBigRightFilled } from "react-icons/tb";
 import { updateQuestions } from "./reducer";
 import { useDispatch } from "react-redux";
@@ -30,6 +30,20 @@ const TrueFalseQuestionEditor = ({
   const [selectedOption, setSelectedOption] = useState(
     question.answers?.[0]?.text.toLowerCase() || "true"
   );
+
+  useEffect(() => {
+    setUpdateQuestion({
+      ...question,
+      questionText: question.questionText || "",
+      answers: [
+        {
+          text: question.answers?.[0]?.text || "True",
+          correct: true,
+        },
+      ],
+    });
+    setSelectedOption(question.answers?.[0]?.text.toLowerCase() || "true");
+  }, [question]);
 
   const handleSelectOption = (value: "true" | "false") => {
     const updatedAnswers = [
