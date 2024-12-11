@@ -148,7 +148,11 @@ const FillInTheBlankQuestionEditor = ({
               <div key={index} className="input-group mb-2 align-items-center">
                 <div className="choice d-flex align-items-center w-100">
                   <span
-                    className={`answer-choice-text me-2 text-nowrap d-flex align-items-center justify-content-start text-muted`}
+                    className={`answer-choice-text me-2 text-nowrap d-flex align-items-center justify-content-start ${
+                      correctAnswerIndex === index
+                        ? "text-success"
+                        : "text-muted"
+                    }`}
                     style={{
                       cursor: "pointer",
                       whiteSpace: "nowrap",
