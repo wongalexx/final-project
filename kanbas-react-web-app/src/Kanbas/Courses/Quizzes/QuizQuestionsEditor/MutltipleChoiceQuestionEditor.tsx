@@ -21,15 +21,22 @@ const MultipleChoiceQuestionEditor = ({
   const { cid, qid } = useParams();
   const [questionText, setQuestionText] = useState("");
   const [answers, setAnswers] = useState(
-    Array.isArray(question.answers)
-      ? question.answers
-      : [{ text: "", correct: false }]
+    Array.isArray(question.answers) ? question.answers : []
   );
+
   const [updateQuestion, setUpdateQuestion] = useState({
     questionText: "",
     answers: question.answers || [{ text: "", correct: false }],
     ...question,
   });
+  useEffect(() => {
+    setUpdateQuestion({
+      ...question,
+      answers: Array.isArray(question.answers) ? question.answers : [],
+    });
+    setAnswers(Array.isArray(question.answers) ? question.answers : []);
+  }, [question]);
+
   console.log(updateQuestion);
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState<number | null>(
     updateQuestion.answers && Array.isArray(question.answers)
@@ -41,12 +48,18 @@ const MultipleChoiceQuestionEditor = ({
     index: number,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const updatedAnswers = answers.map((answer: any, i: any) =>
-      i === index ? { ...answer, text: e.target.value } : answer
+    const updatedAnswers = updateQuestion.answers.map(
+      (answer: any, i: number) =>
+        i === index ? { ...answer, text: e.target.value } : answer
     );
-    setAnswers(updatedAnswers);
-    setUpdateQuestion({ ...updateQuestion, answers: updatedAnswers });
+    setUpdateQuestion((prev: any) => ({
+      ...prev,
+      answers: updatedAnswers,
+    }));
+    setAnswers(updatedAnswers); // Sync answers state
+    dispatch(updateQuestions({ ...updateQuestion, answers: updatedAnswers })); // Dispatch update
   };
+
   const addAnswer = () => {
     const newAnswer = { text: "", correct: false };
     const updatedAnswers = [...answers, newAnswer];
@@ -54,24 +67,29 @@ const MultipleChoiceQuestionEditor = ({
     setUpdateQuestion({ ...updateQuestion, answers: updatedAnswers });
   };
   const removeAnswer = (index: number) => {
-    setUpdateQuestion(
-      updateQuestion.answers.filter((_: any, i: any) => i !== index)
+    const updatedAnswers = updateQuestion.answers.filter(
+      (_: any, i: number) => i !== index
     );
-    if (correctAnswerIndex === index) {
-      setCorrectAnswerIndex(null);
-    } else if (correctAnswerIndex && correctAnswerIndex > index) {
-      setCorrectAnswerIndex(correctAnswerIndex - 1);
-    }
+    setUpdateQuestion((prev: any) => ({
+      ...prev,
+      answers: updatedAnswers,
+    }));
+    setAnswers(updatedAnswers); // Sync answers state
   };
 
   const toggleCorrectAnswer = (index: number) => {
-    const updatedAnswers = answers.map((answer: any, i: any) => ({
-      ...answer,
-      correct: i === index ? !answer.correct : false,
+    const updatedAnswers = updateQuestion.answers.map(
+      (answer: any, i: number) => ({
+        ...answer,
+        correct: i === index ? !answer.correct : false,
+      })
+    );
+    setUpdateQuestion((prev: any) => ({
+      ...prev,
+      answers: updatedAnswers,
     }));
-    setAnswers(updatedAnswers);
-    setUpdateQuestion({ ...updateQuestion, answers: updatedAnswers });
-    setCorrectAnswerIndex(index === correctAnswerIndex ? null : index);
+    setAnswers(updatedAnswers); // Sync answers state
+    setCorrectAnswerIndex(index === correctAnswerIndex ? null : index); // Update correct answer index
   };
 
   return (

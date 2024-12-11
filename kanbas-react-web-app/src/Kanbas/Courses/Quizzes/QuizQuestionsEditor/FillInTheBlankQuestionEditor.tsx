@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa6";
 import { useParams } from "react-router";
@@ -21,13 +21,31 @@ const FillInTheBlankQuestionEditor = ({
   const { cid, qid, qtitle } = useParams();
   const [questionText, setQuestionText] = useState("");
   const [answers, setAnswers] = useState(
-    question.answers || [{ text: "", correct: false }]
+    Array.isArray(question.answers)
+      ? question.answers
+      : [{ text: "", correct: false }]
   );
   const [updateQuestion, setUpdateQuestion] = useState({
-    questionText: "",
-    answers: question.answers || [{ text: "", correct: false }],
+    questionText: question.questionText || "",
+    answers: Array.isArray(question.answers)
+      ? question.answers
+      : [{ text: "", correct: false }],
     ...question,
   });
+  useEffect(() => {
+    setUpdateQuestion({
+      ...question,
+      answers: Array.isArray(question.answers)
+        ? question.answers
+        : [{ text: "", correct: false }],
+    });
+    setAnswers(
+      Array.isArray(question.answers)
+        ? question.answers
+        : [{ text: "", correct: false }]
+    );
+  }, [question]);
+
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState<number | null>(
     updateQuestion.answers && Array.isArray(question.answers)
       ? updateQuestion.answers.findIndex((answer: any) => answer.correct)
@@ -38,43 +56,40 @@ const FillInTheBlankQuestionEditor = ({
     index: number,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const updatedAnswers = Array.isArray(updateQuestion.answers)
-      ? updateQuestion.answers.map(
-          (answer: any, i: number) =>
-            i === index
-              ? { ...answer, text: e.target.value, correct: true }
-              : answer // Always ensure correct: true
-        )
-      : [{ text: e.target.value, correct: true }]; // Fallback case
-
+    const updatedAnswers = updateQuestion.answers.map(
+      (answer: any, i: number) =>
+        i === index
+          ? { ...answer, text: e.target.value, correct: true }
+          : answer
+    );
     setUpdateQuestion((prev: any) => ({
       ...prev,
       answers: updatedAnswers,
     }));
-    dispatch(updateQuestions({ ...updateQuestion, answers: updatedAnswers }));
+    setAnswers(updatedAnswers); // Sync answers state
+    dispatch(updateQuestions({ ...updateQuestion, answers: updatedAnswers })); // Dispatch update
   };
 
   const addAnswer = () => {
-    const updatedAnswers = Array.isArray(updateQuestion.answers)
-      ? [...updateQuestion.answers, { text: "", correct: true }] // Always set correct: true
-      : [{ text: "", correct: true }];
-
+    const newAnswer = { text: "", correct: true }; // Always ensure correct is true
+    const updatedAnswers = [...updateQuestion.answers, newAnswer];
     setUpdateQuestion((prev: any) => ({
       ...prev,
       answers: updatedAnswers,
     }));
-    dispatch(updateQuestions({ ...updateQuestion, answers: updatedAnswers }));
+    setAnswers(updatedAnswers); // Sync answers state
+    dispatch(updateQuestions({ ...updateQuestion, answers: updatedAnswers })); // Dispatch update
   };
 
   const removeAnswer = (index: number) => {
-    const updatedAnswers = Array.isArray(updateQuestion.answers)
-      ? updateQuestion.answers.filter((_: any, i: number) => i !== index)
-      : [];
-
+    const updatedAnswers = updateQuestion.answers.filter(
+      (_: any, i: number) => i !== index
+    );
     setUpdateQuestion((prev: any) => ({
       ...prev,
       answers: updatedAnswers,
     }));
+    setAnswers(updatedAnswers); // Sync answers state
 
     if (correctAnswerIndex === index) {
       setCorrectAnswerIndex(null);
