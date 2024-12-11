@@ -69,44 +69,46 @@ export default function ResponseView() {
       </p>
       <h3>Quiz Questions and Responses:</h3>
       <ul>
-        {quiz.questions.map((question: any, index: number) => {
-          const userResponse = response.responses.find(
-            (r: any) => r.questionId === question._id
-          );
+        {Array.isArray(quiz.questions) &&
+          quiz.questions.map((question: any, index: number) => {
+            const userResponse = response.responses.find(
+              (r: any) => r.questionId === question._id
+            );
 
-          // Highlight correct answers with a green background
-          const isCorrect = userResponse?.isCorrect;
+            // Highlight correct answers with a green background
+            const isCorrect = userResponse?.isCorrect;
 
-          return (
-            <li
-              key={index}
-              style={{
-                marginBottom: "1.5rem",
-                backgroundColor: isCorrect ? "lightgreen" : "lightcoral",
-                padding: "1rem",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-              }}
-            >
-              <p>
-                <b>Question {index + 1}:</b> {question.questionText}
-              </p>
-              <ul>
-                {question.answers.map((option: any, optionIndex: number) => (
-                  <li key={optionIndex}>
-                    {option.text}
-                    {/* {option.correct ? "(Correct)" : ""} */}
-                  </li>
-                ))}
-              </ul>
-              <p>
-                <b>Your Response:</b>{" "}
-                {userResponse?.answer || "No response provided"}{" "}
-                {userResponse?.isCorrect ? "✔️ (Correct)" : "❌ (Incorrect)"}
-              </p>
-            </li>
-          );
-        })}
+            return (
+              <li
+                key={index}
+                style={{
+                  marginBottom: "1.5rem",
+                  backgroundColor: isCorrect ? "lightgreen" : "lightcoral",
+                  padding: "1rem",
+                  border: "1px solid #ccc",
+                  borderRadius: "5px",
+                }}
+              >
+                <p>
+                  <b>Question {index + 1}:</b> {question.questionText}
+                </p>
+                <ul>
+                  {Array.isArray(question.answers) &&
+                    question.answers.map((option: any, optionIndex: number) => (
+                      <li key={optionIndex}>
+                        {option.text}
+                        {/* {option.correct ? "(Correct)" : ""} */}
+                      </li>
+                    ))}
+                </ul>
+                <p>
+                  <b>Your Response:</b>{" "}
+                  {userResponse?.answer || "No response provided"}{" "}
+                  {userResponse?.isCorrect ? "✔️ (Correct)" : "❌ (Incorrect)"}
+                </p>
+              </li>
+            );
+          })}
       </ul>
     </div>
   );
