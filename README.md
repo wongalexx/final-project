@@ -114,13 +114,13 @@ Create, edit, and publish quizzes for student access.
 <hr/>
 
 ## Installation
-Inital setup:
+Install dependencies:
 ```
 npm install
 ```
 
 **Client Setup**  
-Install dependencies and start the React app:
+Start the React app:
 
 ```bash
 cd kanbas-react-web-app
