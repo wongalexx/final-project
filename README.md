@@ -9,6 +9,11 @@
 5. [Contributors](#contributors)
 
 ## Purpose and Project Overview
+Kanbas is a web-based application that emulates the functionality of Canvas. 
+The platform provides instructors with tools to manage courses, assignments, and quizzes, 
+while offering students an interactive environment to engage with their coursework.
+
+In this README, you'll find an overview of Kanbas' features, the technologies used, and step-by-step instructions for setting up and using the application.
 
 ## Features
 <li>
@@ -138,9 +143,12 @@ create a .env.local file in the server:
 ```
 REACT_APP_REMOTE_SERVER=http://localhost:4000
 ```
+### Access the web-app at http://localhost:3000
+
+<hr/>
+
+#### If MongoDB is already installed and running, you can skip this section. Otherwise, follow the steps below to set it up:
 **Database Setup**  
-If mongoDB is already setup, continue as usual, 
-If not:
 Download mongoDB here: https://www.mongodb.com/try/download/community
 You can create a data folder in your home directory as shown below.
 
