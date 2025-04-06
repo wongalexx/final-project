@@ -8,9 +8,9 @@
 4. [Installation](#installation)
 5. [Contributors](#contributors)
 
-# Purpose and Project Overview
+## Purpose and Project Overview
 
-# Features
+## Features
 <li>
   <b>
     Course Management: 
@@ -48,7 +48,7 @@ Create, edit, and publish quizzes for student access.
   Allow users to update and customize their profile information.
 </li>
 
-# Usage
+## Usage
 <li>
   Start by registering or signing in to access your dashboard.
 </li>
@@ -63,9 +63,10 @@ Create, edit, and publish quizzes for student access.
 </li>
 
 ## Demo
-## User view
+### User view
+<hr/>
 
-### User can see assignments and take quizzes
+#### User can see assignments and take quizzes
 <p align="center">
   <img src="https://github.com/user-attachments/assets/b9be4663-ca38-4337-b77b-d74bdcbbc921" width="500" />
   <img src="https://github.com/user-attachments/assets/ef7ccadd-b916-4827-a341-fee50cc7d0c1" width="500" />
@@ -82,8 +83,8 @@ Create, edit, and publish quizzes for student access.
 
 <hr/>
 
-## Faculty view
-### Faculty can create, edit, and preview assignments, modules, and quizzes
+### Faculty view
+#### Faculty can create, edit, and preview assignments, modules, and quizzes
 
 <!-- Row 3 -->
 <p align="center">
@@ -107,16 +108,59 @@ Create, edit, and publish quizzes for student access.
 
 <hr/>
 
-### Installation
-<hr/>
-to run the client:
-npm run start
+## Installation
+Inital setup:
+```
+npm install
+```
 
-to start up the server:
+**Client Setup**  
+Install dependencies and start the React app:
+
+```bash
+cd kanbas-react-web-app
+npm run start
+```
+create a .env file in the client web-app:
+```
+NODE_ENV=development
+NETLIFY_URL=http://localhost:3000
+NODE_SERVER_DOMAIN=http://localhost:4000
+SESSION_SECRET=super secret session phrase
+MONGO_CONNECTION_STRING=mongodb://localhost:27017/kanbas
+```
+**Server Setup**  
+```bash
 cd kanbas-node-server-app
 nodemon index.js
+```
+create a .env.local file in the server:
+```
+REACT_APP_REMOTE_SERVER=http://localhost:4000
+```
+**Database Setup**  
+If mongoDB is already setup, continue as usual, 
+If not:
+Download mongoDB here: https://www.mongodb.com/try/download/community
+You can create a data folder in your home directory as shown below.
 
-### Contributors
+```bash
+# You can create a data folder in your home directory as shown below.
+cd  ~
+mkdir  data
+----------------
+# When you start MongoDB, you'll need to tell it where the data folder is with the dbpath option.
+cd  ~
+/Users/<INSERT USER NAME>/mongodb-macos-aarch64-8.0.3/bin/mongod --dbpath data
+```
+Next download Compass which should have come with the installation, if not install it here:
+https://www.mongodb.com/try/download/compass 
+
+When Compass comes up, confirm that the connection string mongodb://127.0.0.1:27017 appears in the New Connection screen.
+Then press Connect to connect to MongoDB.
+<hr/>
+
+## Contributors
 <p>
   <a href="https://github.com/al3xand3rw0ng">
     <img src="https://github.com/al3xand3rw0ng.png" width="50" />
@@ -127,11 +171,3 @@ nodemon index.js
 </p>
 The contributors are all undergraduate students at Northeastern University. 
 This was made in CS4550 - Web Development
-
-README introduces the application for an audience of developers unfamiliar with the project and teaches key functions. 
-
-README announces purpose and description of application early in the document 
-
-Organization: Contains key sections (Features; Usage; Installation; Contributors) 
-
-Instructions on how to run program locally so that anyone can download and see how it works 
