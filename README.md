@@ -4,15 +4,17 @@
 
 1. [Purpose](#purpose-and-project-overview)
 2. [Features](#features)
-3. [Installation](#installation)
-4. [Contributors](#contributors)
+3. [Usage](#usage)
+4. [Installation](#installation)
+5. [Contributors](#contributors)
 
 # Purpose and Project Overview
 
 # Features
 
+# Usage
+
 ## Demo
-<!-- Row 1 -->
 ## User view
 
 ### User can see assignments and take quizzes
@@ -30,6 +32,7 @@
   <img src="https://github.com/user-attachments/assets/ae010ccb-33c8-4152-b6b5-924ed8741b51" width="500" />
 </p>
 
+<hr/>
 ## Faculty view
 ### Faculty can create, edit, and preview assignments, modules, and quizzes
 <!-- Row 3 -->
