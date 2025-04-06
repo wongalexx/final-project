@@ -1,4 +1,4 @@
-# Kanbas
+# Kanbas - Canvas Clone
 
 ## Table of Contents:
 
@@ -11,8 +11,56 @@
 # Purpose and Project Overview
 
 # Features
+<li>
+  <b>
+    Course Management: 
+  </b>
+  Easily create, view, update, and delete courses.
+</li>
+<li>
+    <b>
+    Module Organization: 
+  </b>
+  Structure course content into modules for streamlined navigation.
+</li>
+<li>
+    <b>
+    Assignment Management: 
+  </b>
+  Create, edit, and manage assignments.
+</li>
+<li>
+    <b>
+    Quiz Builder: 
+  </b>
+Create, edit, and publish quizzes for student access.
+</li>
+<li>
+    <b>
+    User Authentication: 
+  </b>
+  Secure login and registration for all users, allows user to stay logged in.
+</li>
+<li>
+    <b>
+    Profile Management: 
+  </b>
+  Allow users to update and customize their profile information.
+</li>
 
 # Usage
+<li>
+  Start by registering or signing in to access your dashboard.
+</li>
+<li>
+  Set up your course content by adding modules, assignments, and quizzes
+</li>
+<li>
+  Customize your user settings to reflect your preferences
+</li>
+<li>
+  Navigate your teaching and learning tasks :)
+</li>
 
 ## Demo
 ## User view
@@ -33,8 +81,10 @@
 </p>
 
 <hr/>
+
 ## Faculty view
 ### Faculty can create, edit, and preview assignments, modules, and quizzes
+
 <!-- Row 3 -->
 <p align="center">
   <img src="https://github.com/user-attachments/assets/276a274e-fcba-470e-8240-00329e178346" width="500" />
