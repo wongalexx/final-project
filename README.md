@@ -73,17 +73,17 @@ Create, edit, and publish quizzes for student access.
 
 #### User can see assignments and take quizzes
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/b9be4663-ca38-4337-b77b-d74bdcbbc921" width="300" />
-  <img src="https://github.com/user-attachments/assets/ef7ccadd-b916-4827-a341-fee50cc7d0c1" width="300" />
+  <img src="https://github.com/user-attachments/assets/b9be4663-ca38-4337-b77b-d74bdcbbc921" width="400" />
+  <img src="https://github.com/user-attachments/assets/ef7ccadd-b916-4827-a341-fee50cc7d0c1" width="400" />
 </p>
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/601c5752-1986-400c-a93b-308f7821d067" width="300" />
-  <img src="https://github.com/user-attachments/assets/5af89978-7733-40ec-838d-bf6e5b0a8e12" width="300" />
+  <img src="https://github.com/user-attachments/assets/601c5752-1986-400c-a93b-308f7821d067" width="400" />
+  <img src="https://github.com/user-attachments/assets/5af89978-7733-40ec-838d-bf6e5b0a8e12" width="400" />
 </p>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/492cf530-8de1-4615-9e69-dc071d5e1a63" width="300" />
-  <img src="https://github.com/user-attachments/assets/ae010ccb-33c8-4152-b6b5-924ed8741b51" width="300" />
+  <img src="https://github.com/user-attachments/assets/492cf530-8de1-4615-9e69-dc071d5e1a63" width="400" />
+  <img src="https://github.com/user-attachments/assets/ae010ccb-33c8-4152-b6b5-924ed8741b51" width="400" />
 </p>
 
 <hr/>
@@ -93,22 +93,22 @@ Create, edit, and publish quizzes for student access.
 
 <!-- Row 3 -->
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/276a274e-fcba-470e-8240-00329e178346" width="300" />
-  <img src="https://github.com/user-attachments/assets/3ec61068-a219-4076-9d81-74039a8908c4" width="300" />
+  <img src="https://github.com/user-attachments/assets/276a274e-fcba-470e-8240-00329e178346" width="400" />
+  <img src="https://github.com/user-attachments/assets/3ec61068-a219-4076-9d81-74039a8908c4" width="400" />
 </p>
 
 <!-- Row 4 -->
 <p align="center">
-<img src="https://github.com/user-attachments/assets/e7ae0a11-dd9c-45a2-a954-f58066673aea" width="300" />
-<img src="https://github.com/user-attachments/assets/64b314c3-d89f-42da-8890-4ceecadd012c" width="300" />
+<img src="https://github.com/user-attachments/assets/e7ae0a11-dd9c-45a2-a954-f58066673aea" width="400" />
+<img src="https://github.com/user-attachments/assets/64b314c3-d89f-42da-8890-4ceecadd012c" width="400" />
 </p>
 
 <hr/>
 
 #### Both faculty, students, and TAs can see the people enrolled in the course and their relevant information
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/2d479d2f-5e3c-4007-a272-fd3a43dd44b8" width="300" />
-  <img src="https://github.com/user-attachments/assets/1eab9f15-0eb4-422a-a9b8-eb8b1290c1f3" width="300" />
+  <img src="https://github.com/user-attachments/assets/2d479d2f-5e3c-4007-a272-fd3a43dd44b8" width="400" />
+  <img src="https://github.com/user-attachments/assets/1eab9f15-0eb4-422a-a9b8-eb8b1290c1f3" width="400" />
 </p>
 
 <hr/>
@@ -129,7 +129,7 @@ npm run start
 create a .env file in the client web-app:
 ```
 NODE_ENV=development
-NETLIFY_URL=http://localhost:3000
+NETLIFY_URL=http://localhost:4000
 NODE_SERVER_DOMAIN=http://localhost:4000
 SESSION_SECRET=super secret session phrase
 MONGO_CONNECTION_STRING=mongodb://localhost:27017/kanbas
@@ -143,7 +143,7 @@ create a .env.local file in the server:
 ```
 REACT_APP_REMOTE_SERVER=http://localhost:4000
 ```
-### Access the web-app at http://localhost:3000
+### Access the web-app at http://localhost:4000
 
 <hr/>
 
