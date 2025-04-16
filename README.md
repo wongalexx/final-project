@@ -71,25 +71,29 @@ Create, edit, and publish quizzes for student access.
 ### User view
 <hr/>
 
-#### User can see assignments and take quizzes
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/b9be4663-ca38-4337-b77b-d74bdcbbc921" width="400" />
-  <img src="https://github.com/user-attachments/assets/ef7ccadd-b916-4827-a341-fee50cc7d0c1" width="400" />
-</p>
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/601c5752-1986-400c-a93b-308f7821d067" width="400" />
-  <img src="https://github.com/user-attachments/assets/5af89978-7733-40ec-838d-bf6e5b0a8e12" width="400" />
-</p>
+<details>
+  <summary><strong>User can see assignments and take quizzes</strong></summary>
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/492cf530-8de1-4615-9e69-dc071d5e1a63" width="400" />
-  <img src="https://github.com/user-attachments/assets/ae010ccb-33c8-4152-b6b5-924ed8741b51" width="400" />
-</p>
+  <p align="center">
+    <img src="https://github.com/user-attachments/assets/b9be4663-ca38-4337-b77b-d74bdcbbc921" width="400" />
+    <img src="https://github.com/user-attachments/assets/ef7ccadd-b916-4827-a341-fee50cc7d0c1" width="400" />
+  </p>
+  <p align="center">
+    <img src="https://github.com/user-attachments/assets/601c5752-1986-400c-a93b-308f7821d067" width="400" />
+    <img src="https://github.com/user-attachments/assets/5af89978-7733-40ec-838d-bf6e5b0a8e12" width="400" />
+  </p>
+  <p align="center">
+    <img src="https://github.com/user-attachments/assets/492cf530-8de1-4615-9e69-dc071d5e1a63" width="400" />
+    <img src="https://github.com/user-attachments/assets/ae010ccb-33c8-4152-b6b5-924ed8741b51" width="400" />
+  </p>
+
+</details>
 
 <hr/>
 
 ### Faculty view
-#### Faculty can create, edit, and preview assignments, modules, and quizzes
+<details>
+  <summary><strong>Faculty can create, edit, and preview assignments, modules, and quizzes</strong></summary>
 
 <!-- Row 3 -->
 <p align="center">
@@ -105,11 +109,16 @@ Create, edit, and publish quizzes for student access.
 
 <hr/>
 
-#### Both faculty, students, and TAs can see the people enrolled in the course and their relevant information
+<details>
+  <summary><strong>Both faculty, students, and TAs can see the people enrolled in the course and their relevant information</strong></summary>
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/2d479d2f-5e3c-4007-a272-fd3a43dd44b8" width="400" />
   <img src="https://github.com/user-attachments/assets/1eab9f15-0eb4-422a-a9b8-eb8b1290c1f3" width="400" />
 </p>
+
+</details>
+</details>
 
 <hr/>
 
