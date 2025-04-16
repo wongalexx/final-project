@@ -178,13 +178,28 @@ Then press Connect to connect to MongoDB.
 <hr/>
 
 ## Contributors
-<p>
-  <a href="https://github.com/al3xand3rw0ng">
-    <img src="https://github.com/al3xand3rw0ng.png" width="50" />
-  </a>
-  <a href="https://github.com/yenndang">
-    <img src="https://github.com/yenndang.png" width="50" />
-  </a>
-</p>
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/al3xand3rw0ng">
+        <img src="https://github.com/al3xand3rw0ng.png" width="50" />
+      </a><br/>
+      <sub><strong>Alex Wong</strong></sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/haderie">
+        <img src="https://github.com/haderie.png" width="50" />
+      </a><br/>
+      <sub><strong>Hareg Aderie</strong></sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/yenndang">
+        <img src="https://github.com/yenndang.png" width="50" />
+      </a><br/>
+      <sub><strong>Yen Dang</strong></sub>
+    </td>
+  </tr>
+</table>
+
 The contributors are all undergraduate students at Northeastern University. 
 This was made in CS4550 - Web Development
