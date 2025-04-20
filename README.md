@@ -9,9 +9,8 @@
 5. [Contributors](#contributors)
 
 ## Purpose and Project Overview
-Kanbas is a web-based application that emulates the functionality of Canvas. 
-The platform provides instructors with tools to manage courses, assignments, and quizzes, 
-while offering students an interactive environment to engage with their coursework.
+Kanbas is a dynamic, full-stack web application that recreates the core features of Canvas, a widely used Learning Management System.
+Built with usability in mind, Kanbas empowers instructors to create and manage courses, assignments, and quizzes with ease, while providing students with a seamless and interactive platform to stay organized, submit work, and track progress.
 
 In this README, you'll find an overview of Kanbas' features, the technologies used, and step-by-step instructions for setting up and using the application.
 
@@ -69,8 +68,6 @@ Create, edit, and publish quizzes for student access.
 
 ## Demo
 ### User view
-<hr/>
-
 <details>
   <summary><strong>User can see assignments and take quizzes</strong></summary>
 <!-- Row 1 -->
